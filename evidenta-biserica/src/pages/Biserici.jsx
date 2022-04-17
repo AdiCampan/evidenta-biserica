@@ -11,19 +11,24 @@ function Biserici() {
   const [church, setChurch] = useState("");
   const [listaBiserici, setListaBiserici] = useState(biserici);
   const [place, setPlace] = useState("");
- 
-  function addData () {
-    setListaBiserici([
+
+  function addData() {
+    
+    if (church != "" || place != "") {
+      setListaBiserici([
       ...listaBiserici,
-       {
-          id: 5,
-          name: church,
-          adress: place,
-       }
+      {
+        id: Math.random().toString(),
+        name: church,
+        adress: place,
+      }
     ]);
+    }
+    setChurch("");
+    setPlace("");
   };
-   
-  function deleteBiserica(idToDelete){
+
+  function deleteBiserica(idToDelete) {
     setListaBiserici([
       ...listaBiserici.filter(biserica => {
         if (biserica.id === idToDelete) {
@@ -33,8 +38,6 @@ function Biserici() {
       })
     ]);
   };
-
-  console.log(listaBiserici);
 
   return (
     <div className="biserici">
@@ -56,8 +59,8 @@ function Biserici() {
         Lista Biserici
         <Table striped bordered hover size="sm">
           <thead>
-            
-            <tr>           
+
+            <tr>
               <th>#</th>
               <th>Nume</th>
               <th>Localitate</th>
@@ -65,9 +68,10 @@ function Biserici() {
             </tr>
           </thead>
           <tbody>
-            {listaBiserici.map(biserica => (
-              <tr>
-                <td>{biserica.id}</td>
+            {listaBiserici.map((biserica, index) => (
+              <tr key={biserica.id}>
+
+                <td>{index + 1}</td>
                 <td>{biserica.name}</td>
                 <td>{biserica.adress}</td>
                 <td>

@@ -17,10 +17,13 @@ function Persoane() {
   const [adresa, setAdresa] = useState("")
   const [listaPersoane, setListaPersoane] = useState(persoane)
 
+  
+
   const savePersonData = (enteredPersonData) => {
     setListaPersoane([
       ...listaPersoane,
       enteredPersonData,
+      
     ])
   }
   function deletePerson(idToDelete) {
@@ -60,9 +63,9 @@ function Persoane() {
             </tr>
           </thead>
           <tbody>
-            {persoane.map(p => (
+            {persoane.map((p, index) => (
               <tr key={p.id}>
-                <td>{p.id}</td>
+                <td>{index+1}</td>
                 <td>{p.name}</td>
                 <td>{p.surname}</td>
                 <td>{p.adress}</td>

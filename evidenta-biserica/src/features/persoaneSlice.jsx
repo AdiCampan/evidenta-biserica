@@ -4,9 +4,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     lista: [{
         id: 1,
-        name: "Noelia",
-        surname: "Campan",
-        adress: "Onda",
+        name: "Viorica",
+        surname: "Glodan",
+        adress: "Castellon de la Plana",
     }, {
         id: 2,
         name: "Ioan",
@@ -31,7 +31,6 @@ export const persoaneSlice = createSlice({
         }
     },
 });
-
 export const { add, edit } = persoaneSlice.actions;
 
 export default persoaneSlice.reducer;

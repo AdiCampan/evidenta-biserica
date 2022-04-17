@@ -27,9 +27,15 @@ function AddPerson() {
       adress: adresa,
       id: Math.random().toString()
     };
-    dispatch(add(newPerson));
 
-  }
+    if (nume != "" && prenume != "") {
+      setNume("");
+    setPrenume("");
+    setAdresa("");
+    setShow(false);
+    dispatch(add(newPerson));
+    }
+  };
 
   return (
     <>

@@ -28,9 +28,14 @@ function EditPerson({ id }) {
       surname: prenume,
       adress: adresa,
     };
-    dispatch(edit(newPerson));
-
-  }
+    if (nume != "" && prenume != "" ) {
+      dispatch(edit(newPerson));
+      setShow(false);
+    }
+    else {
+      alert ("Nu stergeti numele sau prenumele !")
+    };
+  };
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
