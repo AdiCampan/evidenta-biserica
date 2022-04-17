@@ -19,11 +19,19 @@ export const persoaneSlice = createSlice({
     initialState,
     reducers: {
         add: (state, action) => {
-            state.push(action.payload)
+            state.lista.push(action.payload)
         },
+        edit: (state, action) => {
+            state.lista = state.lista.map(item => {
+                if (item.id == action.payload.id) {
+                    return action.payload;
+                }
+                return item;
+            });
+        }
     },
 });
 
-export const { add } = persoaneSlice.actions;
+export const { add, edit } = persoaneSlice.actions;
 
 export default persoaneSlice.reducer;

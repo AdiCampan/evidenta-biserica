@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import { useState } from 'react';
 import AddPerson from './AddPerson';
@@ -32,10 +32,14 @@ function Persoane() {
       })
     ])
   }
-  const editPerson = (enteredPersonData) => {
+  const editPerson = (editedPersonData) => {
     setListaPersoane([
-      ...listaPersoane,
-      enteredPersonData,
+      ...listaPersoane.map(person => {
+        if (person.id == editedPersonData.id) {
+          return editedPersonData;
+        }
+        return person;
+      })
     ])
   }
   return (
@@ -55,14 +59,14 @@ function Persoane() {
             </tr>
           </thead>
           <tbody>
-            {listaPersoane.map(p => (
+            {persoane.map(p => (
               <tr>
                 <td>{p.id}</td>
                 <td>{p.name}</td>
                 <td>{p.surname}</td>
                 <td>{p.adress}</td>
                 <td>
-                  <EditPerson onModifyData={editPerson} id={p.id} nume={p.name} prenume={p.surname} adresa={p.adress}/>
+                  <EditPerson id={p.id} />
                   <Button variant="primary" onClick={() => deletePerson(p.id)}>Sterge</Button>
                 </td>
               </tr>

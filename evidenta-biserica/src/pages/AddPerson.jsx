@@ -1,13 +1,17 @@
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
 
+import { add } from '../features/persoaneSlice';
 
 
-function AddPerson({onAddPersonData}) {
+
+function AddPerson() {
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
  
   const [nume, setNume] = useState("");
   const [prenume, setPrenume] = useState("");
@@ -23,8 +27,7 @@ function AddPerson({onAddPersonData}) {
       adress: adresa,
       id: Math.random().toString()
     };
-    console.log(newPerson);
-    onAddPersonData(newPerson);
+    dispatch(add(newPerson));
 
   }
 
