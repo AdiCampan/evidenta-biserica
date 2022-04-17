@@ -1,8 +1,9 @@
+
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import AddPerson from './AddPerson';
 import EditPerson from './EditPerson';
 // import persoane from './persoane';
@@ -60,7 +61,7 @@ function Persoane() {
           </thead>
           <tbody>
             {persoane.map(p => (
-              <tr>
+              <tr key={p.id}>
                 <td>{p.id}</td>
                 <td>{p.name}</td>
                 <td>{p.surname}</td>

@@ -1,32 +1,25 @@
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { edit } from '../features/persoaneSlice';
 import { useSelector } from 'react-redux';
-
-
-
 
 function EditPerson({ id }) {
   const dispatch = useDispatch();
   const person = useSelector((state) => state.persoane.lista.find(item => item.id == id));
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [nume, setNume] = useState('');
+  const [prenume, setPrenume] = useState('');
+  const [adresa, setAdresa] = useState('');
 
-  const [nume, setNume] = useState(person.nume);
-  const [prenume, setPrenume] = useState(person.prenume);
-  const [adresa, setAdresa] = useState(person.adresa);
-
-  useEffect(() => {
-    setNume(person.nume);
-    setPrenume(person.prenume);
-    setAdresa(person.adresa);
-    console.log('person', person);
-    console.log(nume,prenume,adresa);
-
-  }, [person]);
+  const handleShow = () => {
+    setShow(true);
+    setNume(person.name);
+    setPrenume(person.surname);
+    setAdresa(person.adress);
+  }
 
   const saveData = () => {
     const newPerson = {
