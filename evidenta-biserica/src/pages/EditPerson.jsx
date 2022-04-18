@@ -13,12 +13,18 @@ function EditPerson({ id }) {
   const [nume, setNume] = useState('');
   const [prenume, setPrenume] = useState('');
   const [adresa, setAdresa] = useState('');
+  const [telefon, setTelefon] = useState("");
+  const [email, setEmail] = useState("");
+  const [sex, setSex] = useState("");
 
   const handleShow = () => {
     setShow(true);
     setNume(person.name);
     setPrenume(person.surname);
     setAdresa(person.adress);
+    setTelefon(person.telefon);
+    setEmail(person.email);
+    setSex(person.sex);
   }
 
   const saveData = () => {
@@ -27,6 +33,9 @@ function EditPerson({ id }) {
       name: nume,
       surname: prenume,
       adress: adresa,
+      telefon: telefon,
+      email: email,
+      sex: sex,
     };
     if (nume != "" && prenume != "" ) {
       dispatch(edit(newPerson));
@@ -62,8 +71,21 @@ function EditPerson({ id }) {
             value={adresa}
             onChange={(event) => setAdresa(event.target.value)}
           ></input>
-          <input placeholder='Nume'></input>
-          <input placeholder='Nume'></input>
+          <input
+            placeholder='Telefon'
+            value={telefon}
+            onChange={(event) => setTelefon(event.target.value)}
+          ></input>
+          <input
+            placeholder='email'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          ></input>
+          <input
+            placeholder='Sex'
+            value={sex}
+            onChange={(event) => setSex(event.target.value)}
+          ></input>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

@@ -15,7 +15,10 @@ function AddPerson() {
  
   const [nume, setNume] = useState("");
   const [prenume, setPrenume] = useState("");
-  const [adresa, setAdresa] = useState("")
+  const [adresa, setAdresa] = useState("");
+  const [telefon, setTelefon] = useState("");
+  const [email, setEmail] = useState("");
+  const [sex, setSex] = useState("");
 
 
   const handleClose = () => setShow(false);
@@ -25,6 +28,9 @@ function AddPerson() {
       name: nume,
       surname: prenume,
       adress: adresa,
+      telefon: telefon,
+      email: email,
+      sex: sex,
       id: Math.random().toString()
     };
 
@@ -32,6 +38,9 @@ function AddPerson() {
       setNume("");
     setPrenume("");
     setAdresa("");
+    setTelefon("");
+    setEmail("");
+    setSex("");
     setShow(false);
     dispatch(add(newPerson));
     }
@@ -63,8 +72,21 @@ function AddPerson() {
           value={adresa}
           onChange={(event) => setAdresa(event.target.value)}
           ></input>
-          <input placeholder='Nume'></input>
-          <input placeholder='Nume'></input>
+          <input
+            placeholder='Telefon'
+            value={telefon} 
+            onChange={(event) => setTelefon(event.target.value)}
+          ></input>
+          <input
+            placeholder='email'
+            value={email} 
+            onChange={(event) => setEmail(event.target.value)}
+          ></input>
+          <input
+            placeholder='Sex'
+            value={sex} 
+            onChange={(event) => setSex(event.target.value)}
+          ></input>
 
         </Modal.Body>
         <Modal.Footer>

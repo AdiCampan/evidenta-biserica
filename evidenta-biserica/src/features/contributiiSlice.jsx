@@ -4,22 +4,28 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   lista: [{
     id: 1,
+    receiptNumber: "100",
     name: "Cornel",
     surname: "Puscas",
-    amount: 200,
-    date: 2022,
+    amount: "200 €",
+    date: "12-01-2019",
+    type: "Donatie",
   }, {
     id: 2,
+    receiptNumber: "101",
     name: "Viorel",
     surname: "Muntean",
-    amount: 50,
-    date:  2022,
+    amount: " 50 €",
+    date:  "01-02-2022",
+    type: "Zeciulala",
   }, {
     id: 3,
+    receiptNumber: "102",
     name: "Ionel",
     surname: "Cora",
-    amount: 100,
-    date: 2021,
+    amount: "100 $",
+    date: "24-08-2021",
+    type: "Donatie",
   }],
 };
 export const contributiiSlice = createSlice({

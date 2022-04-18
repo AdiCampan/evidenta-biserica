@@ -2,22 +2,13 @@
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { useSelector } from 'react-redux';
-import Modal from 'react-bootstrap/Modal'
 import React, { useState } from 'react';
 import AddPerson from './AddPerson';
 import EditPerson from './EditPerson';
-// import persoane from './persoane';
-
-
 
 function Persoane() {
   const persoane = useSelector((state) => state.persoane.lista);
-  const [nume, setNume] = useState("")
-  const [prenume, setPrenume] = useState("")
-  const [adresa, setAdresa] = useState("")
   const [listaPersoane, setListaPersoane] = useState(persoane)
-
-  
 
   const savePersonData = (enteredPersonData) => {
     setListaPersoane([
@@ -25,7 +16,7 @@ function Persoane() {
       enteredPersonData,
       
     ])
-  }
+  };
   function deletePerson(idToDelete) {
     setListaPersoane([
       ...listaPersoane.filter(person => {
@@ -33,16 +24,6 @@ function Persoane() {
           return false;
         }
         return true;
-      })
-    ])
-  }
-  const editPerson = (editedPersonData) => {
-    setListaPersoane([
-      ...listaPersoane.map(person => {
-        if (person.id == editedPersonData.id) {
-          return editedPersonData;
-        }
-        return person;
       })
     ])
   }
@@ -59,6 +40,9 @@ function Persoane() {
               <th>Nume</th>
               <th>Prenume</th>
               <th>Adresa</th>
+              <th>Telefon</th>
+              <th>email</th>
+              <th>Sex</th>
               <th>Actiuni</th>
             </tr>
           </thead>
@@ -69,6 +53,9 @@ function Persoane() {
                 <td>{p.name}</td>
                 <td>{p.surname}</td>
                 <td>{p.adress}</td>
+                <td>{p.telefon}</td>
+                <td>{p.email}</td>
+                <td>{p.sex}</td>
                 <td>
                   <EditPerson id={p.id} />
                   <Button variant="primary" onClick={() => deletePerson(p.id)}>Sterge</Button>
