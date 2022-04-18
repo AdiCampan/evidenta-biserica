@@ -1,42 +1,32 @@
 import React, { useState } from 'react';
 
 import Table from 'react-bootstrap/Table';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { add, del } from '../features/biserici/bisericiSlice';
 //import "./Biserici.css";
 import Button from 'react-bootstrap/Button';
 
 function Biserici() {
-
+  const dispatch = useDispatch();
   const biserici = useSelector((state) => state.biserici.lista);
   const [church, setChurch] = useState("");
-  const [listaBiserici, setListaBiserici] = useState(biserici);
   const [place, setPlace] = useState("");
 
   function addData() {
-    
-    if (church != "" || place != "") {
-      setListaBiserici([
-      ...listaBiserici,
-      {
+    if (church != "" && place != "") {
+      dispatch(add({
         id: Math.random().toString(),
         name: church,
         adress: place,
-      }
-    ]);
+      }));
+      
+      setChurch("");
+      setPlace("");
     }
-    setChurch("");
-    setPlace("");
   };
 
   function deleteBiserica(idToDelete) {
-    setListaBiserici([
-      ...listaBiserici.filter(biserica => {
-        if (biserica.id === idToDelete) {
-          return false;
-        }
-        return true;
-      })
-    ]);
+    dispatch(del(idToDelete));
   };
 
   return (
@@ -68,7 +58,7 @@ function Biserici() {
             </tr>
           </thead>
           <tbody>
-            {listaBiserici.map((biserica, index) => (
+            {biserici.map((biserica, index) => (
               <tr key={biserica.id}>
 
                 <td>{index + 1}</td>

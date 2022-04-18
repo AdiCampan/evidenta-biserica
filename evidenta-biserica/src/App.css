@@ -1,3 +1,14 @@
+html, body, #root {
+    height: 100%;
+}
+
+#root {
+    background-image: url(assets/images/desk.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
 .app {
     background-color: aquamarine;
     position: fixed;
