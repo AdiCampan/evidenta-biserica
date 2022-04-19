@@ -17,7 +17,8 @@
     "react-redux": "^8.0.0",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

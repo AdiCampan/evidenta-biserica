@@ -19,12 +19,15 @@ export const bisericiSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action) => {
-      state.push(action.payload);
+      state.lista.push(action.payload);
     },
+    del: (state, action) => {
+      state.lista = state.lista.filter(item => item.id != action.payload);
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { add } = bisericiSlice.actions;
+export const { add, del } = bisericiSlice.actions;
 
 export default bisericiSlice.reducer;

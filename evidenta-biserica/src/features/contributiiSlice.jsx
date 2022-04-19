@@ -35,16 +35,11 @@ export const contributiiSlice = createSlice({
     add: (state, action) => {
       state.lista.push(action.payload)
     },
-    // edit: (state, action) => {
-    //   state.lista = state.lista.map(item => {
-    //     if (item.id == action.payload.id) {
-    //       return action.payload;
-    //     }
-    //     return item;
-    //   });
-    // }
+    del: (state, action) => {
+      state.lista = state.lista.filter(item => item.id != action.payload);
+    }
   },
 });
-export const { add, edit } = contributiiSlice.actions;
+export const { add, edit, del } = contributiiSlice.actions;
 
 export default contributiiSlice.reducer;

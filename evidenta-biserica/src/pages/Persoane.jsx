@@ -5,32 +5,21 @@ import { useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import AddPerson from './AddPerson';
 import EditPerson from './EditPerson';
+import { add, del } from '../features/persoaneSlice';
+import { useDispatch } from 'react-redux';
 
 function Persoane() {
+  const dispatch = useDispatch();
   const persoane = useSelector((state) => state.persoane.lista);
   const [listaPersoane, setListaPersoane] = useState(persoane)
-
-  const savePersonData = (enteredPersonData) => {
-    setListaPersoane([
-      ...listaPersoane,
-      enteredPersonData,
-      
-    ])
-  };
+  
   function deletePerson(idToDelete) {
-    setListaPersoane([
-      ...listaPersoane.filter(person => {
-        if (person.id == idToDelete) {
-          return false;
-        }
-        return true;
-      })
-    ])
-  }
+    dispatch(del(idToDelete));
+  };
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
       <div className="lista_persoane">
-        <AddPerson onAddPersonData={savePersonData} />
+        <AddPerson />
 
         Lista de Persoane
         <Table striped bordered hover size="sm">

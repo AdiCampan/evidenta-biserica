@@ -28,6 +28,9 @@ export const persoaneSlice = createSlice({
     add: (state, action) => {
       state.lista.push(action.payload)
     },
+    del: (state, action) => {
+      state.lista = state.lista.filter(item => item.id != action.payload);
+    },
     edit: (state, action) => {
       state.lista = state.lista.map(item => {
         if (item.id == action.payload.id) {
@@ -38,6 +41,6 @@ export const persoaneSlice = createSlice({
     }
   },
 });
-export const { add, edit } = persoaneSlice.actions;
+export const { add, del, edit } = persoaneSlice.actions;
 
 export default persoaneSlice.reducer;

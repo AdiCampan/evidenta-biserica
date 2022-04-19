@@ -1,34 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { del } from '../features/contributiiSlice';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import AddContributii from './AddContributii';
 
-
 function Contributii() {
+  const dispatch = useDispatch();
   const contributii = useSelector((state) => state.contributii.lista);
   const [listaContributii, setListaContributii] = useState(contributii)
 
   function deleteAmount(idToDelete) {
-    setListaContributii([
-      ...listaContributii.filter((amount) => {
-        if (amount.id == idToDelete) {
-          return false;
-
-        }
-        return true;
-
-      })
-
-    ])
-    console.log(listaContributii);
+    dispatch(del(idToDelete));
   };
-
 
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
       <div className="lista_persoane">
-
         <AddContributii />
         Lista de Contributii
         <Table striped bordered hover size="sm">
@@ -40,7 +28,7 @@ function Contributii() {
               <th>Prenume</th>
               <th>Suma</th>
               <th>Data</th>
-              <th>Categoria</th>              
+              <th>Categoria</th>
               <th>Actiuni</th>
             </tr>
           </thead>
@@ -55,18 +43,14 @@ function Contributii() {
                 <td>{p.date}</td>
                 <td>{p.type}</td>
                 <td>
-
                   <Button variant="primary" onClick={() => deleteAmount(p.id)}>Sterge</Button>
                 </td>
               </tr>
             ))}
-
           </tbody>
         </Table>
       </div>
-
     </div>
-
   )
 };
 

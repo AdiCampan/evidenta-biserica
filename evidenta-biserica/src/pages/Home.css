@@ -1,0 +1,14 @@
+.home_page{
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 27px;
+    flex-direction: column;
+}
+.secretariat_text{
+    font-size: 50px;
+}
+.biserica_text{
+    font-size: xx-large;
+    margin-top: 200px;
+}
