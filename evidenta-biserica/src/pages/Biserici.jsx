@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import { useSelector, useDispatch } from 'react-redux';
 import { add, del } from '../features/biserici/bisericiSlice';
-//import "./Biserici.css";
 import Button from 'react-bootstrap/Button';
 import './Biserici.css'
 
