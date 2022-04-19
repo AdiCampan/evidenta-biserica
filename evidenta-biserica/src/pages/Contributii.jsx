@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import AddContributii from './AddContributii';
+import EditContributii from './EditContributii';
 
 function Contributii() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function Contributii() {
   function deleteAmount(idToDelete) {
     dispatch(del(idToDelete));
   };
+  
 
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
@@ -43,6 +45,7 @@ function Contributii() {
                 <td>{p.date}</td>
                 <td>{p.type}</td>
                 <td>
+                  <EditContributii/>
                   <Button variant="primary" onClick={() => deleteAmount(p.id)}>Sterge</Button>
                 </td>
               </tr>
