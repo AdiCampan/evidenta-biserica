@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import { useSelector, useDispatch } from 'react-redux';
 import { add, del } from '../features/biserici/bisericiSlice';
 import Button from 'react-bootstrap/Button';
+import { useGetChurchesQuery, useAddChurchMutation } from '../services/churches';
 import './Biserici.css'
 
 function Biserici() {
@@ -11,13 +12,17 @@ function Biserici() {
   const [church, setChurch] = useState("");
   const [place, setPlace] = useState("");
 
+
+  const {data, error, isLoading, isFetching } = useGetChurchesQuery();
+  const [addChurch, result] = useAddChurchMutation();
+
   function addData() {
     if (church != "" && place != "") {
-      dispatch(add({
-        id: Math.random().toString(),
+      addChurch({
+        //id: Math.random().toString(),
         name: church,
-        adress: place,
-      }));
+        address: place,
+      });
       
       setChurch("");
       setPlace("");
@@ -30,6 +35,7 @@ function Biserici() {
 
   return (
     <div className="biserici" >
+      {isLoading ? <p>Loading</p> : null}
       <button onClick={addData}>Adauga</button>
       <input
         placeholder="Numele Bisericii"
@@ -53,17 +59,17 @@ function Biserici() {
             </tr>
           </thead>
           <tbody>
-            {biserici.map((biserica, index) => (
+            {data ? data.map((biserica, index) => (
               <tr key={biserica.id}>
                 <td>{index + 1}</td>
                 <td>{biserica.name}</td>
-                <td>{biserica.adress}</td>
+                <td>{biserica.address}</td>
                 <td>
                   <Button variant="primary">Modifica</Button>
                   <Button variant="primary" onClick={() => deleteBiserica(biserica.id)} >Sterge</Button>
                 </td>
               </tr>
-            ))}
+            )) : null}
           </tbody>
         </Table>
       </div>
