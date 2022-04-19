@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormValidator from './FormValidator';
+import FormValidator from './Autentificare';
 
 class InitAutentificare extends Component {
     constructor() {
