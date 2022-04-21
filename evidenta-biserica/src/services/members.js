@@ -15,9 +15,15 @@ export const membersApi = createApi({
             body: body,
         }),
     }),
+    delMember: builder.mutation({
+        query: (id) => ({
+            url: `members/${id}`,
+            method: 'DELETE',
+        }),
+    })
   }),
 });
 
 // Export hooks for usage in functional components
-export const { useGetMembersQuery, useAddMemberMutation } = membersApi;
+export const { useGetMembersQuery, useAddMemberMutation, useDelMemberMutation } = membersApi;
 

@@ -7,23 +7,30 @@ import AddPerson from './AddPerson';
 import EditPerson from './EditPerson';
 import { add, del } from '../features/persoaneSlice';
 import { useDispatch } from 'react-redux';
-import { useGetMembersQuery, useAddMemberMutation } from '../services/members';
+import { useGetMembersQuery, useAddMemberMutation, useDelMemberMutation } from '../services/members';
 import Confirmation from '../Confirmation';
 
 
 function Persoane() {
   const dispatch = useDispatch();
   const persoane = useSelector((state) => state.persoane.lista);
-  const [listaPersoane, setListaPersoane] = useState(persoane)
+  const [idToDelete, setIdToDelete] = useState(null);
 
   const {data, error, isLoading, isFetching } = useGetMembersQuery();
   const [addMember, result] = useAddMemberMutation();
+  const [deleteMember] = useDelMemberMutation();
 
-  function deletePerson(idToDelete) {
+
+  function deletePerson(id) {
     // <Confirmation  showModal={true}/>
     // alert("Esti sigur ca vrei sa stergi definitv persoana ?");
-    dispatch(del(idToDelete));
+    // dispatch(del(id));
+    deleteMember(id);
+    
+    setIdToDelete(null);
   };
+  console.log(idToDelete)
+
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
       <div className="lista_persoane">
@@ -45,10 +52,10 @@ function Persoane() {
           </thead>
           <tbody>
           {data ? data.map((p, index) => (
-              <tr key={p.id}>
+              <tr key={p._id}>
                 <td>{index + 1}</td>
-                <td>{p.name}</td>
-                <td>{p.surname}</td>
+                <td>{p.firstName}</td>
+                <td>{p.lastName}</td>
                 <td>{p.adress}</td>
                 <td>{p.telefon}</td>
                 <td>{p.email}</td>
@@ -56,8 +63,7 @@ function Persoane() {
                 <td>
                   <EditPerson id={p.id} />
                   
-            
-                  <Button variant="primary" onClick={() => deletePerson(p.id)}>Sterge</Button>
+                  <Button variant="primary" onClick={() =>setIdToDelete(p._id)}>Sterge</Button>
                 </td>
               </tr>
             )): null}
@@ -65,7 +71,12 @@ function Persoane() {
           </tbody>
         </Table>
       </div>
-
+      <Confirmation
+        showModal={idToDelete != null}
+        id={idToDelete}
+        confirmModal={(id) => deletePerson(id)}
+        message="Esti sigur ca vrei sa stergi persoana ?"
+      />
     </div>
   );
 };

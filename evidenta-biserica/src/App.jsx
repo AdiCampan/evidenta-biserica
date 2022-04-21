@@ -12,6 +12,7 @@ import Persoane from './pages/Persoane';
 import Contributii from './pages/Contributii';
 import LogIn from './pages/Login/Login';
 import SignUp from './pages/Login/SignUp';
+import Persoana from './pages/Persoana';
 
 
 import './App.css';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/biserici" element={<Biserici />} />
         <Route path="/persoane" element={<Persoane />} />
+        <Route path="/persoane/:id" element={<Persoana />} />
         <Route path="/contributii" element={<Contributii />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp/>} />

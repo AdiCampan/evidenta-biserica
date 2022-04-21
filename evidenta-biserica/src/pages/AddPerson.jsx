@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
+import { useAddMemberMutation } from '../services/members';
 
 import { add } from '../features/persoaneSlice';
 
@@ -20,29 +21,30 @@ function AddPerson() {
   const [email, setEmail] = useState("");
   const [sex, setSex] = useState("");
 
+  const [addMember, result] = useAddMemberMutation();
 
   const handleClose = () => setShow(false);
  
   const addData = () => {
     const newPerson = {
-      name: nume,
-      surname: prenume,
-      adress: adresa,
-      telefon: telefon,
-      email: email,
-      sex: sex,
-      id: Math.random().toString()
+      firstName: nume,
+      lastName: prenume,
     };
+    // adress: adresa,
+    // telefon: telefon,
+    // email: email,
+    // sex: sex,
+    // id: Math.random().toString()
 
     if (nume != "" && prenume != "") {
       setNume("");
-    setPrenume("");
-    setAdresa("");
-    setTelefon("");
-    setEmail("");
-    setSex("");
-    setShow(false);
-    dispatch(add(newPerson));
+      setPrenume("");
+      setAdresa("");
+      setTelefon("");
+      setEmail("");
+      setSex("");
+      addMember(newPerson);
+      setShow(false);
     }
   };
 
