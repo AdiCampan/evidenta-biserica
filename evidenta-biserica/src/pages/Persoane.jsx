@@ -52,7 +52,7 @@ function Persoane() {
           </thead>
           <tbody>
           {data ? data.map((p, index) => (
-              <tr key={p._id}>
+              <tr key={p.id}>
                 <td>{index + 1}</td>
                 <td>{p.firstName}</td>
                 <td>{p.lastName}</td>
@@ -63,7 +63,7 @@ function Persoane() {
                 <td>
                   <EditPerson id={p.id} />
                   
-                  <Button variant="primary" onClick={() =>setIdToDelete(p._id)}>Sterge</Button>
+                  <Button variant="primary" onClick={() =>setIdToDelete(p.id)}>Sterge</Button>
                 </td>
               </tr>
             )): null}

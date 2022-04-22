@@ -3,17 +3,19 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const churchesApi = createApi({
   reducerPath: 'churchesApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://evidenta-biserica.herokuapp.com/' }),
-  tagTypes: [],
+  tagTypes: ['churches'],
   endpoints: (builder) => ({
     getChurches: builder.query({
       query: () => `churches/`,
+      providesTags: ['churches'],
     }),
     addChurch: builder.mutation({
         query: (body) => ({
             url: 'churches/',
             method: 'POST',
             body: body,
-        }),
+      }),
+      invalidatesTags: ['churches'],
     }),
   }),
 });
