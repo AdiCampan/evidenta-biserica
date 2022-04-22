@@ -19,7 +19,6 @@ function Biserici() {
   function addData() {
     if (church != "" && place != "") {
       addChurch({
-        //id: Math.random().toString(),
         name: church,
         address: place,
       });
@@ -30,6 +29,7 @@ function Biserici() {
   };
 
   function deleteBiserica(idToDelete) {
+    alert ("Esti sigur ?")
     dispatch(del(idToDelete));
   };
 
