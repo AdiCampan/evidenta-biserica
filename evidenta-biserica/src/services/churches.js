@@ -10,16 +10,24 @@ export const churchesApi = createApi({
       providesTags: ['churches'],
     }),
     addChurch: builder.mutation({
-        query: (body) => ({
-            url: 'churches/',
-            method: 'POST',
-            body: body,
+      query: (body) => ({
+        url: 'churches/',
+        method: 'POST',
+        body: body,
       }),
       invalidatesTags: ['churches'],
     }),
-  }),
+    delChurch: builder.mutation({
+      query: (id) => ({
+        url: `churches/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['churches'],
+    })
+  
+}),
 });
 
 // Export hooks for usage in functional components
-export const { useGetChurchesQuery, useAddChurchMutation } = churchesApi;
+export const { useGetChurchesQuery, useAddChurchMutation, useDelChurchMutation } = churchesApi;
 

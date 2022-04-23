@@ -3,8 +3,9 @@ import Table from 'react-bootstrap/Table';
 import { useSelector, useDispatch } from 'react-redux';
 import { add, del } from '../features/biserici/bisericiSlice';
 import Button from 'react-bootstrap/Button';
-import { useGetChurchesQuery, useAddChurchMutation } from '../services/churches';
+import { useGetChurchesQuery, useAddChurchMutation, useDelChurchMutation} from '../services/churches';
 import './Biserici.css'
+import Confirmation from '../Confirmation';
 
 function Biserici() {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ function Biserici() {
 
   const {data, error, isLoading, isFetching } = useGetChurchesQuery();
   const [addChurch, result] = useAddChurchMutation();
+  const [delChurch] = useDelChurchMutation();
+  const [idToDelete, setIdToDelete] = useState(null);
 
   function addData() {
     if (church != "" && place != "") {
@@ -28,9 +31,14 @@ function Biserici() {
     }
   };
 
-  function deleteBiserica(idToDelete) {
-    alert ("Esti sigur ?")
-    dispatch(del(idToDelete));
+  function deleteBiserica(id) {
+    
+    
+    delChurch(id);
+    setIdToDelete(null);
+    // dispatch(del(idToDelete));
+    console.log(id)
+
   };
 
   return (
@@ -66,13 +74,20 @@ function Biserici() {
                 <td>{biserica.address}</td>
                 <td>
                   <Button variant="primary">Modifica</Button>
-                  <Button variant="primary" onClick={() => deleteBiserica(biserica.id)} >Sterge</Button>
+                  <Button variant="primary" onClick={() => setIdToDelete(biserica.id)} >Sterge</Button>
                 </td>
               </tr>
             )) : null}
           </tbody>
         </Table>
       </div>
+      <Confirmation
+        showModal={idToDelete != null}
+        id={idToDelete}
+        confirmModal={(id) => deleteBiserica(id)}
+        message="Esti sigur ca vrei sa stergi persoana din baza de date ?"
+        hideModal={(id) => setIdToDelete(null)}
+      />
     </div>
   )
 };

@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux';
 import { useGetMembersQuery, useAddMemberMutation, useDelMemberMutation } from '../services/members';
 import Confirmation from '../Confirmation';
 
-
 function Persoane() {
   const dispatch = useDispatch();
   const persoane = useSelector((state) => state.persoane.lista);
@@ -29,7 +28,7 @@ function Persoane() {
     
     setIdToDelete(null);
   };
-  console.log(idToDelete)
+  // console.log(idToDelete)
 
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
@@ -75,7 +74,8 @@ function Persoane() {
         showModal={idToDelete != null}
         id={idToDelete}
         confirmModal={(id) => deletePerson(id)}
-        message="Esti sigur ca vrei sa stergi persoana ?"
+        message="Esti sigur ca vrei sa stergi persoana din baza de date ?"
+        hideModal={(id) => setIdToDelete(null)}
       />
     </div>
   );
