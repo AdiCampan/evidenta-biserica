@@ -17,8 +17,16 @@ export const membersApi = createApi({
       }),
       invalidatesTags: ['members'],
     }),
+    modifyMember: builder.mutation({
+      query: (id) => ({
+          url: `members/${id}`,
+          method: 'PATCH',
+      
+    }),
+    invalidatesTags: ['members'],
+  }),
     delMember: builder.mutation({
-        query: (id) => ({
+        query: ({id}) => ({
             url: `members/${id}`,
             method: 'DELETE',
       }),
@@ -28,5 +36,5 @@ export const membersApi = createApi({
 });
 
 // Export hooks for usage in functional components
-export const { useGetMembersQuery, useAddMemberMutation, useDelMemberMutation } = membersApi;
+export const { useGetMembersQuery, useAddMemberMutation, useDelMemberMutation, useModifyMemberMutation } = membersApi;
 
