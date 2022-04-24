@@ -1,5 +1,6 @@
-import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
@@ -19,7 +20,7 @@ function AddPerson() {
   const [adresa, setAdresa] = useState("");
   const [telefon, setTelefon] = useState("");
   const [email, setEmail] = useState("");
-  const [sex, setSex] = useState("");
+  const [sex, setSex] = useState(true);
 
   const [addMember, result] = useAddMemberMutation();
 
@@ -29,11 +30,12 @@ function AddPerson() {
     const newPerson = {
       firstName: nume,
       lastName: prenume,
+      address: adresa,
+      telefon: telefon,
+      email: email,
+      sex: sex,
     };
-    // adress: adresa,
-    // telefon: telefon,
-    // email: email,
-    // sex: sex,
+
     // id: Math.random().toString()
 
     if (nume != "" && prenume != "") {
@@ -84,12 +86,10 @@ function AddPerson() {
             value={email} 
             onChange={(event) => setEmail(event.target.value)}
           ></input>
-          <input
-            placeholder='Sex'
-            value={sex} 
-            onChange={(event) => setSex(event.target.value)}
-          ></input>
-
+          <ButtonGroup aria-label="Basic example">
+            <Button variant="secondary" active={sex == true} onClick={() => setSex(true)}>M</Button>
+            <Button variant="secondary" active={sex == false} onClick={() => setSex(false)}>F</Button>
+          </ButtonGroup>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
