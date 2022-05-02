@@ -12,11 +12,12 @@ import Persoane from './pages/Persoane';
 import Contributii from './pages/Contributii';
 import LogIn from './pages/Login/Login';
 import SignUp from './pages/Login/SignUp';
-import Persoana from './pages/Persoana';
+import Persoana from './pages/Persoana/Persoana';
 
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 
 function App() {
@@ -24,12 +25,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      <nav className='nav_bar'>
-        <Link to="/"><Button variant="primary">Home</Button></Link>
-        <Link to="/biserici"><Button variant="primary">Biserici</Button></Link>
-        <Link to="/persoane"><Button variant="primary">Persoane</Button></Link>
-        <Link to="/contributii"><Button variant="primary">Contributii</Button></Link>
-        <Link to="/login"><Button variant="primary" style={{ marginLeft: '388px' }}>Log In</Button></Link>
+      <nav className='nav-bar'>
+        <div>
+          <Link to="/"><Button variant="primary">Home</Button></Link>
+          <Link to="/biserici"><Button variant="primary">Biserici</Button></Link>
+          <Link to="/persoane"><Button variant="primary">Persoane</Button></Link>
+          <Link to="/contributii"><Button variant="primary">Contributii</Button></Link>
+        </div>
+        <div>
+          <Link to="/login"><Button variant="primary">Log In</Button></Link>
+        </div>
       
         
       </nav>
