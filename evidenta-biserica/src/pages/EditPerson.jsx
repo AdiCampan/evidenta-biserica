@@ -1,5 +1,6 @@
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { edit } from '../features/persoaneSlice';
@@ -26,10 +27,10 @@ function EditPerson({ id }) {
     setShow(true);
     setNume(person.firstName);
     setPrenume(person.lastName);
-    // setAdresa(person.adress);
-    // setTelefon(person.telefon);
-    // setEmail(person.email);
-    // setSex(person.sex);      
+    setAdresa(person.adress);
+    setTelefon(person.telefon);
+    setEmail(person.email);
+    setSex(person.sex);      
   }
   const saveData = (id) => {
     const newPerson = {
@@ -48,7 +49,6 @@ function EditPerson({ id }) {
     else {
       alert ("Nu stergeti numele sau prenumele !")
     }; 
-    console.log(newPerson);
   };
  
   return (
@@ -87,11 +87,10 @@ function EditPerson({ id }) {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           ></input>
-          <input
-            placeholder='Sex'
-            value={sex}
-            onChange={(event) => setSex(event.target.value)}
-          ></input>
+          <ButtonGroup aria-label="Basic example">
+            <Button variant="secondary" active={sex == true} onClick={() => setSex(true)}>M</Button>
+            <Button variant="secondary" active={sex == false} onClick={() => setSex(false)}>F</Button>
+          </ButtonGroup>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

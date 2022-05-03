@@ -6,12 +6,12 @@ import React, { useState } from 'react';
 import AddPerson from './AddPerson';
 import EditPerson from './EditPerson';
 import { add, del } from '../features/persoaneSlice';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useGetMembersQuery, useAddMemberMutation, useDelMemberMutation } from '../services/members';
 import Confirmation from '../Confirmation';
 
 function Persoane() {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const persoane = useSelector((state) => state.persoane.lista);
   const [idToDelete, setIdToDelete] = useState(null);
 
@@ -27,6 +27,10 @@ function Persoane() {
     deleteMember(id);
     
     setIdToDelete(null);
+  };
+
+  const goToPerson = (id) => {
+    navigate(`/persoane/${id}`);
   };
   // console.log(idToDelete)
 
@@ -51,14 +55,14 @@ function Persoane() {
           </thead>
           <tbody>
           {data ? data.map((p, index) => (
-              <tr key={p.id}>
+              <tr key={p.id} onClick={() => goToPerson(p.id)}>
                 <td>{index + 1}</td>
                 <td>{p.firstName}</td>
                 <td>{p.lastName}</td>
-                <td>{p.adress}</td>
-                <td>{p.telefon}</td>
+                <td>{p.address}</td>
+                <td>{p.mobilePhone}</td>
                 <td>{p.email}</td>
-                <td>{p.sex}</td>
+                <td>{p.sex ? 'M' : 'F'}</td>
                 <td>
                   <EditPerson id={p.id} />
                   
@@ -75,7 +79,7 @@ function Persoane() {
         id={idToDelete}
         confirmModal={(id) => deletePerson(id)}
         message="Esti sigur ca vrei sa stergi persoana din baza de date ?"
-        hideModal={(id) => setIdToDelete(null)}
+        hideModal={() => setIdToDelete(null)}
       />
     </div>
   );

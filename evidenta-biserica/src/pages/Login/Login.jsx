@@ -7,17 +7,23 @@ import {
   Route,
   Link,
 } from "react-router-dom";
+import { useLoginMutation } from '../../services/auth';
 
 
 import './Login.css';
 
 const Login = () => {
+  const [loginUser, result] = useLoginMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    loginUser({ email: data.email, password: data.password });
+  };
 
   return (
     <div id="login">
@@ -28,9 +34,9 @@ const Login = () => {
               <form id="login-form" className="form" onSubmit={handleSubmit(onSubmit)}>
                 <h3 className="text-center text-info">Login</h3>
                 <div className="form-group">
-                  <label for="username" className="text-info">Username:</label><br />
-                  <input {...register('username', { required: true })} type="text" className="form-control" />
-                  {errors.username && <p className="error">Username is required.</p>}
+                  <label for="email" className="text-info">Email:</label><br />
+                  <input {...register('email', { required: true })} type="text" className="form-control" />
+                  {errors.email && <p className="error">Email is required.</p>}
                 </div>
                 <div className="form-group">
                   <label for="password" className="text-info">Password:</label><br />
