@@ -22,12 +22,20 @@ export const membersApi = createApi({
       invalidatesTags: ['members'],
     }),
     modifyMember: builder.mutation({
-      query: (person) => ({
+      query: (person) => {
+        const formData = new FormData();
+        for (const [key, value] of Object.entries(person)) {
+          if (value) {
+            formData.append(key, value);
+          }
+        }
+
+        return {
           url: `members/${person.id}`,
           method: 'PATCH',
-          body: person
-      
-    }),
+          body: formData
+        }
+      },
     invalidatesTags: ['members', 'member'],
   }),
     delMember: builder.mutation({

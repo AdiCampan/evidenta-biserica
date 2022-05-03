@@ -13,7 +13,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import DatePicker from 'react-datepicker';
-import FileUploader from '../../features/FileUploader';
+import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import "./Persoana.css";
 
 
@@ -22,7 +22,7 @@ function Persoana() {
 
 
   const [selectedFile, setSelectedFile] = useState(null);
-  console.log(selectedFile);
+  const [profileImage, setProfileImage] = useState(null);
 
   const { id } = useParams();
   const { data, error, isLoading, isFetching } = useGetMemberQuery(id);
@@ -69,6 +69,7 @@ function Persoana() {
     setDsBotezPlace(data?.hsBaptisePlace);
     setMembruData(data?.memberdate);
     setDetalii(data?.details);
+    setProfileImage(data?.imagePath);
   }, [data]);
 
 
@@ -94,6 +95,7 @@ function Persoana() {
       hsBaptisePlace: dsBotezPlace,
       memberdate: membruData,
       details: detalii,
+      profile_image: selectedFile, // TODO - replace this with profileImage here and on the server side
     };
     if (nume != "" && prenume != "") {
       modifyMember(newPerson);
@@ -246,13 +248,11 @@ function Persoana() {
                   </Card.Body>
                 </Card>
 
-                <form>
-                  <FileUploader
-                    onFileSelectSuccess={(file) => setSelectedFile(file)}
-                  // onFileSelectError={({ error }) => alert(error)}
-                  />
-                  {/* <button onClick={submitForm}>Submit</button> */}
-                </form>
+                <ImageUploader
+                  onFileSelectSuccess={(file) => setSelectedFile(file)}
+                  onFileSelectError={({ error }) => alert(error)}
+                  initialImage={profileImage}
+                />
                 <Row>
                   <Col>
                     <InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
