@@ -1,0 +1,21 @@
+.file-uploader-wrapper {
+  padding: 15px 0;
+}
+
+.file-uploader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.file-uploader .btn {
+  height: 40px;
+}
+.file-uploader .file-name {
+  padding-left: 10px;
+}
+
+.file-uploader .image-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
