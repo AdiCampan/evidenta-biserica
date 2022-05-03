@@ -95,7 +95,7 @@ function Persoana() {
       hsBaptisePlace: dsBotezPlace,
       memberdate: membruData,
       details: detalii,
-      profile_image: selectedFile, // TODO - replace this with profileImage here and on the server side
+      profileImage: selectedFile,
     };
     if (nume != "" && prenume != "") {
       modifyMember(newPerson);

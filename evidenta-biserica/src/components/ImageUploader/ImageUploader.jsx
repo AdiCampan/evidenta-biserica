@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
 
-import "./ImageUploader.css";
+import "./ImageUploader.scss";
 
 const ALLOWED_EXTENSIONS = ['jpeg', 'jpg', 'png'];
 const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
