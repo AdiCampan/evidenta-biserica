@@ -1,5 +1,5 @@
 
-import { useParams } from 'react-router-dom';
+import { useParams , useNavigate} from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button';
@@ -22,7 +22,10 @@ import Biserica from './Biserica';
 import Familie from './Familie';
 
 
+
+
 function Persoana() {
+  const navigate = useNavigate();
 
   const { id } = useParams();
   const { data, error, isLoading, isFetching } = useGetMemberQuery(id);
@@ -33,6 +36,13 @@ function Persoana() {
   useEffect(() => {
     setCurrentData(data);
   }, [data]);
+
+
+  useEffect(() => {
+    if (result.isSuccess) {
+      navigate("/persoane");
+    }
+  }, [result]);
 
   const saveData = () => {
     if (currentData.firstName != "" && currentData.lastName != "") {
@@ -71,7 +81,7 @@ function Persoana() {
       <Card>
         <Card.Body>
           <Form>
-            <Button variant="primary" type="button" onClick={saveData}>
+            <Button variant="primary" type="button" onClick={saveData } disabled={result.isLoading}    >
               Salveaza
             </Button>
           </Form>
