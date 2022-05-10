@@ -16,8 +16,6 @@ import Persoana from './pages/Persoana/Persoana';
 
 
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "react-datepicker/dist/react-datepicker.css";
 
 
 function App() {

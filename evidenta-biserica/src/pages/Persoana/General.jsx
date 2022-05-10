@@ -62,19 +62,19 @@ const General = ({ dataUpdated, data }) => {
   }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile]);
 
   useEffect(() => {
-    setNume(data?.firstName);
-    setPrenume(data?.lastName);
-    setAnterior(data?.maidenName);
-    setAdresa(data?.address);
-    setTelefon(data?.mobilePhone);
-    setEmail(data?.email);
+    setNume(data?.firstName || '');
+    setPrenume(data?.lastName || '');
+    setAnterior(data?.maidenName || '');
+    setAdresa(data?.address || '');
+    setTelefon(data?.mobilePhone || '');
+    setEmail(data?.email || '');
     setSex(data?.sex === true ? 'M' : (data?.sex === false ? 'F' : null));
-    setFather(data?.fatherName);
-    setMother(data?.motherName);
+    setFather(data?.fatherName || '');
+    setMother(data?.motherName || '');
     setEnterBirthDate(Date.parse(data?.birthDate));
-    setPlaceOfBirth(data?.placeOfBirth);
+    setPlaceOfBirth(data?.placeOfBirth || '');
     setMembruData(Date.parse(data?.memberDate));
-    setDetalii(data?.details);
+    setDetalii(data?.details || '');
     setProfileImage(data?.imagePath);
   }, [data]);
 
