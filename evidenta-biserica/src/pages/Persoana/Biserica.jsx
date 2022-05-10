@@ -49,13 +49,13 @@ const Biserica = ({ data, dataUpdated }) => {
   useEffect(() => {
 
     setBlessingDate(Date.parse(data?.blessingDate));
-    setBlessingPLace(data?.blessingPlace);
+    setBlessingPLace(data?.blessingPlace || '');
     setBaptiseDate(Date.parse(data?.baptiseDate));
-    setBaptisePlace(data?.baptisePlace);
+    setBaptisePlace(data?.baptisePlace || '');
     setDsBotezDate(Date.parse(data?.hsBaptiseDate));
-    setDsBotezPlace(data?.hsBaptisePlace);
+    setDsBotezPlace(data?.hsBaptisePlace || '');
     setMembruData(Date.parse(data?.memberDate));
-    setDetalii(data?.details);
+    setDetalii(data?.details || '');
   }, [data]);
 
 

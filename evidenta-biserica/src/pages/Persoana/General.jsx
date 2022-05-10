@@ -36,7 +36,7 @@ const General = ({ dataUpdated, data }) => {
   const [mother, setMother] = useState('');
   const [placeOfBirth, setPlaceOfBirth] = useState('');
   const [enterBirthDate, setEnterBirthDate] = useState(null);
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useState(false);
   const [membruData, setMembruData] = useState(null);
   const [detalii, setDetalii] = useState('');
 

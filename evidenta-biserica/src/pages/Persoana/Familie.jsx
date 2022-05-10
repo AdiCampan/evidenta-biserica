@@ -39,12 +39,12 @@ const Familie = ({ dataUpdated, data }) => {
   }, [pereche, servCivil, servRel, biserica, copil, dataNasteriiCopil]);
 
   useEffect(() => {
-    setPereche(data?.partner);
-    setServCivil(data?.civil);
-    setServRel(data?.religious);
-    setBiserica(data?.weddingChurch);
-    setCopil(data?.child);
-    setDataNasteriiCopil(data?.childBirthDate);
+    // setPereche(data?.partner);
+    setServCivil(data?.civil || '');
+    setServRel(data?.religious || '');
+    setBiserica(data?.weddingChurch || '');
+    setCopil(data?.child || '');
+    setDataNasteriiCopil(data?.childBirthDate || '');
 
 
   }, [data]);
@@ -59,8 +59,9 @@ const Familie = ({ dataUpdated, data }) => {
               <div style={{ display: 'flex' }}>
                 <InputGroup.Text id="inputGroup-sizing-sm">Sot/Sotie</InputGroup.Text>
                 <Typeahead
+                  id="pereche"
                   onChange={setPereche}
-                  options={persoane?.map(persoana => `${persoana.firstName} ${persoana.lastName}`)}
+                  options={persoane?.map(persoana => `${persoana.firstName} ${persoana.lastName}`) || []}
                   placeholder="Alege o persoana..."
                   selected={pereche}
                 /> <AddPerson />
