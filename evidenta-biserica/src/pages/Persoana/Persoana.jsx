@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import React, { useState, useRef, useEffect } from 'react';
-import { useGetMemberQuery, useModifyMemberMutation } from '../../services/members';
+import { useGetMemberQuery, useModifyMemberMutation, useAddRelationMutation } from '../../services/members';
 import { Card, FormControl } from 'react-bootstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -30,6 +30,7 @@ function Persoana() {
   const { id } = useParams();
   const { data, error, isLoading, isFetching } = useGetMemberQuery(id);
   const [modifyMember, result] = useModifyMemberMutation();
+  const [addRelation] = useAddRelationMutation();
   const [activeTab, setActiveTab] = useState('general');
   const [currentData, setCurrentData] = useState(null);
 
@@ -45,12 +46,21 @@ function Persoana() {
   }, [result]);
 
   const saveData = () => {
+    console.log('currentData', currentData);
     if (currentData.firstName != "" && currentData.lastName != "") {
       modifyMember(currentData);
     }
     else {
       alert("Nu stergeti numele sau prenumele !")
     };
+    if (currentData.partner.length > 0) {
+      console.log('update relation');
+      addRelation({
+        owner: currentData.id,
+        person: currentData.partner,
+        type: currentData.sex ? 'wife' : 'husband',
+      });
+    }
   };
 
   const dataUpdated = (updatedData) => {

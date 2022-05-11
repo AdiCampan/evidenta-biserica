@@ -15,10 +15,10 @@ export const membersApi = createApi({
       providesTags: ['member'],
     }),
     addMember: builder.mutation({
-        query: (person) => ({
-            url: 'members/',
-            method: 'POST',
-            body: person,
+      query: (person) => ({
+        url: 'members/',
+        method: 'POST',
+        body: person,
       }),
       invalidatesTags: ['members'],
     }),
@@ -38,16 +38,26 @@ export const membersApi = createApi({
           body: formData
         }
       },
-    invalidatesTags: ['members', 'member'],
-  }),
+      invalidatesTags: ['members', 'member'],
+    }),
     delMember: builder.mutation({
-        query: (id) => ({
-            url: `members/${id}`,
-            method: 'DELETE',
+      query: (id) => ({
+        url: `members/${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['members'],
+    }),
+    addRelation: builder.mutation({
+      query: (relation) => {
+        return {
+          url: 'relations/',
+          method: 'POST',
+          body: relation
+        }
+      },
+      invalidatesTags: ['members', 'member'],
     })
-  }),
+  })
 });
 
 // Export hooks for usage in functional components
@@ -56,6 +66,7 @@ export const {
   useGetMemberQuery,
   useAddMemberMutation,
   useDelMemberMutation,
-  useModifyMemberMutation
+  useModifyMemberMutation,
+  useAddRelationMutation
 } = membersApi;
 

@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
@@ -11,7 +11,7 @@ import { add } from '../features/persoaneSlice';
 
 
 
-function AddPerson() {
+function AddPerson({ onAdded }) {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
  
@@ -26,6 +26,12 @@ function AddPerson() {
 
   const handleClose = () => setShow(false);
  
+  useEffect(() => {
+    if (result.isSuccess) {
+      onAdded(result.data._id);
+    }
+  }, [result]);
+
   const addData = () => {
     const newPerson = {
       firstName: nume,

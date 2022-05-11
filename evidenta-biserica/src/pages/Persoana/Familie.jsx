@@ -17,12 +17,13 @@ const Familie = ({ dataUpdated, data }) => {
   const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
 
 
-  const [pereche, setPereche] = useState([]);
+  const [pereche, setPereche] = useState('');
   const [servCivil, setServCivil] = useState('');
   const [servRel, setServRel] = useState('');
   const [biserica, setBiserica] = useState('');
   const [copil, setCopil] = useState('');
   const [dataNasteriiCopil, setDataNasteriiCopil] = useState('');
+  const [copii, setCopii] = useState([]);
 
 
 
@@ -45,9 +46,16 @@ const Familie = ({ dataUpdated, data }) => {
     setBiserica(data?.weddingChurch || '');
     setCopil(data?.child || '');
     setDataNasteriiCopil(data?.childBirthDate || '');
-
-
+    setPereche(data?.relations[0]?.person || '');
   }, [data]);
+
+  const onPersonChange = (persons) => {
+    if (persons.length > 0) {
+      setPereche(persons[0].id);
+    } else {
+      setPereche('');
+    }
+  }
 
 
   return (
@@ -60,11 +68,13 @@ const Familie = ({ dataUpdated, data }) => {
                 <InputGroup.Text id="inputGroup-sizing-sm">Sot/Sotie</InputGroup.Text>
                 <Typeahead
                   id="pereche"
-                  onChange={setPereche}
-                  options={persoane?.map(persoana => `${persoana.firstName} ${persoana.lastName}`) || []}
+                  onChange={onPersonChange}
+                  labelKey={option => `${option.firstName} ${option.lastName}`}
+                  options={persoane || []}
                   placeholder="Alege o persoana..."
-                  selected={pereche}
-                /> <AddPerson />
+                  selected={persoane?.filter(person => person.id === pereche ) || []}
+                />
+                <AddPerson onAdded={(personId) => setPereche(personId)} />
               </div>
             </InputGroup>
           </Col>
@@ -112,7 +122,7 @@ const Familie = ({ dataUpdated, data }) => {
         <Row>
           <Col>
             <InputGroup size="sm" className="mb-3">
-              <InputGroup.Text id="inputGroup-sizing-sm">NUme si Prenume</InputGroup.Text>
+              <InputGroup.Text id="inputGroup-sizing-sm">Nume si Prenume</InputGroup.Text>
               <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
                 onChange={(event) => setCopil(event.target.value)} value={copil} />
             </InputGroup>
