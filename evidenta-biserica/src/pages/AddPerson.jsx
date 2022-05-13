@@ -11,7 +11,7 @@ import { add } from '../features/persoaneSlice';
 
 
 
-function AddPerson({ onAdded }) {
+function AddPerson({ onAdded, onAddChild }) {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
  
@@ -29,6 +29,7 @@ function AddPerson({ onAdded }) {
   useEffect(() => {
     if (result.isSuccess) {
       onAdded(result.data._id);
+      // onAddChild(result.data_id);
     }
   }, [result]);
 

@@ -31,7 +31,7 @@ const Familie = ({ dataUpdated, data }) => {
     dataUpdated({
       id: data.id,
       partner: pereche,
-      civil: servCivil,
+      civilWeddingDate: servCivil,
       religious: servRel,
       weddingChurch: biserica,
       child: copil,
@@ -54,6 +54,14 @@ const Familie = ({ dataUpdated, data }) => {
       setPereche(persons[0].id);
     } else {
       setPereche('');
+    }
+  }
+   
+  const onCopilChange = (person) => {
+    if (person.length > 0) {
+      setCopil(person[0].id);
+    } else {
+      setCopil('');
     }
   }
 
@@ -118,13 +126,19 @@ const Familie = ({ dataUpdated, data }) => {
 
       </Card><br /><br /><br />
       <Card>Copii
-        <div><AddPerson /></div>
+        <div><AddPerson onAddChild={(personId) => setCopil(personId)}/></div>
         <Row>
           <Col>
             <InputGroup size="sm" className="mb-3">
               <InputGroup.Text id="inputGroup-sizing-sm">Nume si Prenume</InputGroup.Text>
-              <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                onChange={(event) => setCopil(event.target.value)} value={copil} />
+              <Typeahead
+                  id="copil"
+                  onChange={onCopilChange}
+                  labelKey={option => `${option.firstName} ${option.lastName}`}
+                  options={persoane || []}
+                  placeholder="Alege o persoana..."
+                  selected={persoane?.filter(person => person.id === copil ) || []}
+                />
             </InputGroup>
           </Col>
           <Col>

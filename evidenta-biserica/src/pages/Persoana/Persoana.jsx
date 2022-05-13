@@ -1,21 +1,12 @@
 
 import { useParams , useNavigate} from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGetMemberQuery, useModifyMemberMutation, useAddRelationMutation } from '../../services/members';
-import { Card, FormControl } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import DatePicker from 'react-datepicker';
-import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import "./Persoana.css";
 import General from './General';
 import Biserica from './Biserica';
