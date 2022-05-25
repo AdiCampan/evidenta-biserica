@@ -29,10 +29,15 @@ function Persoane() {
     setIdToDelete(null);
   };
 
+  const showDeleteModal = (personId, ev) => {
+    setIdToDelete(personId);
+    ev.stopPropagation();
+  }
+
   const goToPerson = (id) => {
     navigate(`/persoane/${id}`);
   };
-  // console.log(idToDelete)
+
 
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
@@ -64,15 +69,18 @@ function Persoane() {
                 <td>{p.email}</td>
                 <td>{p.sex ? 'M' : 'F'}</td>
                 <td>
-                  <EditPerson id={p.id} />
-                  
-                  <Button variant="primary" onClick={() =>setIdToDelete(p.id)}>Sterge</Button>
+                  {/* <EditPerson id={p.id} /> */}
+                  <Button variant="primary" onClick={(event) =>showDeleteModal(p.id, event)}>Sterge</Button>
                 </td>
+                
               </tr>
+              
             )): null}
 
           </tbody>
+          
         </Table>
+        
       </div>
       <Confirmation
         showModal={idToDelete != null}

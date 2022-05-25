@@ -7,9 +7,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import AddPerson from '../AddPerson';
 import { useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
+import Copil from './copil';
+
 
 const Familie = ({ dataUpdated, data }) => {
   const { id } = useParams();
@@ -56,7 +59,7 @@ const Familie = ({ dataUpdated, data }) => {
       setPereche('');
     }
   }
-   
+
   const onCopilChange = (person) => {
     if (person.length > 0) {
       setCopil(person[0].id);
@@ -65,6 +68,13 @@ const Familie = ({ dataUpdated, data }) => {
     }
   }
 
+  const [childList, setChildList] = useState([])
+
+
+
+  const addChildField = () => {
+    setChildList(childList.concat(<Copil data={data} dataUpdated={dataUpdated} />));
+  }
 
   return (
     <Container>
@@ -80,9 +90,9 @@ const Familie = ({ dataUpdated, data }) => {
                   labelKey={option => `${option.firstName} ${option.lastName}`}
                   options={persoane || []}
                   placeholder="Alege o persoana..."
-                  selected={persoane?.filter(person => person.id === pereche ) || []}
+                  selected={persoane?.filter(person => person.id === pereche) || []}
                 />
-                <AddPerson onAdded={(personId) => setPereche(personId)} />
+                {/* <AddPerson onAdded={(personId) => setPereche(personId)} /> */}
               </div>
             </InputGroup>
           </Col>
@@ -125,36 +135,18 @@ const Familie = ({ dataUpdated, data }) => {
         </Row>
 
       </Card><br /><br /><br />
+
+
       <Card>Copii
-        <div><AddPerson onAddChild={(personId) => setCopil(personId)}/></div>
-        <Row>
-          <Col>
-            <InputGroup size="sm" className="mb-3">
-              <InputGroup.Text id="inputGroup-sizing-sm">Nume si Prenume</InputGroup.Text>
-              <Typeahead
-                  id="copil"
-                  onChange={onCopilChange}
-                  labelKey={option => `${option.firstName} ${option.lastName}`}
-                  options={persoane || []}
-                  placeholder="Alege o persoana..."
-                  selected={persoane?.filter(person => person.id === copil ) || []}
-                />
-            </InputGroup>
-          </Col>
-          <Col>
-            <InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
-              <InputGroup.Text id="inputGroup-sizing-sm">Data Nasterii</InputGroup.Text>
-              <DatePicker
-                selected={dataNasteriiCopil}
-                onChange={(date) => setDataNasteriiCopil(date)}
-                peekNextMonth
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
-              />
-            </InputGroup>
-          </Col>
-        </Row>
+
+        <Col>
+          <InputGroup size="sm" className="mb-3">
+            <Button onClick={addChildField}>Adauga un copil</Button>
+          </InputGroup>
+        </Col>
+
+
+        {childList}
       </Card>
     </Container>
   )
