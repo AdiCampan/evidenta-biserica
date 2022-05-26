@@ -11,6 +11,7 @@ import "./Persoana.css";
 import General from './General';
 import Biserica from './Biserica';
 import Familie from './Familie';
+import Observatii from './Observatii';
 
 
 
@@ -77,6 +78,9 @@ function Persoana() {
         </Tab>
         <Tab eventKey="biserica" title="Biserica">
           {data && <Biserica data={data} dataUpdated={dataUpdated} />}
+        </Tab>
+        <Tab eventKey="observatii" title="Observatii">
+          {data && <Observatii data={data} dataUpdated={dataUpdated} />}
         </Tab>
       </Tabs>
       <Card>

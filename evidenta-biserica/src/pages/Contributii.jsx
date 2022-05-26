@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import AddContributii from './AddContributii';
 import EditContributii from './EditContributii';
+import Form from 'react-bootstrap/Form'
 
 function Contributii() {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function Contributii() {
   function deleteAmount(idToDelete) {
     dispatch(del(idToDelete));
   };
-  
+
 
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
@@ -43,9 +44,16 @@ function Contributii() {
                 <td>{p.surname}</td>
                 <td>{p.amount}</td>
                 <td>{p.date}</td>
-                <td>{p.type}</td>
+                <td>{p.type}
+                  <Form.Select size="sm" aria-label="Default select example">
+                    <option>Selecteaza</option>
+                    <option value="1">Cotizatie</option>
+                    <option value="2">Donatie</option>
+                    <option value="3">Zeciuiala</option>
+                  </Form.Select>
+                </td>
                 <td>
-                  <EditContributii/>
+                  <EditContributii />
                   <Button variant="primary" onClick={() => deleteAmount(p.id)}>Sterge</Button>
                 </td>
               </tr>
