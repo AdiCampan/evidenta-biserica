@@ -1,5 +1,8 @@
 
 import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { BsSearch } from 'react-icons/bs';
+import { Typeahead } from 'react-bootstrap-typeahead';
 import Table from 'react-bootstrap/Table';
 import { useSelector } from 'react-redux';
 import React, { useState } from 'react';
@@ -13,19 +16,23 @@ import Confirmation from '../Confirmation';
 function Persoane() {
   const navigate = useNavigate();
   const persoane = useSelector((state) => state.persoane.lista);
+
   const [idToDelete, setIdToDelete] = useState(null);
 
-  const {data, error, isLoading, isFetching } = useGetMembersQuery();
+  const { data, error, isLoading, isFetching } = useGetMembersQuery();
   const [addMember, result] = useAddMemberMutation();
   const [deleteMember] = useDelMemberMutation();
 
+  function onSearchPerson() {
+
+  }
 
   function deletePerson(id) {
     // <Confirmation  showModal={true}/>
     // alert("Esti sigur ca vrei sa stergi definitv persoana ?");
     // dispatch(del(id));
     deleteMember(id);
-    
+
     setIdToDelete(null);
   };
 
@@ -42,8 +49,22 @@ function Persoane() {
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
       <div className="lista_persoane">
-        <AddPerson />
+        <div style={{display: 'flex'}}>
 
+          <AddPerson />
+
+          <InputGroup size="sm" className="mb-3">
+            <InputGroup.Text id="inputGroup-sizing-sm"><BsSearch /></InputGroup.Text> 
+            <Typeahead
+              id="cautare"
+              onChange={onSearchPerson}
+              labelKey={option => `${option.firstName} ${option.lastName}`}
+              options={persoane || []}
+              placeholder="Cauta o persoana..."
+              selected={persoane?.filter(person => person.id === persoane) || []}
+            />
+          </InputGroup>
+        </div>
         Lista de Persoane
         <Table striped bordered hover size="sm">
           <thead>
@@ -59,7 +80,7 @@ function Persoane() {
             </tr>
           </thead>
           <tbody>
-          {data ? data.map((p, index) => (
+            {data ? data.map((p, index) => (
               <tr key={p.id} onClick={() => goToPerson(p.id)}>
                 <td>{index + 1}</td>
                 <td>{p.firstName}</td>
@@ -70,17 +91,17 @@ function Persoane() {
                 <td>{p.sex ? 'M' : 'F'}</td>
                 <td>
                   {/* <EditPerson id={p.id} /> */}
-                  <Button variant="primary" onClick={(event) =>showDeleteModal(p.id, event)}>Sterge</Button>
+                  <Button variant="primary" onClick={(event) => showDeleteModal(p.id, event)}>Sterge</Button>
                 </td>
-                
+
               </tr>
-              
-            )): null}
+
+            )) : null}
 
           </tbody>
-          
+
         </Table>
-        
+
       </div>
       <Confirmation
         showModal={idToDelete != null}

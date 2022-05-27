@@ -21,6 +21,7 @@
     "react-datepicker": "^4.7.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.30.0",
+    "react-icons": "^4.3.1",
     "react-login-modal": "^1.2.1",
     "react-redux": "^8.0.0",
     "react-router": "^6.3.0",

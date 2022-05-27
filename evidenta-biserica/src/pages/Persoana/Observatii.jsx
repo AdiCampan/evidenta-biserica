@@ -19,8 +19,9 @@ function Observatii({ data, dataUpdated }) {
     <div>
       <h3>Observatii</h3>
       <textarea className='observatii'
+      value={input}
         onChange={(e) => setInput(e.target.value)}>
-        {input}
+        
       </textarea>
     </div>
   )
