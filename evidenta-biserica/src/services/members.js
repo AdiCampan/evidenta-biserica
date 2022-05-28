@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { SERVER_URL } from '../constants';
 
 export const membersApi = createApi({
   reducerPath: 'membersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://evidenta-biserica.herokuapp.com/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: SERVER_URL }),
   tagTypes: ['members', 'member'],
   endpoints: (builder) => ({
     getMembers: builder.query({
@@ -14,21 +15,22 @@ export const membersApi = createApi({
       providesTags: ['member'],
     }),
     addMember: builder.mutation({
-        query: (person) => ({
-            url: 'members/',
-            method: 'POST',
-            body: person,
+      query: (person) => ({
+        url: 'members/',
+        method: 'POST',
+        body: person,
       }),
       invalidatesTags: ['members'],
     }),
     modifyMember: builder.mutation({
       query: (person) => {
         const formData = new FormData();
-        for (const [key, value] of Object.entries(person)) {
-          if (value) {
-            formData.append(key, value);
-          }
-        }
+
+        const { profileImage, ...personData } = person;
+        formData.append('profileImage', profileImage);
+        // send the rest of the documents as a stringified json
+        // without it, it sends all items as strings
+        formData.append('doc', JSON.stringify(personData));
 
         return {
           url: `members/${person.id}`,
@@ -36,16 +38,26 @@ export const membersApi = createApi({
           body: formData
         }
       },
-    invalidatesTags: ['members', 'member'],
-  }),
+      invalidatesTags: ['members', 'member'],
+    }),
     delMember: builder.mutation({
-        query: (id) => ({
-            url: `members/${id}`,
-            method: 'DELETE',
+      query: (id) => ({
+        url: `members/${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['members'],
+    }),
+    addRelation: builder.mutation({
+      query: (relation) => {
+        return {
+          url: 'relations/',
+          method: 'POST',
+          body: relation
+        }
+      },
+      invalidatesTags: ['members', 'member'],
     })
-  }),
+  })
 });
 
 // Export hooks for usage in functional components
@@ -54,6 +66,7 @@ export const {
   useGetMemberQuery,
   useAddMemberMutation,
   useDelMemberMutation,
-  useModifyMemberMutation
+  useModifyMemberMutation,
+  useAddRelationMutation
 } = membersApi;
 

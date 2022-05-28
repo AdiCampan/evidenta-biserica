@@ -1,5 +1,6 @@
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { add } from '../features/contributiiSlice';
@@ -45,7 +46,7 @@ function AddContributii() {
         </Modal.Header>
         <Modal.Body>
           <input
-            placeholder='receiptNumber'
+            placeholder='Nr. chitanta'
             value={receiptNumber}
             onChange={(event) => setReceiptNumber(event.target.value)}
           ></input>
@@ -64,17 +65,25 @@ function AddContributii() {
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
           ></input>
-          <input
-            placeholder='Tipul donatiei'
-            value={type}
-            onChange={(event) => setType(event.target.value)}
-          ></input>
+          {/* <input
+
+          // placeholder='Tipul donatiei'
+          // value={type}
+          // onChange={(event) => setType(event.target.value)}
+          > */}
+            
+          {/* </input> */}
           <input
             placeholder='Data'
             value={date}
             onChange={(event) => setDate(event.target.value)}
           ></input>
-          <input placeholder='Nume'></input>
+          <Form.Select  size="sm" aria-label="Default select example">
+              <option>Selecteaza tipul Contributiei</option>
+              <option value="1">Cotizatie</option>
+              <option value="2">Donatie</option>
+              <option value="3">Zeciuiala</option>
+            </Form.Select>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
