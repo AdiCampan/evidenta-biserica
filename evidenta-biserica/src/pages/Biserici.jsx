@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import { useSelector, useDispatch } from 'react-redux';
-import { add, del } from '../features/biserici/bisericiSlice';
 import Button from 'react-bootstrap/Button';
 import { useGetChurchesQuery, useAddChurchMutation, useDelChurchMutation} from '../services/churches';
 import './Biserici.css'
 import Confirmation from '../Confirmation';
 
 function Biserici() {
-  const dispatch = useDispatch();
   const biserici = useSelector((state) => state.biserici.lista);
   const [church, setChurch] = useState("");
   const [place, setPlace] = useState("");
@@ -32,13 +30,8 @@ function Biserici() {
   };
 
   function deleteBiserica(id) {
-    
-    
     delChurch(id);
     setIdToDelete(null);
-    // dispatch(del(idToDelete));
-    console.log(id)
-
   };
 
   return (
