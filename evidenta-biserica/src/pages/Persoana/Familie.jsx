@@ -29,6 +29,7 @@ const Familie = ({ dataUpdated, data }) => {
   const [biserica, setBiserica] = useState('');
   const [copil, setCopil] = useState('');
   const [dataNasteriiCopil, setDataNasteriiCopil] = useState('');
+  const [sexCopil, setSexCopil] = useState('');
   const [childList, setChildList] = useState([])
   const [idToDelete, setIdToDelete] = useState(null);
 
@@ -40,16 +41,20 @@ const Familie = ({ dataUpdated, data }) => {
       religious: servRel,
       weddingChurch: biserica,
       child: copil,
-      childBirthDate: dataNasteriiCopil,
+      birthDate: dataNasteriiCopil,
+      sex: sexCopil,
     });
   }, [pereche, servCivil, servRel, biserica, copil, dataNasteriiCopil]);
+
+  
 
   useEffect(() => {
     setServCivil(data?.civil || '');
     setServRel(data?.religious || '');
     setBiserica(data?.weddingChurch || '');
     setCopil(data?.child || '');
-    setDataNasteriiCopil(data?.childBirthDate || '');
+    setDataNasteriiCopil(data?.birthDate || '');
+    setSexCopil(data?.sex || '');
     setPereche(data?.relations[0]?.person || '');
   }, [data]);
 
@@ -60,6 +65,8 @@ const Familie = ({ dataUpdated, data }) => {
       setPereche('');
     }
   }
+
+  
 
   const addChildField = () => {
     setChildList([
@@ -82,7 +89,7 @@ const Familie = ({ dataUpdated, data }) => {
     setChildList(childList.filter((child) => {
       if (child.index !== childIndex) {
         return true;
-        
+
       }
       setIdToDelete(null);
       return false;
@@ -148,13 +155,15 @@ const Familie = ({ dataUpdated, data }) => {
           </Col>
         </Row>
       </Card><br /><br />
+
       <Card>Copii
         <Col>
           <InputGroup size="sm" className="mb-3">
             <Button onClick={addChildField}>Adauga un copil</Button>
           </InputGroup>
+        </Col>
 
-        </Col> <Table striped bordered hover size="sm">
+        <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Nume si Prenume</th>
@@ -165,26 +174,31 @@ const Familie = ({ dataUpdated, data }) => {
           </thead>
           <tbody>
             <tr>
-              <td>
-              </td>
-              <td>{ }</td>
+              {childList.map((childItem) => (
+                <Copil
+                  childUpdated={(childId) => updateChild(childId, childItem.index)}
+                  removeChild={() => setIdToDelete(childItem.index)}
+                  key={childItem.index}
+                />
+              ))}
+            <td>{}</td>
+            <td>{}</td>
+            <td>{sexCopil}</td>
+              
             </tr>
+            <tr>{}</tr>
+
+
           </tbody>
         </Table>
-        {childList.map((childItem) => (
-          <Copil
-            childUpdated={(childId) => updateChild(childId, childItem.index)}
-            removeChild={() => setIdToDelete(childItem.index)}
-            key={childItem.index}
-          />
-        ))}
+
       </Card>
-      <Confirmation 
-       showModal={idToDelete != null}
-       id={idToDelete}
-       confirmModal={(id) => removeChild(id)}
-       message="Esti sigur ca vrei sa stergi copilul din baza de date ?"
-       hideModal={() => setIdToDelete(null)}
+      <Confirmation
+        showModal={idToDelete != null}
+        id={idToDelete}
+        confirmModal={(id) => removeChild(id)}
+        message="Esti sigur ca vrei sa stergi copilul din baza de date ?"
+        hideModal={() => setIdToDelete(null)}
       />
     </Container>
   )

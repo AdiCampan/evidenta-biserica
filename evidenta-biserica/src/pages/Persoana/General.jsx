@@ -2,14 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useGetMemberQuery, useModifyMemberMutation } from '../../services/members';
-import { Card, FormControl } from 'react-bootstrap';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -77,33 +73,6 @@ const General = ({ dataUpdated, data }) => {
     setDetalii(data?.details || '');
     setProfileImage(data?.imagePath);
   }, [data]);
-
-  // const saveData = () => {
-  //   const newPerson = {
-
-  //     firstName: nume,
-  //     lastName: prenume,
-  //     maidenName: anterior,
-  //     address: adresa,
-  //     mobilePhone: telefon,
-  //     email: email,
-  //     sex: sex === 'M' ? true : (sex === 'F' ? false : null),
-  //     fatherName: father,
-  //     motherName: mother,
-  //     birthDate: enterBirthDate,
-  //     placeOfBirth: placeOfBirth,
-  //     memberDate: membruData,
-  //     details: detalii,
-  //     profileImage: selectedFile,
-  //   };
-  //   if (nume != "" && prenume != "") {
-  //     modifyMember(newPerson);
-  //   }
-  //   else {
-  //     alert("Nu stergeti numele sau prenumele !")
-  //   };
-  // };
-
 
   return (
     <Container>
@@ -214,7 +183,6 @@ const General = ({ dataUpdated, data }) => {
           </Row>
           <Row>
             <Col>
-              {/* <InputGroup.Checkbox aria-label="Checkbox for following text input" /> */}
               <InputGroup size="sm" className="mb-3">
 
                 <Form.Check
