@@ -134,6 +134,7 @@ const General = ({ dataUpdated, data }) => {
                   selected={enterBirthDate}
                   onChange={(date) => setEnterBirthDate(date)}
                   peekNextMonth
+                  maxDate={new Date()}
                   showMonthDropdown
                   showYearDropdown
                   dropdownMode="select"

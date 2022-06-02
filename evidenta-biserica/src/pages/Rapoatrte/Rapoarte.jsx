@@ -1,13 +1,13 @@
 import React from 'react'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { useGetMemberQuery } from '../../services/members';
+import { useGetMembersQuery } from '../../services/members';
 
 import Persoane from '../Persoane';
 
 function Rapoarte() {
 
-  const { data, error, isLoading, isFetching } = useGetMemberQuery();
+  const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
 
   return (
     <div>
@@ -20,10 +20,10 @@ function Rapoarte() {
         <Tab eventKey="persoane" title="Persoane">
           {}
         </Tab>
-        <Tab eventKey="familie" title="Familie">
+        <Tab eventKey="contributii" title="Contributii">
           {}
         </Tab>
-        <Tab eventKey="biserica" title="Biserica">
+        <Tab eventKey="boteze" title="Boteze">
           {}
         </Tab>
         <Tab eventKey="observatii" title="Observatii">

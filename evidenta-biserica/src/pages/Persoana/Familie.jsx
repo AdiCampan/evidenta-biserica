@@ -46,7 +46,7 @@ const Familie = ({ dataUpdated, data }) => {
     });
   }, [pereche, servCivil, servRel, biserica, copil, dataNasteriiCopil]);
 
-  
+
 
   useEffect(() => {
     setServCivil(data?.civil || '');
@@ -66,7 +66,7 @@ const Familie = ({ dataUpdated, data }) => {
     }
   }
 
-  
+
 
   const addChildField = () => {
     setChildList([
@@ -125,6 +125,7 @@ const Familie = ({ dataUpdated, data }) => {
                 selected={servCivil}
                 onChange={(date) => setServCivil(date)}
                 peekNextMonth
+                maxDate={new Date()}
                 showMonthDropdown
                 showYearDropdown
                 dropdownMode="select"
@@ -141,6 +142,7 @@ const Familie = ({ dataUpdated, data }) => {
                 onChange={(date) => setServRel(date)}
                 peekNextMonth
                 showMonthDropdown
+                maxDate={new Date()}
                 showYearDropdown
                 dropdownMode="select"
               />
@@ -173,7 +175,6 @@ const Familie = ({ dataUpdated, data }) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
               {childList.map((childItem) => (
                 <Copil
                   childUpdated={(childId) => updateChild(childId, childItem.index)}
@@ -181,14 +182,6 @@ const Familie = ({ dataUpdated, data }) => {
                   key={childItem.index}
                 />
               ))}
-            <td>{}</td>
-            <td>{}</td>
-            <td>{sexCopil}</td>
-              
-            </tr>
-            <tr>{}</tr>
-
-
           </tbody>
         </Table>
 
