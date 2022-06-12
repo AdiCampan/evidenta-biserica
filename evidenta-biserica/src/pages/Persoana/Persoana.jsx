@@ -48,11 +48,11 @@ function Persoana() {
     };
     if (currentData.partner.length > 0) {
       console.log('update relation');
-      addRelation({
-        owner: currentData.id,
-        person: currentData.partner,
-        type: currentData.sex ? 'wife' : 'husband',
-      });
+      // addRelation({
+      //   owner: currentData.id,
+      //   person: currentData.partner,
+      //   type: currentData.sex ? 'wife' : 'husband',
+      // });
     }
   };
 

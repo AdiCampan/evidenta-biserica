@@ -4,15 +4,23 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import { useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
 import { IoCloseSharp } from 'react-icons/io5';
 import { Button } from 'react-bootstrap';
+import { calculateAge } from '../../utils';
 
 
-function Copil({ childUpdated, removeChild }) {
+function Copil({ childUpdated, removeChild, selected }) {
   const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
-  const [copil, setCopil] = useState('');
+  const [copil, setCopil] = useState(selected);
   const [dataNasterii, setDataNasterii] = useState('');
   const [varsta, setVarsta] = useState('');
   const [sex, setSex] = useState('');
 
+  useEffect(() => {
+    if (isLoading === false) {
+      setDataNasterii(persoane?.find(persoana => persoana.id === selected)?.birthDate.split('T')[0]);
+      setVarsta(calculateAge(persoane?.find(persoana => persoana.id === selected)?.birthDate));
+      setSex((persoane?.find(persoana => persoana.id === selected)?.sex ? 'M' : 'F'));
+    }
+  }, [persoane]);
 
   const onCopilChange = (person) => {
     if (person.length > 0) {

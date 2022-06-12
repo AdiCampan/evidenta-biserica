@@ -30,32 +30,50 @@ const Familie = ({ dataUpdated, data }) => {
   const [copil, setCopil] = useState('');
   const [dataNasteriiCopil, setDataNasteriiCopil] = useState('');
   const [sexCopil, setSexCopil] = useState('');
-  const [childList, setChildList] = useState([])
+  const [childList, setChildList] = useState(data.relations.filter(relation => relation.type === 'child').map(child => ({
+    childId: child.person,
+    index: child.id
+  })));
   const [idToDelete, setIdToDelete] = useState(null);
 
   useEffect(() => {
+    let partener = {};
+
+    if (pereche.length > 0) {
+      partener = {
+        person: pereche,
+        type: data.sex ? 'wife' : 'husband',
+        civilWeddingDate: servCivil,
+        religiousWeddingDate: servRel,
+        weddingChurch: biserica,        
+      }
+    }
+    const children = childList.filter(child => child.childId.length > 0).map(child => ({
+      person: child.childId,
+      type: 'child'
+    }));
+
+    console.log('child list', children);
+
     dataUpdated({
-      id: data.id,
-      partner: pereche,
-      civilWeddingDate: servCivil,
-      religious: servRel,
-      weddingChurch: biserica,
-      child: copil,
-      //birthDate: dataNasteriiCopil,
-      //sex: sexCopil,
+      relations: [
+        partener,
+        ...children,
+      ]
     });
-  }, [pereche, servCivil, servRel, biserica, copil, dataNasteriiCopil]);
+  }, [pereche, servCivil, servRel, biserica, childList, dataNasteriiCopil]);
 
 
 
   useEffect(() => {
-    setServCivil(data?.civil || '');
-    setServRel(data?.religious || '');
-    setBiserica(data?.weddingChurch || '');
-    setCopil(data?.child || '');
+    const spouse = data.relations.find(relation => relation.type === 'wife' || relation.type === 'husband');
+
+    setServCivil(spouse?.civilWeddingDate ? new Date(spouse?.civilWeddingDate) : '');
+    setServRel(spouse?.religiousWeddingDate ? new Date(spouse?.religiousWeddingDate) : '');
+    setBiserica(spouse?.weddingChurch || '');
     setDataNasteriiCopil(data?.birthDate || '');
     setSexCopil(data?.sex || '');
-    setPereche(data?.relations[0]?.person || '');
+    setPereche(data.relations.find(relation => relation.type === 'wife' || relation.type === 'husband')?.person || '');
   }, [data]);
 
   const onPersonChange = (persons) => {
@@ -111,7 +129,7 @@ const Familie = ({ dataUpdated, data }) => {
                   id="pereche"
                   onChange={onPersonChange}
                   labelKey={option => `${option.firstName} ${option.lastName}`}
-                  options={persoane || []}
+                  options={persoane?.filter(person => data.sex !== person.sex) || []}
                   placeholder="Alege o persoana..."
                   selected={persoane?.filter(person => person.id === pereche) || []}
                 />
@@ -180,6 +198,7 @@ const Familie = ({ dataUpdated, data }) => {
                   childUpdated={(childId) => updateChild(childId, childItem.index)}
                   removeChild={() => setIdToDelete(childItem.index)}
                   key={childItem.index}
+                  selected={childItem.childId}
                 />
               ))}
           </tbody>
