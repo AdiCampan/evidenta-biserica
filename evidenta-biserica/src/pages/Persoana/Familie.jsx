@@ -19,7 +19,7 @@ function uuid() {
   );
 }
 
-console.log(uuid());
+
 
 const Familie = ({ dataUpdated, data }) => {
   const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
@@ -41,8 +41,8 @@ const Familie = ({ dataUpdated, data }) => {
       religious: servRel,
       weddingChurch: biserica,
       child: copil,
-      birthDate: dataNasteriiCopil,
-      sex: sexCopil,
+      //birthDate: dataNasteriiCopil,
+      //sex: sexCopil,
     });
   }, [pereche, servCivil, servRel, biserica, copil, dataNasteriiCopil]);
 

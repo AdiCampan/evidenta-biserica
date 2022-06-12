@@ -5,9 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
-import { useAddMemberMutation } from '../services/members';
+import { useAddMemberMutation } from '../../services/members';
 
-import { add } from '../features/persoaneSlice';
+import { add } from '../../features/persoaneSlice';
 
 
 
@@ -60,7 +60,7 @@ function AddPerson() {
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
-        Adauga 
+        Adauga persoana 
       </Button>
 
       <Modal show={show} onHide={handleClose}>

@@ -27,6 +27,7 @@ function Persoana() {
   const [currentData, setCurrentData] = useState(null);
 
   useEffect(() => {
+    console.log('initial', data);
     setCurrentData(data);
   }, [data]);
 
@@ -38,8 +39,8 @@ function Persoana() {
   }, [result]);
 
   const saveData = () => {
-    console.log('currentData', currentData);
     if (currentData.firstName != "" && currentData.lastName != "") {
+      console.log('current data', currentData);
       modifyMember(currentData);
     }
     else {
@@ -56,10 +57,13 @@ function Persoana() {
   };
 
   const dataUpdated = (updatedData) => {
-    setCurrentData(prevState => ({
+    console.log('updated', updatedData);
+    setCurrentData(prevState => {
+      console.log('prev', prevState, updatedData)
+      return {
       ...prevState,
       ...updatedData,
-    }));
+      }});
   };
 
   return (

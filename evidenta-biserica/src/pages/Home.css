@@ -7,10 +7,12 @@
 }
 .secretariat_text{
     font-size: 50px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .biserica_text{
     font-size: xx-large;
     margin-top: 200px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .logo-eben-ezer{
     width: 300px;

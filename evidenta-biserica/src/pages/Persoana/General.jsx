@@ -37,6 +37,7 @@ const General = ({ dataUpdated, data }) => {
   const [detalii, setDetalii] = useState('');
 
   useEffect(() => {
+    console.log('check sex', sex, sex === 'M' ? true : (sex === 'F' ? false : null));
     dataUpdated({
       id: data.id,
       firstName: nume,

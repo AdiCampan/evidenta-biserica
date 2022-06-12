@@ -7,7 +7,7 @@ const Home = () => {
         <div className='home_page'>
             <div className='secretariat_text'>SECRETARIAT</div>
             <div className='biserica_text'>BISERICA EBEN-EZER CASTELLON</div> 
-            <img className='logo-eben-ezer' src={img}></img>
+            {/* <img className='logo-eben-ezer' src={img}></img> */}
         </div>
         
     );

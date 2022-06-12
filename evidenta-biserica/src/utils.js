@@ -42,13 +42,59 @@ export const filterByText = (members, field, searchText) => {
       });
 }
 
-export const filterByAge = (members, field, searchText) => {
+export const filterByAgeGreater = (members, field, searchText) => {
     return members.filter(member => {
         if (searchText === '') {
-          return true;
-        } else if (searchField(calculateAge(member[field]), searchText)) {
-          return true;
+          return true
+        }
+          else if (calculateAge(member[field]) >= parseInt(searchText)){
+            return true;
         }
         return false;
       });
 }
+
+export const filterByAge = (members, field, searchText) => {
+  return members.filter(member => {
+      if (searchText === '') {
+        return true
+      }
+       else if (calculateAge(member[field]) === parseInt(searchText)) {
+        return true;
+      }
+      return false;
+    });
+}
+export const filterByAgeSmaller = (members, field, searchText) => {
+  return members.filter(member => {
+    if (searchText === ''){
+      return true;
+    }
+    else if (calculateAge(member[field]) <= parseInt(searchText)){
+      return true;
+    }
+    return false;
+  })
+} 
+
+
+export const filterByDate = (members, field, searchText) => {
+  return members.filter(member => {
+    if (searchText === '') {
+      return true;
+    } else if (searchField(formatDate(member[field]))) {
+      return false;
+    }
+  });
+}
+
+export const filterBySex = (members, value) => {
+  return members.filter(member => {
+    if (value === '') { // M + F
+      return true;
+    } else if ((member.sex && value === 'M') || (!member.sex && value === 'F')) {
+      return true;
+    }
+    return false;
+  });
+ }
