@@ -1,12 +1,18 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
 
 function EditContributii() {
+  const contributii = useSelector((state) => state.contributii.lista);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [receiptNumber, setReceiptNumber] = useState("");
   const [name, setName] = useState("");
+
+  console.log( 'nume')
+
   const [surname, setSurName] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
@@ -35,7 +41,7 @@ function EditContributii() {
               onChange={(event) => setReceiptNumber(event.target.value)}
             ></input>
             <input
-              placeholder='Nume'
+              // placeholder={contributii.name}
               value={name}
               onChange={(event) => setName(event.target.value)}
             ></input>

@@ -45,15 +45,10 @@ function Contributii() {
                 <td>{p.amount}</td>
                 <td>{p.date}</td>
                 <td>{p.type}
-                  <Form.Select size="sm" aria-label="Default select example">
-                    <option>Selecteaza</option>
-                    <option value="1">Cotizatie</option>
-                    <option value="2">Donatie</option>
-                    <option value="3">Zeciuiala</option>
-                  </Form.Select>
                 </td>
                 <td>
-                  <EditContributii />
+                  <EditContributii key={() => (id)}/>
+                  
                   <Button variant="primary" onClick={() => deleteAmount(p.id)}>Sterge</Button>
                 </td>
               </tr>

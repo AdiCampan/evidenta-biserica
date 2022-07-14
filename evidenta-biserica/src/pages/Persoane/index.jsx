@@ -1,7 +1,7 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Transferuri from './Transferuri';
-import Botezati from './Botezati';
+import Boteze from './Boteze';
 import Persoane from './Persoane';
 import Membrii from './Membrii';
 import Speciale from './Speciale';
@@ -19,8 +19,8 @@ const PersonsPage = () => {
       <Tab eventKey="membrii" title="Membrii">
         {<Membrii />}
       </Tab>
-      <Tab eventKey="botezati" title="Botezati">
-        {<Botezati />}
+      <Tab eventKey="boteze" title="Boteze">
+        {<Boteze />}
       </Tab>
       <Tab eventKey="observatii" title="Cazuri Speciale">
         {<Speciale />}

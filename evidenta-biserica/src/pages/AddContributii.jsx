@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { add } from '../features/contributiiSlice';
 
+
 function AddContributii() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -71,19 +72,22 @@ function AddContributii() {
           // value={type}
           // onChange={(event) => setType(event.target.value)}
           > */}
-            
+
           {/* </input> */}
           <input
             placeholder='Data'
             value={date}
             onChange={(event) => setDate(event.target.value)}
           ></input>
-          <Form.Select  size="sm" aria-label="Default select example">
-              <option>Selecteaza tipul Contributiei</option>
-              <option value="1">Cotizatie</option>
-              <option value="2">Donatie</option>
-              <option value="3">Zeciuiala</option>
-            </Form.Select>
+          <Form.Select size="sm" aria-label="Default select example"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+         >
+            <option>Selecteaza tipul Contributiei</option>
+            <option value="Cotizatie">Cotizatie</option>
+            <option value="Donatie">Donatie</option>
+            <option value="Zeciuiala">Zeciuiala</option>
+          </Form.Select>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

@@ -8,6 +8,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import { useState } from 'react';
+import Form from 'react-bootstrap/Form'
 import AddPerson from './AddPerson';
 import { useNavigate } from 'react-router-dom';
 import { useGetMembersQuery, useAddMemberMutation, useDelMemberMutation } from '../../services/members';
@@ -19,15 +20,12 @@ import {
 
 import './Persoane.scss';
 
-
 const AGE_FILTER_LABEL = {
   '1': '>=',
   '2': '<=',
   '3': '=',
   '4': '< >'
 }
-
-
 
 function Persoane() {
   const navClass = (isActive) => {
@@ -44,11 +42,16 @@ function Persoane() {
   const [telefonFilter, setTelefonFilter] = useState('');
   const [sexFilter, setSexFilter] = useState('');
   const [ageFilterType, setAgeFilterType] = useState('1');
-
-  const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
+  const [memberSorting, setMemberSorting] = useState({
+    field: null,
+    direction: null
+  });
+  const [baptisedOnly, setBaptisedOnly] = useState(false);
+  const [notBabtisedOnly, setNotBaptisedOnly] = useState(false);
+  const [blessedOnly, setBlessedOnly] = useState(false);
+  const [notBlessedOnly, setNotBlessedOnly] = useState(false);
+  let { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
   const [deleteMember] = useDelMemberMutation();
-
-
 
   function filterMembers(members) {
     let filteredMembers = members;
@@ -71,6 +74,23 @@ function Persoane() {
     }
     filteredMembers = filterBySex(filteredMembers, sexFilter);
 
+    if (baptisedOnly !== notBabtisedOnly) {
+      if (baptisedOnly) {
+        filteredMembers = filteredMembers.filter(member => member.baptiseDate);
+      }
+      if (notBabtisedOnly) {
+        filteredMembers = filteredMembers.filter(member => !member.baptiseDate);
+      }
+    }
+
+    if (blessedOnly !== notBlessedOnly) {
+      if (blessedOnly) {
+        filteredMembers = filteredMembers.filter(member => member.blessingDate);
+      }
+      if (notBlessedOnly) {
+        filteredMembers = filteredMembers.filter(member => !member.blessingDate);
+      }
+    }
     return filteredMembers;
   }
 
@@ -95,6 +115,44 @@ function Persoane() {
     return filteredMembers;
   };
 
+  const sortList = (a, b) => {
+    if (!memberSorting.field) {
+      return 1;
+    }
+    // ascendent
+    if (memberSorting.direction === 'asc') {
+      if (a[memberSorting.field]?.toLowerCase() > b[memberSorting.field]?.toLowerCase()) {
+        return 1;
+      }
+      return -1;
+      // descendent
+    } else {
+      if (a[memberSorting.field]?.toLowerCase() < b[memberSorting.field]?.toLowerCase()) {
+        return 1;
+      }
+      return -1;
+    }
+  };
+
+  const sorting = (field) => {
+    let newDirection = 'asc';
+
+    // 1. nu e setat deloc, deci trebuie pus ascendent
+    if (memberSorting.direction === null) {
+      newDirection = 'asc';
+      // 2. e setat ascendent, deci trebuie pus descendent
+    } else if (memberSorting.direction === 'asc') {
+      newDirection = 'desc';
+      // 3 e setat descendent, deci trebuie pus ascendent
+    } else {
+      newDirection = 'asc';
+    }
+
+    setMemberSorting({
+      field: field,
+      direction: newDirection,
+    });
+  }
 
   return (
     <div className="page-persons">
@@ -102,18 +160,52 @@ function Persoane() {
         <div className='barra-buttons'>
           <AddPerson />
         </div>
+        <div>
+          <Form.Check
+            inline
+            label="Botezati"
+            name="group1"
+            type="checkbox"
+            value={baptisedOnly}
+            onChange={(e) => setBaptisedOnly(e.target.checked)}
+          />
+          <Form.Check
+            inline
+            label="Nebotezati"
+            name="group1"
+            type="checkbox"
+            value={notBabtisedOnly}
+            onChange={(e) => setNotBaptisedOnly(e.target.checked)}
+          />
+        </div>
+        <div>
+          <Form.Check
+            inline
+            label="Dusi la Binecuvantare"
+            name="group1"
+            type='checkbox'
+            value={blessedOnly}
+            onChange= {(e) => setBlessedOnly(e.target.checked)}
+          />
+          <Form.Check
+            inline
+            label="Nu dusi la Binecuvantare"
+            name="group1"
+            type='checkbox'
+            value={notBlessedOnly}
+            onChange= {(e) => setNotBlessedOnly(e.target.checked)}
+          />
+        </div>
 
-
-        Lista de Persoane
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>#</th>
-              <th>Nume</th>
-              <th>Prenume</th>
-              <th>Adresa</th>
+              <th onClick={() => sorting('firstName')} style={{ cursor: 'pointer' }}>Nume</th>
+              <th onClick={() => sorting('lastName')} style={{ cursor: 'pointer' }}>Prenume</th>
+              <th onClick={() => sorting('address')} style={{ cursor: 'pointer' }}>Adresa</th>
               <th>Telefon</th>
-              <th>Varsta</th>
+              <th onClick={() => sorting('age')} style={{ cursor: 'pointer' }}>Varsta</th>
               <th>Data nasterii</th>
               <th>Sex</th>
               <th>Actiuni</th>
@@ -203,7 +295,7 @@ function Persoane() {
               </td>
               <td></td>
             </tr>
-            {persoane ? filterMembers(persoane).map((p, index) => (
+            {persoane ? filterMembers(persoane).sort(sortList).map((p, index) => (
               <tr key={p.id} style={{ cursor: 'pointer' }} onClick={() => goToPerson(p.id)}>
                 <td>{index + 1}</td>
                 <td>{p['firstName']}</td>

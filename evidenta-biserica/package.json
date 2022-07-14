@@ -20,6 +20,7 @@
     "react-confirm-alert": "^2.8.0",
     "react-datepicker": "^4.7.0",
     "react-dom": "^18.0.0",
+    "react-download-link": "^2.3.0",
     "react-hook-form": "^7.30.0",
     "react-icons": "^4.3.1",
     "react-login-modal": "^1.2.1",
@@ -29,6 +30,7 @@
     "redux": "^4.1.2",
     "sass": "^1.51.0",
     "styled-components": "^5.3.5",
+    "uuid": "^8.3.2",
     "validator": "^13.7.0"
   },
   "devDependencies": {

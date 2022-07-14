@@ -56,7 +56,7 @@ const General = ({ dataUpdated, data }) => {
       profileImage: selectedFile,
     });
     
-  }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile]);
+  }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile,membruData]);
 
   useEffect(() => {
     setNume(data?.firstName || '');
@@ -71,6 +71,7 @@ const General = ({ dataUpdated, data }) => {
     setEnterBirthDate(Date.parse(data?.birthDate));
     setPlaceOfBirth(data?.placeOfBirth || '');
     setMembruData(Date.parse(data?.memberDate));
+    setMember(!!data?.memberDate);
     setDetalii(data?.details || '');
     setProfileImage(data?.imagePath);
   }, [data]);
@@ -191,7 +192,7 @@ const General = ({ dataUpdated, data }) => {
                   type="switch"
                   id="custom-switch"
                   label="Membru"
-                  value={member}
+                  checked={member}
                   onChange={(e) => setMember(e.target.checked)}
                 />
               </InputGroup>

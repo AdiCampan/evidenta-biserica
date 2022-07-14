@@ -1,5 +1,5 @@
 
-import { useParams , useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import React, { useState, useEffect } from 'react';
@@ -12,6 +12,14 @@ import General from './General';
 import Biserica from './Biserica';
 import Familie from './Familie';
 import Observatii from './Observatii';
+import DownloadLink from "react-download-link";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  NavLink,
+  Link,
+} from "react-router-dom";
 
 
 
@@ -27,7 +35,6 @@ function Persoana() {
   const [currentData, setCurrentData] = useState(null);
 
   useEffect(() => {
-    console.log('initial', data);
     setCurrentData(data);
   }, [data]);
 
@@ -40,14 +47,12 @@ function Persoana() {
 
   const saveData = () => {
     if (currentData.firstName != "" && currentData.lastName != "") {
-      console.log('current data', currentData);
       modifyMember(currentData);
     }
     else {
       alert("Nu stergeti numele sau prenumele !")
     };
     if (currentData.partner.length > 0) {
-      console.log('update relation');
       // addRelation({
       //   owner: currentData.id,
       //   person: currentData.partner,
@@ -57,13 +62,13 @@ function Persoana() {
   };
 
   const dataUpdated = (updatedData) => {
-    console.log('updated', updatedData);
     setCurrentData(prevState => {
-      console.log('prev', prevState, updatedData)
+     
       return {
-      ...prevState,
-      ...updatedData,
-      }});
+        ...prevState,
+        ...updatedData,
+      }
+    });
   };
 
   return (
@@ -90,9 +95,17 @@ function Persoana() {
       <Card>
         <Card.Body>
           <Form>
-            <Button variant="primary" type="button" onClick={saveData } disabled={result.isLoading}    >
+            <Button variant="primary" type="button" onClick={saveData} disabled={result.isLoading}    >
               Salveaza
             </Button>
+            
+            <DownloadLink
+              label="Descarca link Persoana"
+              filename={`/persoane/${id}`}
+              exportFile={() => `/persoane/${id}`}
+            />
+            <Link to={`/persoane/${id}`} target="_blank" download>Download</Link>
+            {/* <a href="https://google.com" download>Download link</a> */}
           </Form>
         </Card.Body>
       </Card>
