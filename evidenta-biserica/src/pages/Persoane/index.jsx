@@ -5,6 +5,8 @@ import Boteze from './Boteze';
 import Persoane from './Persoane';
 import Membrii from './Membrii';
 import Speciale from './Speciale';
+import Familii from './Familii';
+
 
 const PersonsPage = () => {
   return (
@@ -27,6 +29,9 @@ const PersonsPage = () => {
       </Tab>
       <Tab eventKey="transferuri" title="Transferuri">
         {<Transferuri />}
+      </Tab>
+      <Tab eventKey="familii" title="Familii">
+        {<Familii />}
       </Tab>
     </Tabs>
   )

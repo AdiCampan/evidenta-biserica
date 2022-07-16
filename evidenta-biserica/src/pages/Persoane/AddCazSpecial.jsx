@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 import { v4 as uuid } from 'uuid';
 import { useAddMemberMutation } from '../../services/members';
 import { useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
-
+import { useAddSpecialCaseMutation } from '../../services/specialCases';
 
 function AddCazSpecial({ onAddCaz }) {
   const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
@@ -22,16 +22,14 @@ function AddCazSpecial({ onAddCaz }) {
   const [dataOpencase, setDataOpenCase] = useState('');
   const [detalii, setDetalii] = useState('');
 
-
+  const [addSpecialCase, result] = useAddSpecialCaseMutation();
   const handleClose = () => setShow(false);
 
   const addData = () => {
     const newCase = {
-      id: uuid(),
-      dataOpenCase: dataOpencase,
-      detalii: detalii,
-      person: person,
-      resolved: false,
+      startDate: dataOpencase,
+      details: detalii,
+      person: person.id,
     }
     if (person) {
       
@@ -40,7 +38,7 @@ function AddCazSpecial({ onAddCaz }) {
       setShow(false)
       setPerson(null)
       onAddCaz(newCase)
-      
+      addSpecialCase(newCase);
     }
   };
 

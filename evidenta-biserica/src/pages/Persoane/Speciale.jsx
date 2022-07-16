@@ -14,6 +14,8 @@ import {
   calculateAge, formatDate, searchField, filterByText, filterByAgeSmaller,
   filterByAge, filterByAgeGreater, filterByDate, filterBySex
 } from '../../utils';
+import { useGetSpecialCasesQuery } from '../../services/specialCases';
+import { useGetMembersQuery } from '../../services/members';
 
 const AGE_FILTER_LABEL = {
   '1': '>=',
@@ -41,7 +43,25 @@ const Speciale = () => {
   const [resolved, setResolved] = useState(false);
   const [caseToEdit,setCaseToEdit] = useState(null);
 
+  const { data: cazuriSpeciale, isLoading: cazuriSpecialeLoading } = useGetSpecialCasesQuery();
+  const { data: persoane, isLoading: persoaneLoading } = useGetMembersQuery();
+
+  useEffect(() => {
+    // ne luam lista de cazuri speciale si lista de persoane
+    // si pentru fiecare id de persoana, cautam in lista de persoana
+    // si o punem in fiecare caz
+    if (!cazuriSpecialeLoading && !persoaneLoading) {
+      setCazuri(cazuriSpeciale.map(cazSpecial => {
+        return {
+          ...cazSpecial,
+          person: persoane.find(person => person.id === cazSpecial.person)
+        }
+      }));
+    }
+  }, [cazuriSpecialeLoading, persoaneLoading]);
+
   const editar = caz => {
+    console.log('caz', caz);
     setShow(true)
     setDataOpenCase(caz.dataOpenCase)
     setDataRezolvarii(caz.dataRezolvarii)
@@ -58,14 +78,14 @@ const Speciale = () => {
         detalii: detalii,
       };
       
-      setCazuri(cazuri.map(caz => {
-        if (caz.id === cazulModificat.id) {
-          caz = cazulModificat;
+      // setCazuri(cazuri.map(caz => {
+      //   if (caz.id === cazulModificat.id) {
+      //     caz = cazulModificat;
          
-          setShow(false)
-        }
-        return caz;
-      }));
+      //     setShow(false)
+      //   }
+      //   return caz;
+      // }));
   }
 
   
@@ -77,21 +97,21 @@ const Speciale = () => {
       resolved: true
     };
 
-    setCazuri(cazuri.map(caz => {
-      if (caz.id === cazulModificat.id) {
-        caz = cazulModificat
+    // setCazuri(cazuri.map(caz => {
+    //   if (caz.id === cazulModificat.id) {
+    //     caz = cazulModificat
         
-        setShow(false)
-      }
-      return caz;
-    }));
+    //     setShow(false)
+    //   }
+    //   return caz;
+    // }));
   }
 
   const handleClose = () => setShow(false);
 
   const addCaz = (caz) => {
     const cazuriActualizate = [...cazuri, caz];
-    setCazuri(cazuriActualizate)
+    //setCazuri(cazuriActualizate)
   };
 
 
@@ -132,12 +152,12 @@ const Speciale = () => {
           </thead>
           <tbody>
             {cazuri.map((caz, index) => (
-              <tr key={caz.id} style={{ backgroundColor: caz.resolved ? '#7ceb0f57' : '#af404038' }} >
+              <tr key={caz.id} style={{ backgroundColor: caz.endDate ? '#7ceb0f57' : '#af404038' }} >
                 <td>{index + 1}</td>
                 <td>{caz.person.firstName} {caz.person.lastName}</td>
-                <td>{formatDate(caz.dataOpenCase)}</td>
-                <td>{formatDate(caz.dataResolvedCase)}</td>
-                <td>{caz.detalii}</td>
+                <td>{formatDate(caz.startDate)}</td>
+                <td>{formatDate(caz.endDate)}</td>
+                <td>{caz.details}</td>
                 <td>{calculateAge(caz.person.birthDate)}</td>
                 <td>
                   <FaRegEdit style={{ cursor: 'pointer' }} onClick={() => editar(caz)} />
@@ -177,7 +197,7 @@ const Speciale = () => {
             <Form.Control
               aria-label="Small"
               as={DatePicker}
-              selected={dataOpencase}
+              selected={new Date(caseToEdit?.startDate)}
               // onChange={(date) => setDataOpenCase(date)}
               disabled
               peekNextMonth
@@ -218,7 +238,7 @@ const Speciale = () => {
           <InputGroup size="sm" className="mb-3">
             <InputGroup.Text id="inputGroup-sizing-sm">Detalii</InputGroup.Text>
             <Form.Control as="textarea" rows={3} aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              value={detalii}
+              value={caseToEdit?.details}
               onChange={(event) => setDetalii(event.target.value)}
             />
           </InputGroup>

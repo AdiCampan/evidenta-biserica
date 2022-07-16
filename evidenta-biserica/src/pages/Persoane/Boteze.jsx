@@ -33,16 +33,17 @@ function Boteze() {
     filteredMembers = filterByText(filteredMembers, 'mobilePhone', telefonFilter);
     filteredMembers = filterByAgeGreater(filteredMembers, 'birthDate', ageFilterGreater);
     filteredMembers = filterByAgeSmaller(filteredMembers, 'birthDate', ageFilterSmaller);
-    // filteredMembers = filteredMembers.filter(member => member.baptiseDate);
+    filteredMembers = filteredMembers.filter(member => member.baptiseDate);
     filteredMembers = filteredMembers.filter(member => member.baptisePlace === "EBEN EZER");
-    // const listBaptist = filteredMembers.filter((item,index) => {
-    //   return filteredMembers.indexOf(item) === index;
-      
-    // }) 
-   
-  console.log(listBaptist)
 
-    return filteredMembers;
+    const listBaptist = filteredMembers.reduce((boteze, item) => {
+      if (!boteze.find(botez => botez.baptiseDate === item.baptiseDate)) {
+        boteze.push(item);
+      }
+      return boteze;
+    }, []);
+   
+    return listBaptist;
   }
 
   const goToPerson = (id) => {

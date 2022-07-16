@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { add } from '../features/contributiiSlice';
 
 
 function AddContributii() {
@@ -32,7 +31,7 @@ function AddContributii() {
       setSurname("");
       setAmount("");
       setShow(false);
-      dispatch(add(newAmount));
+      //dispatch(add(newAmount));
     }
   };
 

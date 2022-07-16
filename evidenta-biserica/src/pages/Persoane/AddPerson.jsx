@@ -7,8 +7,6 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
 import { useAddMemberMutation } from '../../services/members';
 
-import { add } from '../../features/persoaneSlice';
-
 
 
 function AddPerson() {

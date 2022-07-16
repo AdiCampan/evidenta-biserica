@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { del } from '../features/contributiiSlice';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
@@ -13,7 +12,7 @@ function Contributii() {
   const [listaContributii, setListaContributii] = useState(contributii)
 
   function deleteAmount(idToDelete) {
-    dispatch(del(idToDelete));
+    
   };
 
 

@@ -38,8 +38,6 @@ const Transferuri = () => {
     setTransfers(transfersActualizados)
   }
 
-  console.log(transfers);
-
   return (
     <>
       <Col>
