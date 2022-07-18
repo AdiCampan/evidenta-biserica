@@ -27,7 +27,7 @@ const Familii = () => {
     filteredMembers = filterByText(filteredMembers, 'mobilePhone', telefonFilter);
     filteredMembers = filterByAgeGreater(filteredMembers, 'birthDate', ageFilterGreater);
     filteredMembers = filterByAgeSmaller(filteredMembers, 'birthDate', ageFilterSmaller);
-    // filteredMembers = filteredMembers.filter(member => member.relations.find(relation => relation.type === 'wife'))
+    filteredMembers = filteredMembers.filter(member => member.relations.find(relation => relation.type === 'wife'))
     return filteredMembers;
   }
 
