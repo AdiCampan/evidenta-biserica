@@ -52,13 +52,11 @@ function Persoana() {
     else {
       alert("Nu stergeti numele sau prenumele !")
     };
-    if (currentData.partner.length > 0) {
       // addRelation({
       //   owner: currentData.id,
       //   person: currentData.partner,
       //   type: currentData.sex ? 'wife' : 'husband',
       // });
-    }
   };
 
   const dataUpdated = (updatedData) => {

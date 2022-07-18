@@ -30,9 +30,9 @@ const Familie = ({ dataUpdated, data }) => {
   const [copil, setCopil] = useState('');
   const [dataNasteriiCopil, setDataNasteriiCopil] = useState('');
   const [sexCopil, setSexCopil] = useState('');
-  const [childList, setChildList] = useState(data.relations.filter(relation => relation.type === 'child').map(child => ({
-    childId: child.person,
-    index: child.id
+  const [childList, setChildList] = useState(data.relations.filter(relation => relation.type === 'child').map(relation => ({
+    childId: relation.person.id,
+    index: relation.id
   })));
   const [idToDelete, setIdToDelete] = useState(null);
 
@@ -45,7 +45,7 @@ const Familie = ({ dataUpdated, data }) => {
         type: data.sex ? 'wife' : 'husband',
         civilWeddingDate: servCivil,
         religiousWeddingDate: servRel,
-        weddingChurch: biserica,        
+        weddingChurch: biserica,
       }
     }
     const children = childList.filter(child => child.childId.length > 0).map(child => ({
@@ -73,7 +73,7 @@ const Familie = ({ dataUpdated, data }) => {
     setBiserica(spouse?.weddingChurch || '');
     setDataNasteriiCopil(data?.birthDate || '');
     setSexCopil(data?.sex || '');
-    setPereche(data.relations.find(relation => relation.type === 'wife' || relation.type === 'husband')?.person || '');
+    setPereche(data.relations.find(relation => relation.type === 'wife' || relation.type === 'husband')?.person?.id || '');
   }, [data]);
 
   const onPersonChange = (persons) => {
@@ -129,7 +129,13 @@ const Familie = ({ dataUpdated, data }) => {
                   id="pereche"
                   onChange={onPersonChange}
                   labelKey={option => `${option.firstName} ${option.lastName}`}
-                  options={persoane?.filter(person => data.sex !== person.sex) || []}
+                  options={persoane?.filter(
+                    // verificam daca persoana e de sex diferit
+                    person => data.sex !== person.sex && !person.relations.find(
+                      // si persoana nu mai are o alta relatie de sot/sotie
+                      relation => relation.type === 'husband' || relation.type === 'wife'
+                    )
+                  ) || []}
                   placeholder="Alege o persoana..."
                   selected={persoane?.filter(person => person.id === pereche) || []}
                 />
@@ -193,14 +199,14 @@ const Familie = ({ dataUpdated, data }) => {
             </tr>
           </thead>
           <tbody>
-              {childList.map((childItem) => (
-                <Copil
-                  childUpdated={(childId) => updateChild(childId, childItem.index)}
-                  removeChild={() => setIdToDelete(childItem.index)}
-                  key={childItem.index}
-                  selected={childItem.childId}
-                />
-              ))}
+            {childList.map((childItem) => (
+              <Copil
+                childUpdated={(childId) => updateChild(childId, childItem.index)}
+                removeChild={() => setIdToDelete(childItem.index)}
+                key={childItem.index}
+                selected={childItem.childId}
+              />
+            ))}
           </tbody>
         </Table>
 

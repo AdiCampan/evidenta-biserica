@@ -27,23 +27,18 @@ const Familii = () => {
     filteredMembers = filterByText(filteredMembers, 'mobilePhone', telefonFilter);
     filteredMembers = filterByAgeGreater(filteredMembers, 'birthDate', ageFilterGreater);
     filteredMembers = filterByAgeSmaller(filteredMembers, 'birthDate', ageFilterSmaller);
-
+    // filteredMembers = filteredMembers.filter(member => member.relations.find(relation => relation.type === 'wife'))
     return filteredMembers;
   }
 
 
   const listChildrens = (childrens) => {
-    // const listaCopii = persoane.filter(person => person.relations === childrens)
-    const wife = [...childrens].shift();
+   const childrensFiltered = childrens.filter(relation => relation.type === "child").map(relation => relation?.person);
+   
       
-      setChildrens(childrens);
-      console.log(childrens);
+      setChildrens(childrensFiltered);
+      console.log(childrensFiltered);
   }
-
-  // const findWife = (idWife) => {
-  //   // persoane?.find(person => person.id === id)
-  //   console.log(idWife)
-  // };
 
   return (
 
@@ -54,15 +49,25 @@ const Familii = () => {
             <tr>
               <th>#</th>
               <th>Familia</th>
-              <th>Data casatoriei</th>
+              <th>Data serv. Civil</th>
+              <th>Data serv. Relig.</th>
+              <th>Biserica Serv. Relig.</th>
+              <th>Nume anterior soție</th>
+              <th>Varsta soț</th>
+              <th>Varsta soție</th>
             </tr>
           </thead>
           <tbody>
             {persoane ? filterMembers(persoane).map((p, index) => (
               <tr key={p.id} style={{ cursor: 'pointer' }} onClick={() => listChildrens(p.relations)}>
                 <td>{index + 1}</td>
-                <td>{p.firstName}{p.lastName} și { persoane?.find(person => person.id === p.relations[0])}</td>
-                <td>{formatDate(p.baptiseDate)}</td>
+                <td>{p.firstName} {p.lastName} și {p.relations.find(relation => relation.type === "wife")?.person.lastName}</td>
+                <td>{formatDate(p.relations.find(relation => relation.type === "wife")?.civilWeddingDate)}</td>
+                <td>{formatDate(p.relations.find(relation => relation.type === "wife")?.religiousWeddingDate)}</td>
+                <td>{p.relations.find(relation => relation.type === "wife")?.weddingChurch}</td>
+                <td>{p.relations.find(relation => relation.type === "wife")?.person.maidenName}</td>
+                <td>{calculateAge(p.birthDate)}</td>
+                <td>{calculateAge((p.relations.find(relation => relation.type === "wife")?.person.birthDate))}</td>
               </tr>
             )) : null}
           </tbody>
@@ -85,7 +90,7 @@ const Familii = () => {
             {childrens ? childrens.map((p, index) => (
               <tr key={p.id} >
                 <td>{index + 1}</td>
-                <td>{p}</td>
+                <td>{p.firstName}</td>
                 <td>{p.lastName}</td>
                 <td>{formatDate(p.birthDate)}</td>
                 <td>{calculateAge(p.birthDate)}</td>
