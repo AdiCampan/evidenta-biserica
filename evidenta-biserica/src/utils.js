@@ -18,11 +18,6 @@ export const formatDate = (dateToFormat) => {
 };
 
 export const searchField = (field, searchText) => {
-    // if (field.trim().toLowerCase().indexOf(searchText.trim().toLowerCase()) !== -1) {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
     if (searchText === '') {
         return false;
     }

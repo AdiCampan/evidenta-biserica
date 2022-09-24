@@ -1,48 +1,36 @@
 import { useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { Button, Card, FormControl } from 'react-bootstrap';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useGetMembersQuery } from '../../services/members';
-import AddTransfer from './AddTransfer';
-import { formatDate } from '../../utils';
+import AddTransferModal from './AddTransferModal';
+import { calculateAge, formatDate } from '../../utils';
+import { FaTrash, FaRegEdit } from "react-icons/fa";
+import { useGetTransfersQuery, useDelTransferMutation } from '../../services/transfers';
 
-const AGE_FILTER_LABEL = {
-  '1': '>=',
-  '2': '<=',
-  '3': '=',
-  '4': '< >'
-}
-
-function uuid() {
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  );
-}
 
 const Transferuri = () => {
-  const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
-
-
-  const [ageFilterType, setAgeFilterType] = useState('1');
-  const [ageFilter, setAgeFilter] = useState('');
-  const [ageFilterBetween, setAgeFilterBetween] = useState('');
-  const [transfers, setTransfers] = useState([]);
-
+  
+  // const [transfers, setTransfers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const { data: transfers, isLoading: trasnfersLoading } = useGetTransfersQuery();
+  const [delTransfer] = useDelTransferMutation()
 
   const addTransfer = transfer => {
     const transfersActualizados = [transfer, ...transfers];
     setTransfers(transfersActualizados)
   }
 
+  const intrati = ['baptise', 'transferFrom'];
+
   return (
     <>
       <Col>
         <InputGroup size="sm" className="mb-3">
-          <AddTransfer onAddTransfer={addTransfer} />
+        <Button variant="primary" onClick={() => setShowModal(true)}>
+          Adauga transfer
+        </Button>
         </InputGroup>
       </Col>
       <Card>
@@ -51,7 +39,7 @@ const Transferuri = () => {
             <tr>
               <th>#</th>
               <th>Nume si Prenume</th>
-              <th>Transferat in :</th>
+              <th>Transferat</th>
               <th>Data transferului</th>
               <th>Act de transfer</th>
               <th>Detalii</th>
@@ -59,19 +47,25 @@ const Transferuri = () => {
             </tr>
           </thead>
           <tbody>
-            {transfers.map((p, index) => (
-              <tr >
+            {transfers && transfers.map((transfer, index) => (
+              <tr style={{ backgroundColor: intrati.includes(transfer.type) ? '#00c90057' : '#ff000021' }}>
                 <td>{index + 1}</td>
-                <td>{p.person.firstName} {p.person.lastName}</td>
-                <td>{p.bisericaTransfer}</td>
-                <td>{formatDate(p.dataTransfer)}</td>
-                <td>{p.actTransfer}</td>
-                <td>{p.detalii}</td>
-                <td></td>
+                <td>{transfer.owner.firstName} {transfer.owner.lastName}</td>
+                <td>{intrati.includes(transfer.type) ? 'din' : 'in'} {transfer.churchTransfer}</td>
+                <td>{formatDate(transfer.date)}</td>
+                <td>{transfer.docNumber}</td>
+                <td style={{ wordBreak: 'break-all', maxWidth: '200px' }}>{transfer.details}</td>
+                <td>{calculateAge(transfer.owner.birthDate)}</td>
+                <td>
+                  <FaTrash 
+                  style={{ cursor: 'pointer' }} 
+                  onClick={() => delTransfer(transfer.id)} />
+                  </td>
               </tr>
             ))}
           </tbody>
         </Table>
+        <AddTransferModal onAddTransfer={addTransfer} show={showModal} onClose={() => setShowModal(false)} />
       </Card>
     </>
   )

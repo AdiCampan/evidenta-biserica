@@ -1,23 +1,20 @@
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
 import DatePicker from 'react-datepicker';
 import Form from 'react-bootstrap/Form';
-import { v4 as uuid } from 'uuid';
-import { useAddMemberMutation } from '../../services/members';
-import { useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
+import { useGetMembersQuery } from '../../services/members';
 import { useAddSpecialCaseMutation } from '../../services/specialCases';
+import { useGetSpecialCasesQuery } from '../../services/specialCases';
 
 function AddCazSpecial({ onAddCaz }) {
   const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
+  const { data: cazuriSpeciale, isLoading: cazuriSpecialeLoading } = useGetSpecialCasesQuery();
 
   const [show, setShow] = useState(false);
-  const [transfered, setTransfered] = useState('');
   const [person, setPerson] = useState(null);
   const [dataOpencase, setDataOpenCase] = useState('');
   const [detalii, setDetalii] = useState('');
@@ -51,6 +48,13 @@ function AddCazSpecial({ onAddCaz }) {
     }
   }
 
+  const filterSpecialCases = (person) => {
+    if(cazuriSpeciale.find(caz => caz.person === person.id)) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
@@ -70,7 +74,7 @@ function AddCazSpecial({ onAddCaz }) {
                   id="transfered"
                   onChange={onCaseChange}
                   labelKey={option => `${option.firstName} ${option.lastName}`}
-                  options={persoane || []}
+                  options={persoane?.filter(filterSpecialCases) ||  []}
                   placeholder="Alege o persoana..."
                   selected={persoane?.filter(p => p.id === person?.id) || []}
                 />

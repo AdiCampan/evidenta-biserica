@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Card, FormControl } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Card } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
+import { useGetMembersQuery } from '../../services/members';
 import Copil from './Copil';
 import Confirmation from '../../Confirmation';
 
@@ -19,15 +19,12 @@ function uuid() {
   );
 }
 
-
-
 const Familie = ({ dataUpdated, data }) => {
-  const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
+  const { data: persoane } = useGetMembersQuery();
   const [pereche, setPereche] = useState('');
   const [servCivil, setServCivil] = useState('');
   const [servRel, setServRel] = useState('');
   const [biserica, setBiserica] = useState('');
-  const [copil, setCopil] = useState('');
   const [dataNasteriiCopil, setDataNasteriiCopil] = useState('');
   const [sexCopil, setSexCopil] = useState('');
   const [childList, setChildList] = useState(data.relations.filter(relation => relation.type === 'child').map(relation => ({
@@ -53,8 +50,6 @@ const Familie = ({ dataUpdated, data }) => {
       type: 'child'
     }));
 
-    console.log('child list', children);
-
     dataUpdated({
       relations: [
         partener,
@@ -62,8 +57,6 @@ const Familie = ({ dataUpdated, data }) => {
       ]
     });
   }, [pereche, servCivil, servRel, biserica, childList, dataNasteriiCopil]);
-
-
 
   useEffect(() => {
     const spouse = data.relations.find(relation => relation.type === 'wife' || relation.type === 'husband');
@@ -83,8 +76,6 @@ const Familie = ({ dataUpdated, data }) => {
       setPereche('');
     }
   }
-
-
 
   const addChildField = () => {
     setChildList([

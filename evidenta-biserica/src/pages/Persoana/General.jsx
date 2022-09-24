@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Container from 'react-bootstrap/Container';
@@ -11,12 +12,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import DatePicker from 'react-datepicker';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
+import AddTransferModal from '../Persoane/AddTransferModal';
+
 import "./Persoana.css";
 
 
 const General = ({ dataUpdated, data }) => {
   const { id } = useParams();
   const [modifyMember, result] = useModifyMemberMutation();
+  const [showTransferModal, setShowTransferModal] = useState(false);
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
@@ -37,7 +41,6 @@ const General = ({ dataUpdated, data }) => {
   const [detalii, setDetalii] = useState('');
 
   useEffect(() => {
-    console.log('check sex', sex, sex === 'M' ? true : (sex === 'F' ? false : null));
     dataUpdated({
       id: data.id,
       firstName: nume,
@@ -59,22 +62,38 @@ const General = ({ dataUpdated, data }) => {
   }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile,membruData]);
 
   useEffect(() => {
-    setNume(data?.firstName || '');
-    setPrenume(data?.lastName || '');
-    setAnterior(data?.maidenName || '');
-    setAdresa(data?.address || '');
-    setTelefon(data?.mobilePhone || '');
-    setEmail(data?.email || '');
-    setSex(data?.sex === true ? 'M' : (data?.sex === false ? 'F' : null));
-    setFather(data?.fatherName || '');
-    setMother(data?.motherName || '');
-    setEnterBirthDate(Date.parse(data?.birthDate));
-    setPlaceOfBirth(data?.placeOfBirth || '');
-    setMembruData(Date.parse(data?.memberDate));
-    setMember(!!data?.memberDate);
-    setDetalii(data?.details || '');
-    setProfileImage(data?.imagePath);
+    if (data) {
+      setNume(data.firstName || '');
+      setPrenume(data.lastName || '');
+      setAnterior(data.maidenName || '');
+      setAdresa(data.address || '');
+      setTelefon(data.mobilePhone || '');
+      setEmail(data.email || '');
+      setSex(data.sex === true ? 'M' : (data.sex === false ? 'F' : null));
+      setFather(data.fatherName || '');
+      setMother(data.motherName || '');
+      setEnterBirthDate(Date.parse(data.birthDate));
+      setPlaceOfBirth(data.placeOfBirth || '');
+      // const sortedTransfers =  data.transfers.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+      // if (sortedTransfers.length > 0) {
+      //   const lastTransfer = sortedTransfers.at(-1);
+      //   if (lastTransfer.type  == 'transferTo' || lastTransfer.type == 'baptise') {
+      //     console.log(lastTransfer)
+      //     setMembruData(Date.parse(lastTransfer.date));
+      //   }
+      // } else if (data.baptiseDate){
+      //   setMembruData(Date.parse(data.baptiseDate));
+      // } else {
+      //   setMembruData(null);
+      // }
+      setMembruData(data.memberDate ? Date.parse(data.memberDate) : null);
+      setMember(!!data.memberDate);
+      setDetalii(data.details || '');
+      setProfileImage(data.imagePath);
+    }
   }, [data]);
+
+  const addTransfer = () => {};
 
   return (
     <Container>
@@ -186,17 +205,7 @@ const General = ({ dataUpdated, data }) => {
           </Row>
           <Row>
             <Col>
-              <InputGroup size="sm" className="mb-3">
-
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  label="Membru"
-                  checked={member}
-                  onChange={(e) => setMember(e.target.checked)}
-                />
-              </InputGroup>
-              {member && (<InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
+              {membruData && (<InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
                 <InputGroup.Text >Membru începând cu data </InputGroup.Text>
                 <DatePicker
                   selected={membruData}
@@ -204,9 +213,15 @@ const General = ({ dataUpdated, data }) => {
                   peekNextMonth
                   showMonthDropdown
                   showYearDropdown
+                  disabled
                   dropdownMode="select"
                 />
               </InputGroup>)}
+            </Col>
+            <Col>
+              <Button variant="danger" type="button" onClick={() => setShowTransferModal(true)}>
+                Transfer
+              </Button>
             </Col>
           </Row>
         </Col>
@@ -219,6 +234,12 @@ const General = ({ dataUpdated, data }) => {
           />
         </Col>
       </Row>
+      <AddTransferModal
+        onAddTransfer={addTransfer}
+        show={showTransferModal}
+        onClose={() => setShowTransferModal(false)}
+        personId={data.id}
+      />
     </Container>
   );
 };

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Card, FormControl } from 'react-bootstrap';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form';
@@ -14,14 +17,12 @@ import {
   calculateAge, formatDate, searchField, filterByText, filterByAgeSmaller,
   filterByAge, filterByAgeGreater, filterByDate, filterBySex
 } from '../../utils';
-import { useGetSpecialCasesQuery } from '../../services/specialCases';
-import { useGetMembersQuery } from '../../services/members';
+import { useGetSpecialCasesQuery, useModifySpecialCaseMutation } from '../../services/specialCases';
+import { useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
 
-const AGE_FILTER_LABEL = {
-  '1': '>=',
-  '2': '<=',
-  '3': '=',
-  '4': '< >'
+const FILTER_LABEL = {
+  '1': 'Exclus temporar',
+  '2': 'Exclus defintiv',
 }
 
 function uuid() {
@@ -32,24 +33,24 @@ function uuid() {
 
 const Speciale = () => {
 
- 
+  const [filterType, setFilterType] = useState('1');
   const [cazuri, setCazuri] = useState([]);
   const [dataOpencase, setDataOpenCase] = useState('');
   const [dataRezolvarii, setDataRezolvarii] = useState("");
+  const [dataExcluderii, setDataExcluderii] = useState("");
   const [detalii, setDetalii] = useState("")
   const [idToDelete, setIdToDelete] = useState(null);
   const [idToEdit, setIdToEdit] = useState(null);
   const [show, setShow] = useState(false);
   const [resolved, setResolved] = useState(false);
-  const [caseToEdit,setCaseToEdit] = useState(null);
+  const [caseToEdit, setCaseToEdit] = useState(null);
 
   const { data: cazuriSpeciale, isLoading: cazuriSpecialeLoading } = useGetSpecialCasesQuery();
+  const [modifySpecialCase] = useModifySpecialCaseMutation();
+  const [modifyMember] = useModifyMemberMutation();
   const { data: persoane, isLoading: persoaneLoading } = useGetMembersQuery();
 
   useEffect(() => {
-    // ne luam lista de cazuri speciale si lista de persoane
-    // si pentru fiecare id de persoana, cautam in lista de persoana
-    // si o punem in fiecare caz
     if (!cazuriSpecialeLoading && !persoaneLoading) {
       setCazuri(cazuriSpeciale.map(cazSpecial => {
         return {
@@ -61,57 +62,38 @@ const Speciale = () => {
   }, [cazuriSpecialeLoading, persoaneLoading]);
 
   const editar = caz => {
-    console.log('caz', caz);
     setShow(true)
-    setDataOpenCase(caz.dataOpenCase)
-    setDataRezolvarii(caz.dataRezolvarii)
-    setDetalii(caz.detalii)
+    setDataRezolvarii(caz.endDate)
+    setDataExcluderii(caz.person.leaveDate)
+    setDetalii(caz.details)
     setIdToEdit(caz.id)
     setCaseToEdit(caz)
   }
 
   const handleUpdate = () => {
-      const cazulModificat = {
-        ...caseToEdit,
-        dataOpenCase: dataOpencase,
-        dataResolvedCase: dataRezolvarii,
-        detalii: detalii,
-      };
-      
-      // setCazuri(cazuri.map(caz => {
-      //   if (caz.id === cazulModificat.id) {
-      //     caz = cazulModificat;
-         
-      //     setShow(false)
-      //   }
-      //   return caz;
-      // }));
-  }
-
-  
-  const handleRezolve = () => {
-        
     const cazulModificat = {
-      ...caseToEdit,
-      dataResolvedCase: dataRezolvarii,
-      resolved: true
+      id: caseToEdit.id,
+      startDate: dataOpencase,
+      endDate: dataRezolvarii,
+      details: detalii,
     };
 
-    // setCazuri(cazuri.map(caz => {
-    //   if (caz.id === cazulModificat.id) {
-    //     caz = cazulModificat
-        
-    //     setShow(false)
-    //   }
-    //   return caz;
-    // }));
+    modifySpecialCase(cazulModificat);
+    // exclus definitiv, deci facem un transfer
+    if (filterType === '2') {
+      modifyMember({
+        id: caseToEdit.person.id,
+        leaveDate: dataExcluderii,
+        memberDate: ""
+      });
+    }
+    setShow(false);
   }
 
   const handleClose = () => setShow(false);
 
   const addCaz = (caz) => {
     const cazuriActualizate = [...cazuri, caz];
-    //setCazuri(cazuriActualizate)
   };
 
 
@@ -135,7 +117,7 @@ const Speciale = () => {
     <div>
       <Col>
         <InputGroup size="sm" className="mb-3">
-          <AddCazSpecial  onAddCaz={addCaz} />
+          <AddCazSpecial onAddCaz={addCaz} />
         </InputGroup>
       </Col>
       <Card>
@@ -152,7 +134,7 @@ const Speciale = () => {
           </thead>
           <tbody>
             {cazuri.map((caz, index) => (
-              <tr key={caz.id} style={{ backgroundColor: caz.endDate ? '#7ceb0f57' : '#af404038' }} >
+              <tr key={caz.id} style={{ backgroundColor: caz.endDate ? '#55bb5580' : '#af404038' }} >
                 <td>{index + 1}</td>
                 <td>{caz.person.firstName} {caz.person.lastName}</td>
                 <td>{formatDate(caz.startDate)}</td>
@@ -163,7 +145,9 @@ const Speciale = () => {
                   <FaRegEdit style={{ cursor: 'pointer' }} onClick={() => editar(caz)} />
                 </td>
                 <td>
-                  <FaTrash style={{ cursor: 'pointer' }} onClick={(event) => showDeleteModal(caz.person.id, event)} />
+                  <FaTrash 
+                  style={{ cursor: 'pointer' }} 
+                  onClick={(event) => showDeleteModal(caz.person.id, event)} />
                 </td>
               </tr>
             ))}
@@ -197,7 +181,7 @@ const Speciale = () => {
             <Form.Control
               aria-label="Small"
               as={DatePicker}
-              selected={new Date(caseToEdit?.startDate)}
+              selected={caseToEdit?.startDate ? new Date(caseToEdit?.startDate) : null}
               // onChange={(date) => setDataOpenCase(date)}
               disabled
               peekNextMonth
@@ -212,7 +196,7 @@ const Speciale = () => {
             <Form.Control
               aria-label="Small"
               as={DatePicker}
-              selected={dataRezolvarii}
+              selected={dataRezolvarii ? new Date(dataRezolvarii) : null}
               onChange={(date) => setDataRezolvarii(date)}
               peekNextMonth
               maxDate={new Date()}
@@ -223,14 +207,35 @@ const Speciale = () => {
           </InputGroup>
 
           <InputGroup size="sm" className="mb-3">
-            <InputGroup.Text id="inputGroup-sizing-sm"></InputGroup.Text>
-            <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-            />
+            <InputGroup.Text id="inputGroup-sizing-sm">Selecteaza tipul excluderii:</InputGroup.Text>
+            {[DropdownButton].map((DropdownType, idx) => (
+              <DropdownType
+                as={ButtonGroup}
+                key={idx}
+                id={`dropdown-button-drop-${idx}`}
+                size="sm"
+                variant="secondary"
+                title={FILTER_LABEL[filterType]}
+                onSelect={(key) => setFilterType(key)}
+              >
+                <Dropdown.Item eventKey="1">Exclus temporar</Dropdown.Item>
+                <Dropdown.Item eventKey="2">Exclus dfinitiv</Dropdown.Item>
+              </DropdownType>
+            ))}
           </InputGroup>
 
-          <InputGroup size="sm" className="mb-3">
-            <InputGroup.Text id="inputGroup-sizing-sm"></InputGroup.Text>
-            <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+          <InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
+            <InputGroup.Text id="inputGroup-sizing-sm">Data excluderii</InputGroup.Text>
+            <Form.Control
+              aria-label="Small"
+              as={DatePicker}
+              selected={dataExcluderii ? new Date(dataExcluderii) : null}
+              onChange={(date) => setDataExcluderii(date)}
+              peekNextMonth
+              maxDate={new Date()}
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select" aria-describedby="inputGroup-sizing-sm"
             />
           </InputGroup>
 
@@ -238,7 +243,7 @@ const Speciale = () => {
           <InputGroup size="sm" className="mb-3">
             <InputGroup.Text id="inputGroup-sizing-sm">Detalii</InputGroup.Text>
             <Form.Control as="textarea" rows={3} aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              value={caseToEdit?.details}
+              value={detalii}
               onChange={(event) => setDetalii(event.target.value)}
             />
           </InputGroup>
@@ -249,10 +254,7 @@ const Speciale = () => {
             Close
           </Button>
           <Button variant="primary" onClick={handleUpdate}>
-            Actualizare
-          </Button>
-          <Button variant="primary" onClick={handleRezolve}>
-            Rezolvare
+            Salveaza
           </Button>
         </Modal.Footer>
       </Modal>

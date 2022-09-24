@@ -34,8 +34,10 @@ function Membrii() {
     filteredMembers = filterByAgeSmaller(filteredMembers, 'birthDate', ageFilterSmaller);
    
 
-    return filteredMembers;
+    return filteredMembers.filter(member => member.memberDate);
   }
+
+
 
   const goToPerson = (id) => {
     navigate(`/persoane/${id}`);
@@ -54,8 +56,9 @@ function Membrii() {
             <th >#</th>
             <th className='header-lista'>Nume</th>
             <th className='header-lista'>Prenume</th>
-            <th>Data primirii</th>
-            <th>Data plecarii</th>
+            <th>Data membru</th>
+            <th>Data Botezului</th>
+            <th>Locul Botezului</th>
             <th>Varsta</th>
             <th>Data nasterii</th>
             <th>Sex</th>
@@ -98,6 +101,7 @@ function Membrii() {
                                 onChange={(e) => setTelefonFilter(e.target.value)}
                             /> */}
             </td>
+            <td></td>
             <td className='age-input'>
             <input
             placeholder='>0'
@@ -124,8 +128,9 @@ function Membrii() {
               <td>{index + 1}</td>
               <td>{p['firstName']}</td>
               <td>{p.lastName}</td>
+              <td>{formatDate(p.memberDate)}</td>
               <td>{formatDate(p.baptiseDate)}</td>
-              <td>{p.blessingPlace}</td>
+              <td>{p.baptisePlace}</td>
               <td>{calculateAge(p.birthDate)}</td>
               <td>{formatDate(p.birthDate)}</td>
               <td>{p.sex ? 'M' : 'F'}</td>
@@ -134,7 +139,7 @@ function Membrii() {
                 <Button variant="primary" onClick={(event) => showDeleteModal(p.id, event)}>Sterge</Button>
               </td>
             </tr>
-
+            
           )) : null}
 
         </tbody>
@@ -144,5 +149,4 @@ function Membrii() {
     </div>
   )
 }
-
 export default Membrii

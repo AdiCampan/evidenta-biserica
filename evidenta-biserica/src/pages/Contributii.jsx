@@ -8,7 +8,8 @@ import Form from 'react-bootstrap/Form'
 
 function Contributii() {
   const dispatch = useDispatch();
-  const contributii = useSelector((state) => state.contributii.lista);
+  // const contributii = useSelector((state) => state.contributii.lista);
+  const contributii = [];
   const [listaContributii, setListaContributii] = useState(contributii)
 
   function deleteAmount(idToDelete) {

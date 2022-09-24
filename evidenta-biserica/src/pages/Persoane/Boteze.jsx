@@ -77,7 +77,7 @@ function Boteze() {
                 <tr key={p.id} style={{ cursor: 'pointer' }} onClick={() => listBaptized(p.baptiseDate)}>
                   <td>{index + 1}</td>
                   <td>{formatDate(p.baptiseDate)}</td>
-                  <td>{p.baptisePlace}</td>
+                  <td>{p.baptisedBy}</td>
                 </tr>
               )) : null}
             </tbody>

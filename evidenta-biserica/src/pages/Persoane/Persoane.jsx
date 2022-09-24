@@ -50,6 +50,8 @@ function Persoane() {
   const [notBabtisedOnly, setNotBaptisedOnly] = useState(false);
   const [blessedOnly, setBlessedOnly] = useState(false);
   const [notBlessedOnly, setNotBlessedOnly] = useState(false);
+  const [membersOnly, setMembersOnly] = useState(false);
+  const [notMembersOnly, setNotMembersOnly] = useState(false);
   let { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
   const [deleteMember] = useDelMemberMutation();
 
@@ -89,6 +91,15 @@ function Persoane() {
       }
       if (notBlessedOnly) {
         filteredMembers = filteredMembers.filter(member => !member.blessingDate);
+      }
+    }
+
+    if (membersOnly !== notMembersOnly) {
+      if(membersOnly) {
+        filteredMembers = filteredMembers.filter(member => member.memberDate);
+      }
+      if(notMembersOnly) {
+        filteredMembers = filteredMembers.filter(member => !member.memberDate);
       }
     }
     return filteredMembers;
@@ -194,6 +205,24 @@ function Persoane() {
             type='checkbox'
             value={notBlessedOnly}
             onChange= {(e) => setNotBlessedOnly(e.target.checked)}
+          />
+        </div>
+        <div>
+          <Form.Check
+            inline
+            label="Membrii"
+            name="group1"
+            type='checkbox'
+            value={membersOnly}
+            onChange= {(e) => setMembersOnly(e.target.checked)}
+          />
+          <Form.Check
+            inline
+            label="Nu membri"
+            name="group1"
+            type='checkbox'
+            value={notMembersOnly}
+            onChange= {(e) => setNotMembersOnly(e.target.checked)}
           />
         </div>
 

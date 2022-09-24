@@ -63,7 +63,8 @@ function Persoana() {
     setCurrentData(prevState => {
      
       return {
-        ...prevState,
+        // ...prevState,
+        id,
         ...updatedData,
       }
     });

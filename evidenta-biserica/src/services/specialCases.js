@@ -17,11 +17,20 @@ export const specialCasesApi = createApi({
             body: specialCase,
           }),
           invalidatesTags: ['specialCases'], 
-      })
+      }),
+      modifySpecialCase: builder.mutation({
+        query: (specialCase) => ({
+          url: `special-cases/${specialCase.id}`,
+          method: 'PATCH',
+          body: specialCase,
+        }),
+        invalidatesTags: ['specialCases', 'specialCase'],
+      }),
     })
 });
 
 export const {
     useGetSpecialCasesQuery,
     useAddSpecialCaseMutation,
+    useModifySpecialCaseMutation,
 } = specialCasesApi;
