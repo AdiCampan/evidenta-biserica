@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
 
-import "./ImageUploader.css";
+import "./ImageUploader.scss";
 
 const ALLOWED_EXTENSIONS = ['jpeg', 'jpg', 'png'];
-const EMPTY_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
+const EMPTY_IMAGE = '/src/assets/images/person-placeholder.jpg';
 
 const FileUploader = ({ onFileSelectSuccess, onFileSelectError, initialImage }) => {
   const fileInputRef = useRef(null);
@@ -48,8 +48,8 @@ const FileUploader = ({ onFileSelectSuccess, onFileSelectError, initialImage }) 
       <div className="file-uploader-wrapper">
         <div className="file-uploader">
           <input ref={fileInputRef} onChange={handleSelectFile} id="input-file" className="d-none" type="file" />
-          <Button onClick={handleClick} variant="success">Incarca Poza</Button>
           <img className="image-preview" src={imagePreview} />
+          <Button onClick={handleClick} variant="success">Incarca Poza</Button>
         </div>
         {fileError && <Alert variant="danger">{fileError}</Alert>}
       </div>

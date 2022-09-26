@@ -4,7 +4,7 @@ const Confirmation = ({ showModal, hideModal, confirmModal, id, message }) => {
     return (
         <Modal show={showModal} onHide={hideModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Confirmation</Modal.Title>
+          <Modal.Title>Confirmare</Modal.Title>
         </Modal.Header>
         <Modal.Body><div className="alert alert-danger">{message}</div></Modal.Body>
         <Modal.Footer>
@@ -12,7 +12,7 @@ const Confirmation = ({ showModal, hideModal, confirmModal, id, message }) => {
             Cancel
           </Button>
           <Button variant="danger" onClick={() => confirmModal(id) }>
-            Delete
+            Sterge
           </Button>
         </Modal.Footer>
       </Modal>

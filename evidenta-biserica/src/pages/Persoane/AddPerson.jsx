@@ -1,13 +1,11 @@
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
-import { useAddMemberMutation } from '../services/members';
-
-import { add } from '../features/persoaneSlice';
+import { useAddMemberMutation } from '../../services/members';
 
 
 
@@ -17,22 +15,29 @@ function AddPerson() {
  
   const [nume, setNume] = useState("");
   const [prenume, setPrenume] = useState("");
-  const [adresa, setAdresa] = useState("");
-  const [telefon, setTelefon] = useState("");
-  const [email, setEmail] = useState("");
+  // const [adresa, setAdresa] = useState("");
+  // const [telefon, setTelefon] = useState("");
+  // const [email, setEmail] = useState("");
   const [sex, setSex] = useState(true);
 
   const [addMember, result] = useAddMemberMutation();
 
   const handleClose = () => setShow(false);
  
+  useEffect(() => {
+    if (result.isSuccess) {
+      setShow(false);
+      // onAddChild(result.data_id);
+    }
+  }, [result]);
+
   const addData = () => {
     const newPerson = {
       firstName: nume,
       lastName: prenume,
-      address: adresa,
-      telefon: telefon,
-      email: email,
+      // address: adresa,
+      // telefon: telefon,
+      // email: email,
       sex: sex,
     };
 
@@ -41,19 +46,19 @@ function AddPerson() {
     if (nume != "" && prenume != "") {
       setNume("");
       setPrenume("");
-      setAdresa("");
-      setTelefon("");
-      setEmail("");
+      // setAdresa("");
+      // setTelefon("");
+      // setEmail("");
       setSex("");
       addMember(newPerson);
-      setShow(false);
+      
     }
   };
 
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
-        Adauga Membru
+        Adauga persoana 
       </Button>
 
       <Modal show={show} onHide={handleClose}>
@@ -71,7 +76,7 @@ function AddPerson() {
             value={prenume}
             onChange={(event) => setPrenume(event.target.value)}
             ></input>
-          <input 
+          {/* <input 
           placeholder='Adresa' 
           value={adresa}
           onChange={(event) => setAdresa(event.target.value)}
@@ -85,7 +90,7 @@ function AddPerson() {
             placeholder='email'
             value={email} 
             onChange={(event) => setEmail(event.target.value)}
-          ></input>
+          ></input> */}
           <ButtonGroup aria-label="Basic example">
             <Button variant="secondary" active={sex == true} onClick={() => setSex(true)}>M</Button>
             <Button variant="secondary" active={sex == false} onClick={() => setSex(false)}>F</Button>

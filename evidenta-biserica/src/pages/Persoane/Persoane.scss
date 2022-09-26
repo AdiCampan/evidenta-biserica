@@ -1,0 +1,20 @@
+.page-persons {
+    background-color: rgba(211, 211, 211, 0.836);
+
+    .age-input {
+        max-width: 45px;
+    }
+    .search-phone{
+        max-width: 100px;
+    }
+    .search-input{
+        max-width: 150px;
+    }
+    .barra-buttons{
+        display: flex;
+        justify-content: space-between;
+    }
+    .sex-filter{
+        width: 100px;
+    }
+}

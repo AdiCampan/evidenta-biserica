@@ -1,0 +1,32 @@
+
+.pagina-boteze{
+    display: flex;
+    justify-content: space-between;
+}
+
+.boteze {
+    background-color: rgba(219, 244, 248, 0.836);
+    width: 35%;
+
+    .age-input {
+        max-width: 40px;
+    }
+    .search-phone{
+        max-width: 100px;
+    }
+    .search-input{
+        max-width: 130px;
+    }
+    .barra-buttons{
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.botezati{
+    background-color: rgba(222, 225, 228, 0.733);
+    width: 64%;
+}
+.title{
+    text-align:center;
+    text-decoration: underline;
+}
