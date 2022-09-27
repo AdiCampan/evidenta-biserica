@@ -26,6 +26,13 @@ export const specialCasesApi = createApi({
         }),
         invalidatesTags: ['specialCases', 'specialCase'],
       }),
+      delSpecialCase: builder.mutation({
+        query: (id) => ({
+          url: `special-cases/${id}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: ['specialCase', 'specialCase'],
+      }),
     })
 });
 
@@ -33,4 +40,5 @@ export const {
     useGetSpecialCasesQuery,
     useAddSpecialCaseMutation,
     useModifySpecialCaseMutation,
+    useDelSpecialCaseMutation,
 } = specialCasesApi;

@@ -49,7 +49,7 @@ function AddCazSpecial({ onAddCaz }) {
   }
 
   const filterSpecialCases = (person) => {
-    if(cazuriSpeciale.find(caz => caz.person === person.id)) {
+    if(cazuriSpeciale?.find(caz => caz.person === person.id)) {
       return false;
     }
     return true;

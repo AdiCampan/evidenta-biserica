@@ -6,7 +6,7 @@ import {
   NavLink,
   Link,
 } from "react-router-dom";
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Home from './pages/Home';
 import Biserici from './pages/Biserici';
 import Persoane from './pages/Persoane';
@@ -47,14 +47,16 @@ function App() {
     return isActive ? "active" : "";
   }
 
+  const disabledButtons = true;
+
   return (
     <BrowserRouter>
       <nav className='nav-bar'>
         <div>
           <Button as={NavLink} to="/" className={navClass} variant="primary">Home</Button>
-          <Button as={NavLink} to="/biserici" className={navClass} variant="primary">Biserici</Button>
+          <Button as={NavLink} to="/biserici" className={navClass} variant="secondary" disabled={disabledButtons}>Biserici</Button>
           <Button as={NavLink} to="/persoane" className={navClass} variant="primary">Persoane</Button>
-          <Button as={NavLink} to="/contributii" className={navClass} variant="primary">Contributii</Button>
+          <Button as={NavLink} to="/contributii" className={navClass} variant="secondary"disabled>Contributii</Button>
           <Button as={NavLink} to="/grafice" className={navClass} variant="primary">Grafice</Button>
         </div>
         <div>

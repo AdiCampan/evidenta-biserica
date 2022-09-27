@@ -17,8 +17,8 @@ import {
   calculateAge, formatDate, searchField, filterByText, filterByAgeSmaller,
   filterByAge, filterByAgeGreater, filterByDate, filterBySex
 } from '../../utils';
-import { useGetSpecialCasesQuery, useModifySpecialCaseMutation } from '../../services/specialCases';
-import { useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
+import { useGetSpecialCasesQuery, useModifySpecialCaseMutation, useDelSpecialCaseMutation } from '../../services/specialCases';
+import { useGetMembersQuery, useModifyMemberMutation,  } from '../../services/members';
 
 const FILTER_LABEL = {
   '1': 'Exclus temporar',
@@ -44,6 +44,7 @@ const Speciale = () => {
   const [show, setShow] = useState(false);
   const [resolved, setResolved] = useState(false);
   const [caseToEdit, setCaseToEdit] = useState(null);
+  const [delSpecialCase] = useDelSpecialCaseMutation();
 
   const { data: cazuriSpeciale, isLoading: cazuriSpecialeLoading } = useGetSpecialCasesQuery();
   const [modifySpecialCase] = useModifySpecialCaseMutation();
@@ -59,7 +60,9 @@ const Speciale = () => {
         }
       }));
     }
-  }, [cazuriSpecialeLoading, persoaneLoading]);
+  }, [persoane, cazuriSpeciale]);
+
+  console.log('cazuriSpeciale', cazuriSpeciale);
 
   const editar = caz => {
     setShow(true)
@@ -98,14 +101,9 @@ const Speciale = () => {
 
 
   const deleteCase = (cazIndex) => {
-
-    setCazuri(cazuri.filter((caz) => {
-      if (caz.person.id !== cazIndex) {
-        return true;
-      }
+    delSpecialCase(idToDelete)
+    console.log(idToDelete, cazIndex);
       setIdToDelete(null);
-      return false;
-    }));
   }
 
   const showDeleteModal = (personId, ev) => {
@@ -147,7 +145,7 @@ const Speciale = () => {
                 <td>
                   <FaTrash 
                   style={{ cursor: 'pointer' }} 
-                  onClick={(event) => showDeleteModal(caz.person.id, event)} />
+                  onClick={(event) => showDeleteModal(caz.id, event)} />
                 </td>
               </tr>
             ))}

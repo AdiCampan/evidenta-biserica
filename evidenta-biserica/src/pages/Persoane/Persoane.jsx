@@ -1,4 +1,4 @@
-
+import ScrollButton from '../../ScrollButton';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -56,6 +56,7 @@ function Persoane() {
   const [deleteMember] = useDelMemberMutation();
 
   function filterMembers(members) {
+    
     let filteredMembers = members;
 
     filteredMembers = filterByText(filteredMembers, 'firstName', firstNameFilter);
@@ -95,10 +96,10 @@ function Persoane() {
     }
 
     if (membersOnly !== notMembersOnly) {
-      if(membersOnly) {
+      if (membersOnly) {
         filteredMembers = filteredMembers.filter(member => member.memberDate);
       }
-      if(notMembersOnly) {
+      if (notMembersOnly) {
         filteredMembers = filteredMembers.filter(member => !member.memberDate);
       }
     }
@@ -174,7 +175,7 @@ function Persoane() {
         <div>
           <Form.Check
             inline
-            label="Botezati"
+            label="Botezați"
             name="group1"
             type="checkbox"
             value={baptisedOnly}
@@ -182,7 +183,7 @@ function Persoane() {
           />
           <Form.Check
             inline
-            label="Nebotezati"
+            label="Nebotezați"
             name="group1"
             type="checkbox"
             value={notBabtisedOnly}
@@ -192,19 +193,19 @@ function Persoane() {
         <div>
           <Form.Check
             inline
-            label="Dusi la Binecuvantare"
+            label="Duși la Binecuvântare"
             name="group1"
             type='checkbox'
             value={blessedOnly}
-            onChange= {(e) => setBlessedOnly(e.target.checked)}
+            onChange={(e) => setBlessedOnly(e.target.checked)}
           />
           <Form.Check
             inline
-            label="Nu dusi la Binecuvantare"
+            label="Nu duși la Binecuvântare"
             name="group1"
             type='checkbox'
             value={notBlessedOnly}
-            onChange= {(e) => setNotBlessedOnly(e.target.checked)}
+            onChange={(e) => setNotBlessedOnly(e.target.checked)}
           />
         </div>
         <div>
@@ -214,7 +215,7 @@ function Persoane() {
             name="group1"
             type='checkbox'
             value={membersOnly}
-            onChange= {(e) => setMembersOnly(e.target.checked)}
+            onChange={(e) => setMembersOnly(e.target.checked)}
           />
           <Form.Check
             inline
@@ -222,7 +223,7 @@ function Persoane() {
             name="group1"
             type='checkbox'
             value={notMembersOnly}
-            onChange= {(e) => setNotMembersOnly(e.target.checked)}
+            onChange={(e) => setNotMembersOnly(e.target.checked)}
           />
         </div>
 
@@ -335,7 +336,7 @@ function Persoane() {
                 <td>{formatDate(p.birthDate)}</td>
                 <td>{p.sex ? 'M' : 'F'}</td>
                 <td>
-                  <Button variant="primary" onClick={(event) => showDeleteModal(p.id, event)}>Sterge</Button>
+                  <Button className='button-delete' variant="primary" onClick={(event) => showDeleteModal(p.id, event)}>Sterge</Button>
                 </td>
               </tr>
 
@@ -353,6 +354,7 @@ function Persoane() {
         message="Esti sigur ca vrei sa stergi persoana din baza de date ?"
         hideModal={() => setIdToDelete(null)}
       />
+      <ScrollButton />
     </div>
   );
 };

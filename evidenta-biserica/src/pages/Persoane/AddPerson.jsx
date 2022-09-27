@@ -12,9 +12,10 @@ import { useAddMemberMutation } from '../../services/members';
 function AddPerson() {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
- 
+
   const [nume, setNume] = useState("");
   const [prenume, setPrenume] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   // const [adresa, setAdresa] = useState("");
   // const [telefon, setTelefon] = useState("");
   // const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ function AddPerson() {
   const [addMember, result] = useAddMemberMutation();
 
   const handleClose = () => setShow(false);
- 
+
   useEffect(() => {
     if (result.isSuccess) {
       setShow(false);
@@ -35,6 +36,7 @@ function AddPerson() {
     const newPerson = {
       firstName: nume,
       lastName: prenume,
+      birthDate: birthDate,
       // address: adresa,
       // telefon: telefon,
       // email: email,
@@ -43,22 +45,23 @@ function AddPerson() {
 
     // id: Math.random().toString()
 
-    if (nume != "" && prenume != "") {
+    if (nume != "" && prenume != "" && birthDate != "") {
       setNume("");
       setPrenume("");
+      setBirthDate("");
       // setAdresa("");
       // setTelefon("");
       // setEmail("");
       setSex("");
       addMember(newPerson);
-      
+
     }
   };
 
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
-        Adauga persoana 
+        Adauga persoana
       </Button>
 
       <Modal show={show} onHide={handleClose}>
@@ -68,14 +71,19 @@ function AddPerson() {
         <Modal.Body>
           <input
             placeholder='Nume'
-            value={nume} 
+            value={nume}
             onChange={(event) => setNume(event.target.value)}
           ></input>
           <input
-           placeholder='Prenume'
+            placeholder='Prenume'
             value={prenume}
             onChange={(event) => setPrenume(event.target.value)}
-            ></input>
+          ></input>
+          <input
+            placeholder='Data nașterii'
+            value={birthDate}
+            onChange={(e) => setBirthDate(e.target.value)}
+          ></input>
           {/* <input 
           placeholder='Adresa' 
           value={adresa}
