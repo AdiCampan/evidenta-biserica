@@ -62,8 +62,6 @@ const Speciale = () => {
     }
   }, [persoane, cazuriSpeciale]);
 
-  console.log('cazuriSpeciale', cazuriSpeciale);
-
   const editar = caz => {
     setShow(true)
     setDataRezolvarii(caz.endDate)

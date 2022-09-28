@@ -3,9 +3,9 @@ import Table from 'react-bootstrap/Table';
 import { Button, Card, FormControl } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useGetMembersQuery } from '../../services/members';
+import Form from 'react-bootstrap/Form'
 import AddTransferModal from './AddTransferModal';
-import { calculateAge, formatDate, searchField} from '../../utils';
+import { calculateAge, formatDate, searchField } from '../../utils';
 import { FaTrash, FaRegEdit } from "react-icons/fa";
 import { useGetTransfersQuery, useDelTransferMutation } from '../../services/transfers';
 
@@ -14,29 +14,18 @@ import { useGetTransfersQuery, useDelTransferMutation } from '../../services/tra
 const Transferuri = () => {
 
   const [firstNameFilter, setFirstNameFilter] = useState('');
-
-  // const [transfers, setTransfers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const { data: transfers, isLoading: trasnfersLoading } = useGetTransfersQuery();
   const [delTransfer] = useDelTransferMutation()
+  const [transferTo, setTransferTo] = useState(false)
+  const [transferFrom, setTransferFrom] = useState(false)
 
   const intrati = ['baptise', 'transferFrom'];
 
-  const firstNameTransfered = transfers?.map((transfer) => transfer.owner);
-
-
-  // function filterTransfers(transfer)  {
-  //  if (firstNameFilter === " "){
-  //    return true;
-  //  }else if (transfer[0].owner.firstName === firstNameFilter){
-  //   return true;
-  //  }
-  //  return false;
-  // };
   function filterTransfers(transfer) {
-    
     let filteredTransfers = transfer;
 
+    // first name
     filteredTransfers = filteredTransfers.filter(filteredTransfers => {
       if (firstNameFilter === '') {
         return true;
@@ -45,10 +34,20 @@ const Transferuri = () => {
       }
       return false;
     });
+
+    // transfer from and transfer to
+    if (transferFrom != transferTo) {
+      if (transferFrom) {
+        filteredTransfers =filteredTransfers.filter(t => t.type === "transferFrom")
+      }
+      else {
+        filteredTransfers =filteredTransfers.filter(t => t.type === "transferTo")
+      }
+    }
+
+
     return filteredTransfers;
   }
-
-
 
 
   return (
@@ -85,7 +84,26 @@ const Transferuri = () => {
                   onChange={(e) => setFirstNameFilter(e.target.value)}
                 />
               </td>
-              <td></td>
+              <td>
+                <div>
+                  <Form.Check
+                    inline
+                    label="in"
+                    name="destinatie"
+                    type='checkbox'
+                    value={transferTo}
+                    onChange={(e) => setTransferTo(e.target.checked)}
+                  />
+                  <Form.Check
+                    inline
+                    label="din"
+                    name="destinatie"
+                    type='checkbox'
+                    value={transferFrom}
+                    onChange={(e) => setTransferFrom(e.target.checked)}
+                  />
+                </div>
+              </td>
               <td></td>
               <td></td>
               <td></td>
