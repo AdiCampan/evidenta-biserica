@@ -4,23 +4,23 @@ html, body, #root {
 
 #root {
     background-image: url(assets/images/desk.png);
+    background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: cadetblue;
     background-position: center;
     
-    .app {
-        background-color: aquamarine;
-        position: fixed;
-        margin-left: 70px;
-
-    }
-    .nav_bar {      
+    .page-container {
         display: flex;
-        margin-top: 0px;       
-        padding-top: -8px;
-        padding-left: 8px;
-        padding-block: 13px;
+        flex-flow: column;
+        height: 100%;
+    }
+    .nav-bar {      
+        flex: 0 1 auto;
+    }
+
+    .page-content {
+        flex: 1 1 auto;
     }
 
     .react-datepicker-popper {

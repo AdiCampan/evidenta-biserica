@@ -18,7 +18,7 @@ const Familii = () => {
   const listChildrens = (childrens) => {
     const childrensFiltered = childrens.filter(relation => relation.type === "child").map(relation => relation?.person);
     setChildrens(childrensFiltered);
-    console.log(childrensFiltered);
+
   }
 
   const filterWife = (relation) => relation.type === "wife";

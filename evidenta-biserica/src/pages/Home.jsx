@@ -70,7 +70,7 @@ const Home = () => {
           </Button>
           <p>biserica_ebenezer@yahoo.es</p>
         </div>
-        <div className='pie-chart'>
+        <div className='chart-container'>
           <Pie data={{
             labels: ['Barbați', 'Femei', 'Copii'],
             datasets: [
@@ -84,12 +84,12 @@ const Home = () => {
               }
             ]
           }}
-            width={250}
-            height={250}
+            width={150}
+            height={150}
             options={{ maintainAspectRatio: true }}
           />
         </div>
-        <div className='line-chart'>
+        <div className='chart-conatiner'>
         <div className='total-text'><h5>Total Membrii la {formatDate(date)}:</h5> <h3>{totalMembrii}</h3></div>
           <Line
             datasetIdKey='id345'

@@ -25,6 +25,7 @@ const Familie = ({ dataUpdated, data }) => {
   const [servCivil, setServCivil] = useState('');
   const [servRel, setServRel] = useState('');
   const [biserica, setBiserica] = useState('');
+  const [pastor, setPastor] = useState('');
   const [dataNasteriiCopil, setDataNasteriiCopil] = useState('');
   const [sexCopil, setSexCopil] = useState('');
   const [childList, setChildList] = useState(data.relations.filter(relation => relation.type === 'child').map(relation => ({
@@ -91,7 +92,6 @@ const Familie = ({ dataUpdated, data }) => {
       }
       return currentChild;
     }));
-
   }
 
   const removeChild = (childIndex) => {
@@ -170,16 +170,21 @@ const Familie = ({ dataUpdated, data }) => {
                 onChange={(event) => setBiserica(event.target.value)} value={biserica} />
             </InputGroup>
           </Col>
+          <Col size="sm" className="mb-3">
+            <InputGroup size="sm" className="mb-3">
+              <InputGroup.Text id="inputGroup-sizing-sm">de Pastorul</InputGroup.Text>
+              <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                onChange={(event) => setPastor(event.target.value)} value={pastor} />
+            </InputGroup>
+          </Col>
         </Row>
       </Card><br /><br />
-
       <Card>Copii
         <Col>
           <InputGroup size="sm" className="mb-3">
             <Button onClick={addChildField}>Adauga un copil</Button>
           </InputGroup>
         </Col>
-
         <Table striped bordered hover size="sm">
           <thead>
             <tr>

@@ -65,6 +65,7 @@ const Speciale = () => {
   const editar = caz => {
     setShow(true)
     setDataRezolvarii(caz.endDate)
+    setDataOpenCase(caz.startDate)
     setDataExcluderii(caz.person.leaveDate)
     setDetalii(caz.details)
     setIdToEdit(caz.id)

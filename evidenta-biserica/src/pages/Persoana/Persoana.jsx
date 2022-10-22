@@ -72,6 +72,8 @@ function Persoana() {
 
   return (
     <Card>
+      <h2 style={{ textAlign: 'center', textDecoration: 'underline' }}>FIȘA MEMBRULUI</h2>
+      
       <Tabs
         id="controlled-tab-example"
         activeKey={activeTab}

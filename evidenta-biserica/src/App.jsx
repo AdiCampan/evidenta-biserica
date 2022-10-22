@@ -51,28 +51,32 @@ function App() {
 
   return (
     <BrowserRouter>
-      <nav className='nav-bar'>
-        <div>
-          <Button as={NavLink} to="/" className={navClass} variant="primary">Home</Button>
-          <Button as={NavLink} to="/biserici" className={navClass} variant="secondary" disabled={disabledButtons}>Biserici</Button>
-          <Button as={NavLink} to="/persoane" className={navClass} variant="primary">Persoane</Button>
-          <Button as={NavLink} to="/contributii" className={navClass} variant="secondary"disabled>Contributii</Button>
-          <Button as={NavLink} to="/grafice" className={navClass} variant="primary">Grafice</Button>
+      <div className='page-container'>
+        <nav className='nav-bar'>
+          <div>
+            <Button as={NavLink} to="/" className={navClass} variant="primary">Home</Button>
+            <Button as={NavLink} to="/biserici" className={navClass} variant="secondary" disabled={disabledButtons}>Biserici</Button>
+            <Button as={NavLink} to="/persoane" className={navClass} variant="primary">Persoane</Button>
+            <Button as={NavLink} to="/contributii" className={navClass} variant="secondary" disabled>Contributii</Button>
+            <Button as={NavLink} to="/grafice" className={navClass} variant="primary">Grafice</Button>
+          </div>
+          <div>
+            <Link to="/login"><Button variant="primary">Log In</Button></Link>
+          </div>
+        </nav>
+        <div className='page-content'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/biserici" element={<Biserici />} />
+            <Route path="/persoane" element={<Persoane />} />
+            <Route path="/persoane/:id" element={<Persoana />} />
+            <Route path="/contributii" element={<Contributii />} />
+            <Route path="/grafice" element={<Grafice />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Routes>
         </div>
-        <div>
-          <Link to="/login"><Button variant="primary">Log In</Button></Link>
-        </div>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/biserici" element={<Biserici />} />
-        <Route path="/persoane" element={<Persoane />} />
-        <Route path="/persoane/:id" element={<Persoana />} />
-        <Route path="/contributii" element={<Contributii />} />
-        <Route path="/grafice" element={<Grafice />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
+      </div>
     </BrowserRouter>
   )
 }

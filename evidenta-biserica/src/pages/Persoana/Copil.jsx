@@ -49,7 +49,7 @@ function Copil({ childUpdated, removeChild, selected }) {
             id="copil"
             onChange={onCopilChange}
             labelKey={option => `${option.firstName} ${option.lastName}`}
-            options={persoane || []}
+            options={persoane?.filter(person => person.relations.find(relation => relation.type !== 'child')) || []}
             placeholder="Alege o persoana..."
             selected={persoane?.filter(person => person.id === copil) || []}
           />

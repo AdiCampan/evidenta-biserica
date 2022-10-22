@@ -21,7 +21,7 @@ const PersonsPage = () => {
       <Tab eventKey="membrii" title="Membrii">
         {<Membrii />}
       </Tab>
-      <Tab eventKey="boteze" title="Boteze">
+      <Tab eventKey="boteze" title="Botezuri">
         {<Boteze />}
       </Tab>
       <Tab eventKey="observatii" title="Cazuri Speciale">

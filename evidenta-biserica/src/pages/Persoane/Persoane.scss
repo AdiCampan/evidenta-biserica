@@ -15,11 +15,35 @@
         justify-content: space-between;
     }
     .sex-filter{
-        width: 100px;
+        // width: 100px;
+        display: flex;
+    }
+    .table-container {
+        
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: #bbbbbb;
+        }
+        .sticky-search {
+            position: sticky;
+            top: 34px;
+            z-index: 1;
+            background-color: #bbbbbb;
+        }
     }
     
 }
 .button-delete{
         height: 30px;
         padding: 0 10px!important;
+    }
+    .check-boxes{
+        display: flex;
+        justify-content: space-evenly;
+    flex-direction: row-reverse;
+    }
+    .check-box{
+        cursor: pointer;
     }

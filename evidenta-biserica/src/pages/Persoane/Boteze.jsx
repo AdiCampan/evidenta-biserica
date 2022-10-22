@@ -63,7 +63,7 @@ function Boteze() {
     <>
       <div className='pagina-boteze'>
         <div className='boteze'>
-          <h3 className='title'>BOTEZE în EBEN EZER</h3>
+          <h3 className='title'>BOTEZURI în EBEN EZER</h3>
           <Table striped bordered hover size="sm" >
             <thead>
               <tr>

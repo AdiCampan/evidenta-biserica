@@ -5,6 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import DatePicker from 'react-datepicker';
 import { useAddMemberMutation } from '../../services/members';
 
 
@@ -66,24 +69,41 @@ function AddPerson() {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Detalii Membru</Modal.Title>
+          <Modal.Title>Adăugare persoană nouă</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input
-            placeholder='Nume'
-            value={nume}
-            onChange={(event) => setNume(event.target.value)}
-          ></input>
-          <input
-            placeholder='Prenume'
-            value={prenume}
-            onChange={(event) => setPrenume(event.target.value)}
-          ></input>
-          <input
-            placeholder='Data nașterii'
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-          ></input>
+          
+        <Col>
+              <InputGroup size="sm" className="mb-3">
+                <InputGroup.Text id="inputGroup-sizing-sm">Nume</InputGroup.Text>
+                <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                  onChange={(event) => setNume(event.target.value)} value={nume} />
+              </InputGroup>
+            </Col>
+            <Col>
+              <InputGroup size="sm" className="mb-3">
+                <InputGroup.Text id="inputGroup-sizing-sm">Prenume</InputGroup.Text>
+                <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                  value={prenume}
+                  onChange={(event) => setPrenume(event.target.value)} />
+              </InputGroup>
+            </Col>
+          
+            <Col>
+              <InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
+                <InputGroup.Text >Data nasterii</InputGroup.Text>
+                <DatePicker
+                  selected={birthDate}
+                  onChange={(date) => setBirthDate(date)}
+                  peekNextMonth
+                  maxDate={new Date()}
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                />
+              </InputGroup>
+            </Col>
+        
           {/* <input 
           placeholder='Adresa' 
           value={adresa}

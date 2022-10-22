@@ -49,3 +49,23 @@
     align-items: center;
     justify-content: space-around;
 }
+.charts{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* background-color: rgb(144, 185, 185);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px; */
+}
+.chart-container{
+    width: 20%;
+    /* height: 300px; */
+    border-width: 5px;
+    border-radius: 10px;
+    border-color: rgb(24, 34, 34);
+    border-style:inherit;
+    background-color: rgba(205, 219, 219, 0.336);
+    padding:3mm;
+    margin:1mm;
+}

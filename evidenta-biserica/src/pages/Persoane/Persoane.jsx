@@ -56,7 +56,7 @@ function Persoane() {
   const [deleteMember] = useDelMemberMutation();
 
   function filterMembers(members) {
-    
+
     let filteredMembers = members;
 
     filteredMembers = filterByText(filteredMembers, 'firstName', firstNameFilter);
@@ -172,179 +172,192 @@ function Persoane() {
         <div className='barra-buttons'>
           <AddPerson />
         </div>
-        <div>
-          <Form.Check
-            inline
-            label="Botezați"
-            name="group1"
-            type="checkbox"
-            value={baptisedOnly}
-            onChange={(e) => setBaptisedOnly(e.target.checked)}
-          />
-          <Form.Check
-            inline
-            label="Nebotezați"
-            name="group1"
-            type="checkbox"
-            value={notBabtisedOnly}
-            onChange={(e) => setNotBaptisedOnly(e.target.checked)}
-          />
-        </div>
-        <div>
-          <Form.Check
-            inline
-            label="Duși la Binecuvântare"
-            name="group1"
-            type='checkbox'
-            value={blessedOnly}
-            onChange={(e) => setBlessedOnly(e.target.checked)}
-          />
-          <Form.Check
-            inline
-            label="Nu duși la Binecuvântare"
-            name="group1"
-            type='checkbox'
-            value={notBlessedOnly}
-            onChange={(e) => setNotBlessedOnly(e.target.checked)}
-          />
-        </div>
-        <div>
-          <Form.Check
-            inline
-            label="Membrii"
-            name="group1"
-            type='checkbox'
-            value={membersOnly}
-            onChange={(e) => setMembersOnly(e.target.checked)}
-          />
-          <Form.Check
-            inline
-            label="Nu membri"
-            name="group1"
-            type='checkbox'
-            value={notMembersOnly}
-            onChange={(e) => setNotMembersOnly(e.target.checked)}
-          />
+        <div className='check-boxes'>
+          <div>
+            <Form.Check
+            className='check-box'
+              inline
+              label="Botezați"
+              name="group1"
+              type="checkbox"
+              value={baptisedOnly}
+              onChange={(e) => setBaptisedOnly(e.target.checked)}
+            />
+            <Form.Check
+             className='check-box'
+              inline
+              label="Nebotezați"
+              name="group1"
+              type="checkbox"
+              value={notBabtisedOnly}
+              onChange={(e) => setNotBaptisedOnly(e.target.checked)}
+            />
+          </div>
+          <div>
+            <Form.Check
+             className='check-box'
+              inline
+              label="Duși la Binecuvântare"
+              name="group1"
+              type='checkbox'
+              value={blessedOnly}
+              onChange={(e) => setBlessedOnly(e.target.checked)}
+            />
+            <Form.Check
+             className='check-box'
+              inline
+              label="Nu duși la Binecuvântare"
+              name="group1"
+              type='checkbox'
+              value={notBlessedOnly}
+              onChange={(e) => setNotBlessedOnly(e.target.checked)}
+            />
+          </div>
+          <div>
+            <Form.Check
+             className='check-box'
+              inline
+              label="Membrii"
+              name="group1"
+              type='checkbox'
+              value={membersOnly}
+              onChange={(e) => setMembersOnly(e.target.checked)}
+            />
+            <Form.Check
+             className='check-box'
+              inline
+              label="Nu membri"
+              name="group1"
+              type='checkbox'
+              value={notMembersOnly}
+              onChange={(e) => setNotMembersOnly(e.target.checked)}
+            />
+          </div>
         </div>
 
-        <Table striped bordered hover size="sm">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th onClick={() => sorting('firstName')} style={{ cursor: 'pointer' }}>Nume</th>
-              <th onClick={() => sorting('lastName')} style={{ cursor: 'pointer' }}>Prenume</th>
-              <th onClick={() => sorting('address')} style={{ cursor: 'pointer' }}>Adresa</th>
-              <th>Telefon</th>
-              <th onClick={() => sorting('age')} style={{ cursor: 'pointer' }}>Varsta</th>
-              <th>Data nasterii</th>
-              <th>Sex</th>
-              <th>Actiuni</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td>
-                <input
-                  className='search-input'
-                  placeholder='Filtreaza'
-                  type="text"
-                  value={firstNameFilter}
-                  onChange={(e) => setFirstNameFilter(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  className='search-input'
-                  type="text"
-                  value={lastNameFilter}
-                  onChange={(e) => setLastNameFilter(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  className='search-input'
-                  type="text"
-                  value={addressFilter}
-                  onChange={(e) => setAddressFilter(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  className='search-phone'
-                  type='text'
-                  value={telefonFilter}
-                  onChange={(e) => setTelefonFilter(e.target.value)}
-                />
-              </td>
-              <td>
-                <div>
-                  {[DropdownButton].map((DropdownType, idx) => (
-                    <DropdownType
-                      as={ButtonGroup}
-                      key={idx}
-                      id={`dropdown-button-drop-${idx}`}
-                      size="sm"
-                      variant="secondary"
-                      title={AGE_FILTER_LABEL[ageFilterType]}
-                      onSelect={(key) => setAgeFilterType(key)}
-                    >
-                      <Dropdown.Item eventKey="1">Peste sau egal cu...</Dropdown.Item>
-                      <Dropdown.Item eventKey="2">Sub sau egal cu...</Dropdown.Item>
-                      <Dropdown.Item eventKey="3">Doar Cu varsta...</Dropdown.Item>
-                      <Dropdown.Divider />
-                      <Dropdown.Item eventKey="4">Intre varstele...</Dropdown.Item>
-                    </DropdownType>
-                  ))}
-                </div>
-                <input
-                  className="age-input"
-                  type="number"
-                  value={ageFilter}
-                  onChange={(e) => setAgeFilter(e.target.value)}
-                />
-                {ageFilterType == '4' && (<input
-                  className="age-input"
-                  type="number"
-                  value={ageFilterBetween}
-                  onChange={(e) => setAgeFilterBetween(e.target.value)}
-                />)}
-              </td>
-              <td></td>
-              <td className='sex-filter'>
-                <RadioGroup
-                  style={{ display: 'flex', flexDirection: 'row', paddingLeft: 14 }}
-                  name="use-radio-group"
-                  value={sexFilter}
-                  onChange={(e) => { setSexFilter(e.target.value) }}
-                >
-                  <FormControlLabel value="M" label="M" control={<Radio />} />
-                  <FormControlLabel value="F" label="F" control={<Radio />} />
-                  <FormControlLabel value="" label="M+F" control={<Radio />} />
-                </RadioGroup>
-              </td>
-              <td></td>
-            </tr>
-            {persoane ? filterMembers(persoane).sort(sortList).map((p, index) => (
-              <tr key={p.id} style={{ cursor: 'pointer' }} onClick={() => goToPerson(p.id)}>
-                <td>{index + 1}</td>
-                <td>{p['firstName']}</td>
-                <td>{p.lastName}</td>
-                <td>{p.address}</td>
-                <td>{p.mobilePhone}</td>
-                <td>{calculateAge(p.birthDate)}</td>
-                <td>{formatDate(p.birthDate)}</td>
-                <td>{p.sex ? 'M' : 'F'}</td>
-                <td>
-                  <Button className='button-delete' variant="primary" onClick={(event) => showDeleteModal(p.id, event)}>Sterge</Button>
-                </td>
+        <div className="table-container">
+          <Table striped bordered hover size="sm">
+            <thead className="sticky-header">
+              <tr>
+                <th>#</th>
+                <th onClick={() => sorting('firstName')} style={{ cursor: 'pointer' }}>Nume</th>
+                <th onClick={() => sorting('lastName')} style={{ cursor: 'pointer' }}>Prenume</th>
+                <th onClick={() => sorting('address')} style={{ cursor: 'pointer' }}>Adresa</th>
+                <th>Telefon</th>
+                <th onClick={() => sorting('age')} style={{ cursor: 'pointer' }}>Varsta</th>
+                <th>D. nașterii</th>
+                <th>Sex</th>
+                <th>Actiuni</th>
               </tr>
+            </thead>
+            <tbody>
+              <tr className='sticky-search'>
+                <td></td>
+                <td>
+                  <input
+                    className='search-input'
+                    placeholder='Filtreaza'
+                    type="text"
+                    value={firstNameFilter}
+                    onChange={(e) => setFirstNameFilter(e.target.value)}
+                  />
+                </td>
+                <td>
+                  <input
+                    className='search-input'
+                    type="text"
+                    value={lastNameFilter}
+                    onChange={(e) => setLastNameFilter(e.target.value)}
+                  />
+                </td>
+                <td>
+                  <input
+                    className='search-input'
+                    type="text"
+                    value={addressFilter}
+                    onChange={(e) => setAddressFilter(e.target.value)}
+                  />
+                </td>
+                <td>
+                  <input
+                    className='search-phone'
+                    type='text'
+                    value={telefonFilter}
+                    onChange={(e) => setTelefonFilter(e.target.value)}
+                  />
+                </td>
+                <td>
+                  <div>
+                    {[DropdownButton].map((DropdownType, idx) => (
+                      <DropdownType
+                        as={ButtonGroup}
+                        key={idx}
+                        id={`dropdown-button-drop-${idx}`}
+                        size="sm"
+                        variant="secondary"
+                        title={AGE_FILTER_LABEL[ageFilterType]}
+                        onSelect={(key) => setAgeFilterType(key)}
+                      >
+                        <Dropdown.Item eventKey="1">Peste sau egal cu...</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Sub sau egal cu...</Dropdown.Item>
+                        <Dropdown.Item eventKey="3">Doar Cu varsta...</Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item eventKey="4">Intre varstele...</Dropdown.Item>
+                      </DropdownType>
+                    ))}
+                  </div>
+                  <input
+                    className="age-input"
+                    type="number"
+                    value={ageFilter}
+                    onChange={(e) => setAgeFilter(e.target.value)}
+                  />
+                  {ageFilterType == '4' && (<input
+                    className="age-input"
+                    type="number"
+                    value={ageFilterBetween}
+                    onChange={(e) => setAgeFilterBetween(e.target.value)}
+                  />)}
+                </td>
+                <td></td>
+                <td className='sex-filter'>
+                  <RadioGroup
+                    style={{ display: 'flex', flexDirection: 'row', paddingLeft: 14 }}
+                    name="use-radio-group"
+                    value={sexFilter}
+                    onChange={(e) => { setSexFilter(e.target.value) }}
+                  >
+                    <div>
+                      <FormControlLabel value="M" label="M" control={<Radio />} />
+                      <FormControlLabel value="F" label="F" control={<Radio />} />
+                    </div>
+                    <FormControlLabel value="" label="M+F" control={<Radio />} /> 
 
-            )) : null}
+                  </RadioGroup>
+                </td>
+                <td></td>
+              </tr>
+              {persoane ? filterMembers(persoane).sort(sortList).map((p, index) => (
+                <tr key={p.id} style={{ cursor: 'pointer' }} onClick={() => goToPerson(p.id)}>
+                  <td>{index + 1}</td>
+                  <td>{p['firstName']}</td>
+                  <td>{p.lastName}</td>
+                  <td>{p.address}</td>
+                  <td>{p.mobilePhone}</td>
+                  <td>{calculateAge(p.birthDate)}</td>
+                  <td>{formatDate(p.birthDate)}</td>
+                  <td>{p.sex ? 'M' : 'F'}</td>
+                  <td>
+                    <Button className='button-delete' variant="primary" onClick={(event) => showDeleteModal(p.id, event)}>Sterge</Button>
+                  </td>
+                </tr>
 
-          </tbody>
+              )) : null}
 
-        </Table>
+            </tbody>
+
+          </Table>
+        </div>
 
       </div>
       <Confirmation
