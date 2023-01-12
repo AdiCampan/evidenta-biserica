@@ -20,11 +20,11 @@ const FILTER_LABEL = {
 }
 
 
-function AddTransferModal({ show, onAddTransfer, onClose }) {
+function AddTransferModal({ show, onAddTransfer, onClose, isDisabled, transferredPerson}) {
   const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
   const [filterType, setFilterType] = useState('1');
   const [showModal, setShowModal] = useState(false);
-  const [person, setPerson] = useState();
+  const [person, setPerson] = useState(transferredPerson);
   const [dataTransfer, setDataTransfer] = useState('');
   const [bisericaTransfer, setBisericaTransfer] = useState('');
   const [actTransfer, setActTransfer] = useState('');
@@ -123,6 +123,7 @@ function AddTransferModal({ show, onAddTransfer, onClose }) {
               <div style={{ display: 'flex' }}>
                 <InputGroup.Text id="inputGroup-sizing-sm">Persoana pt. transfer</InputGroup.Text>
                 <Typeahead
+                  disabled={isDisabled}
                   id="transfered"
                   onChange={onTrasferedChange}
                   labelKey={option => `${option.firstName} ${option.lastName}`}

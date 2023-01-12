@@ -6,7 +6,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useGetMemberQuery, useModifyMemberMutation } from '../../services/members';
+import { useGetMemberQuery, useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -15,12 +15,15 @@ import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import AddTransferModal from '../Persoane/AddTransferModal';
 
 import "./Persoana.css";
+import AddPerson from '../Persoane/AddPerson';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 
 const General = ({ dataUpdated, data }) => {
   const { id } = useParams();
   const [modifyMember, result] = useModifyMemberMutation();
   const [showTransferModal, setShowTransferModal] = useState(false);
+  const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
@@ -58,8 +61,8 @@ const General = ({ dataUpdated, data }) => {
       details: detalii,
       profileImage: selectedFile,
     });
-    
-  }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile,membruData]);
+
+  }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile, membruData]);
 
   useEffect(() => {
     if (data) {
@@ -74,18 +77,6 @@ const General = ({ dataUpdated, data }) => {
       setMother(data.motherName || '');
       setEnterBirthDate(Date.parse(data.birthDate));
       setPlaceOfBirth(data.placeOfBirth || '');
-      // const sortedTransfers =  data.transfers.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-      // if (sortedTransfers.length > 0) {
-      //   const lastTransfer = sortedTransfers.at(-1);
-      //   if (lastTransfer.type  == 'transferTo' || lastTransfer.type == 'baptise') {
-      //     console.log(lastTransfer)
-      //     setMembruData(Date.parse(lastTransfer.date));
-      //   }
-      // } else if (data.baptiseDate){
-      //   setMembruData(Date.parse(data.baptiseDate));
-      // } else {
-      //   setMembruData(null);
-      // }
       setMembruData(data.memberDate ? Date.parse(data.memberDate) : null);
       setMember(!!data.memberDate);
       setDetalii(data.details || '');
@@ -93,7 +84,15 @@ const General = ({ dataUpdated, data }) => {
     }
   }, [data]);
 
-  const addTransfer = () => {};
+  const addTransfer = () => { };
+
+  const onFatherdChange = (p) => {
+    if (p.length > 0) {
+      setFather(p[0]);
+    } else {
+      setFather(null);
+    }
+  }
 
   return (
     <Container>
@@ -187,21 +186,29 @@ const General = ({ dataUpdated, data }) => {
             <Col>
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">Tata</InputGroup.Text>
-                <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                  value={father}
-                  onChange={(event) => setFather(event.target.value)} />
+                <Typeahead
+                  onChange={onFatherdChange}
+                  labelKey={option => `${option.firstName} ${option.lastName}`}
+                  options={persoane || []}
+                  placeholder="Alege tatal..."
+                  // selected={persoane?.filter(p => p.id === person?.id) || []}
+                />
+                <AddPerson label="+"/>
               </InputGroup>
             </Col>
+          </Row>
+          <Row>
             <Col>
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">Mama</InputGroup.Text>
-                <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                  value={mother}
-                  onChange={(event) => setMother(event.target.value)} />
+                <Typeahead
+                  placeholder="Alege o persoana..."
+                  id="mama"
+                  onChange={onFatherdChange}
+                />
+                <AddPerson label="+"/>
               </InputGroup>
             </Col>
-
-
           </Row>
           <Row>
             <Col>
@@ -235,10 +242,11 @@ const General = ({ dataUpdated, data }) => {
         </Col>
       </Row>
       <AddTransferModal
+        isDisabled
         onAddTransfer={addTransfer}
         show={showTransferModal}
         onClose={() => setShowTransferModal(false)}
-        personId={data.id}
+        transferredPerson={data}
       />
     </Container>
   );

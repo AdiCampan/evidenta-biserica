@@ -9,7 +9,7 @@ import { useAddMemberMutation } from '../../services/members';
 
 
 
-function AddPerson() {
+function AddPerson( {label} ) {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
  
@@ -58,12 +58,12 @@ function AddPerson() {
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
-        Adauga persoana 
+        {label || "Persoana noua"}  
       </Button>
-
+ 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Detalii Membru</Modal.Title>
+          <Modal.Title>Detalii Persoana</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <input

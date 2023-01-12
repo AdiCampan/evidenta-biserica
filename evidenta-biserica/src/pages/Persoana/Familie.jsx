@@ -12,6 +12,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import { useGetMembersQuery } from '../../services/members';
 import Copil from './Copil';
 import Confirmation from '../../Confirmation';
+import AddPerson from '../Persoane/AddPerson';
 
 function uuid() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -66,7 +67,13 @@ const Familie = ({ dataUpdated, data }) => {
     setBiserica(spouse?.weddingChurch || '');
     setDataNasteriiCopil(data?.birthDate || '');
     setSexCopil(data?.sex || '');
-    setPereche(data.relations.find(relation => relation.type === 'wife' || relation.type === 'husband')?.person?.id || '');
+
+    const relationPair = data.relations.find(relation => relation.type === 'wife' || relation.type === 'husband')?.person;
+    if (typeof relationPair == 'object') {
+      setPereche(relationPair?.id || '');
+    } else {
+      setPereche(relationPair || '');
+    }
   }, [data]);
 
   const onPersonChange = (persons) => {
@@ -122,7 +129,7 @@ const Familie = ({ dataUpdated, data }) => {
                   labelKey={option => `${option.firstName} ${option.lastName}`}
                   options={persoane?.filter(
                     // verificam daca persoana e de sex diferit
-                    person => data.sex !== person.sex && !person.relations.find(
+                    person => person.relations.find(
                       // si persoana nu mai are o alta relatie de sot/sotie
                       relation => relation.type === 'husband' || relation.type === 'wife'
                     )
@@ -131,6 +138,7 @@ const Familie = ({ dataUpdated, data }) => {
                   selected={persoane?.filter(person => person.id === pereche) || []}
                 />
               </div>
+              <AddPerson/>
             </InputGroup>
           </Col>
           <Col>
