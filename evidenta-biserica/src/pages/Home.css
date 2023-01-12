@@ -1,14 +1,21 @@
 .home_page{
     display: flex; 
-    align-items: center;
+    /* align-items: center;
     justify-content: center;
     margin-top: 27px;
-    flex-direction: column;
+    flex-direction: column; */
 }
 .secretariat_text{
     font-size: 50px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .biserica_text{
     font-size: xx-large;
-    margin-top: 200px;
+    margin-top: 70px;
+    margin-bottom: 100px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.logo-eben-ezer{
+    width: 300px;
+    height: 280px;
 }

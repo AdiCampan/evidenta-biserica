@@ -1,0 +1,17 @@
+.pagina-familii{
+    display: flex;
+    justify-content: space-between;
+}
+.familii{
+    background-color: rgba(219, 244, 248, 0.836);
+    width: 50%;
+   
+    overflow: auto;
+
+}
+.copii{
+    background-color: rgba(222, 225, 228, 0.733);
+    width: 50%;
+    overflow: auto;
+
+}

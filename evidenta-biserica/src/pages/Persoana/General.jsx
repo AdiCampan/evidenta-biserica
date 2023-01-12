@@ -1,26 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useGetMemberQuery, useModifyMemberMutation } from '../../services/members';
-import { Card, FormControl } from 'react-bootstrap';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import { useGetMemberQuery, useGetMembersQuery, useModifyMemberMutation } from '../../services/members';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import DatePicker from 'react-datepicker';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
+import AddTransferModal from '../Persoane/AddTransferModal';
+
 import "./Persoana.css";
+import AddPerson from '../Persoane/AddPerson';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 
 const General = ({ dataUpdated, data }) => {
   const { id } = useParams();
   const [modifyMember, result] = useModifyMemberMutation();
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const { data: persoane, error, isLoading, isFetching } = useGetMembersQuery();
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
@@ -36,7 +39,7 @@ const General = ({ dataUpdated, data }) => {
   const [mother, setMother] = useState('');
   const [placeOfBirth, setPlaceOfBirth] = useState('');
   const [enterBirthDate, setEnterBirthDate] = useState(null);
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useState(false);
   const [membruData, setMembruData] = useState(null);
   const [detalii, setDetalii] = useState('');
 
@@ -58,52 +61,38 @@ const General = ({ dataUpdated, data }) => {
       details: detalii,
       profileImage: selectedFile,
     });
-    
-  }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile]);
+
+  }, [nume, prenume, anterior, adresa, telefon, email, sex, father, mother, placeOfBirth, enterBirthDate, member, detalii, selectedFile, membruData]);
 
   useEffect(() => {
-    setNume(data?.firstName);
-    setPrenume(data?.lastName);
-    setAnterior(data?.maidenName);
-    setAdresa(data?.address);
-    setTelefon(data?.mobilePhone);
-    setEmail(data?.email);
-    setSex(data?.sex === true ? 'M' : (data?.sex === false ? 'F' : null));
-    setFather(data?.fatherName);
-    setMother(data?.motherName);
-    setEnterBirthDate(Date.parse(data?.birthDate));
-    setPlaceOfBirth(data?.placeOfBirth);
-    setMembruData(Date.parse(data?.memberDate));
-    setDetalii(data?.details);
-    setProfileImage(data?.imagePath);
+    if (data) {
+      setNume(data.firstName || '');
+      setPrenume(data.lastName || '');
+      setAnterior(data.maidenName || '');
+      setAdresa(data.address || '');
+      setTelefon(data.mobilePhone || '');
+      setEmail(data.email || '');
+      setSex(data.sex === true ? 'M' : (data.sex === false ? 'F' : null));
+      setFather(data.fatherName || '');
+      setMother(data.motherName || '');
+      setEnterBirthDate(Date.parse(data.birthDate));
+      setPlaceOfBirth(data.placeOfBirth || '');
+      setMembruData(data.memberDate ? Date.parse(data.memberDate) : null);
+      setMember(!!data.memberDate);
+      setDetalii(data.details || '');
+      setProfileImage(data.imagePath);
+    }
   }, [data]);
 
-  // const saveData = () => {
-  //   const newPerson = {
+  const addTransfer = () => { };
 
-  //     firstName: nume,
-  //     lastName: prenume,
-  //     maidenName: anterior,
-  //     address: adresa,
-  //     mobilePhone: telefon,
-  //     email: email,
-  //     sex: sex === 'M' ? true : (sex === 'F' ? false : null),
-  //     fatherName: father,
-  //     motherName: mother,
-  //     birthDate: enterBirthDate,
-  //     placeOfBirth: placeOfBirth,
-  //     memberDate: membruData,
-  //     details: detalii,
-  //     profileImage: selectedFile,
-  //   };
-  //   if (nume != "" && prenume != "") {
-  //     modifyMember(newPerson);
-  //   }
-  //   else {
-  //     alert("Nu stergeti numele sau prenumele !")
-  //   };
-  // };
-
+  const onFatherdChange = (p) => {
+    if (p.length > 0) {
+      setFather(p[0]);
+    } else {
+      setFather(null);
+    }
+  }
 
   return (
     <Container>
@@ -165,6 +154,7 @@ const General = ({ dataUpdated, data }) => {
                   selected={enterBirthDate}
                   onChange={(date) => setEnterBirthDate(date)}
                   peekNextMonth
+                  maxDate={new Date()}
                   showMonthDropdown
                   showYearDropdown
                   dropdownMode="select"
@@ -196,36 +186,33 @@ const General = ({ dataUpdated, data }) => {
             <Col>
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">Tata</InputGroup.Text>
-                <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                  value={father}
-                  onChange={(event) => setFather(event.target.value)} />
+                <Typeahead
+                  onChange={onFatherdChange}
+                  labelKey={option => `${option.firstName} ${option.lastName}`}
+                  options={persoane || []}
+                  placeholder="Alege tatal..."
+                  // selected={persoane?.filter(p => p.id === person?.id) || []}
+                />
+                <AddPerson label="+"/>
               </InputGroup>
             </Col>
-            <Col>
-              <InputGroup size="sm" className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-sm">Mama</InputGroup.Text>
-                <Form.Control aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                  value={mother}
-                  onChange={(event) => setMother(event.target.value)} />
-              </InputGroup>
-            </Col>
-
-
           </Row>
           <Row>
             <Col>
-              {/* <InputGroup.Checkbox aria-label="Checkbox for following text input" /> */}
               <InputGroup size="sm" className="mb-3">
-
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  label="Membru"
-                  value={member}
-                  onChange={(e) => setMember(e.target.checked)}
+                <InputGroup.Text id="inputGroup-sizing-sm">Mama</InputGroup.Text>
+                <Typeahead
+                  placeholder="Alege o persoana..."
+                  id="mama"
+                  onChange={onFatherdChange}
                 />
+                <AddPerson label="+"/>
               </InputGroup>
-              {member && (<InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {membruData && (<InputGroup size="sm" className="mb-3" style={{ display: 'flex', flexWrap: 'nowrap' }}>
                 <InputGroup.Text >Membru începând cu data </InputGroup.Text>
                 <DatePicker
                   selected={membruData}
@@ -233,9 +220,15 @@ const General = ({ dataUpdated, data }) => {
                   peekNextMonth
                   showMonthDropdown
                   showYearDropdown
+                  disabled
                   dropdownMode="select"
                 />
               </InputGroup>)}
+            </Col>
+            <Col>
+              <Button variant="danger" type="button" onClick={() => setShowTransferModal(true)}>
+                Transfer
+              </Button>
             </Col>
           </Row>
         </Col>
@@ -248,6 +241,13 @@ const General = ({ dataUpdated, data }) => {
           />
         </Col>
       </Row>
+      <AddTransferModal
+        isDisabled
+        onAddTransfer={addTransfer}
+        show={showTransferModal}
+        onClose={() => setShowTransferModal(false)}
+        transferredPerson={data}
+      />
     </Container>
   );
 };

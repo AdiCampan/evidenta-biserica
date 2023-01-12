@@ -6,19 +6,24 @@ html, body, #root {
     background-image: url(assets/images/desk.png);
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: cadetblue;
     background-position: center;
-}
+    
+    .app {
+        background-color: aquamarine;
+        position: fixed;
+        margin-left: 70px;
 
-.app {
-    background-color: aquamarine;
-    position: fixed;
-    margin-left: 70px;
-
-}
-.nav_bar{      
+    }
+    .nav_bar {      
         display: flex;
         margin-top: 0px;       
         padding-top: -8px;
         padding-left: 8px;
         padding-block: 13px;
+    }
+
+    .react-datepicker-popper {
+        z-index: 900;
+    }
 }

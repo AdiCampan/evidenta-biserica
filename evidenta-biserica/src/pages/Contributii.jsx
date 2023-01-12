@@ -1,20 +1,21 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { del } from '../features/contributiiSlice';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import AddContributii from './AddContributii';
 import EditContributii from './EditContributii';
+import Form from 'react-bootstrap/Form'
 
 function Contributii() {
   const dispatch = useDispatch();
-  const contributii = useSelector((state) => state.contributii.lista);
+  // const contributii = useSelector((state) => state.contributii.lista);
+  const contributii = [];
   const [listaContributii, setListaContributii] = useState(contributii)
 
   function deleteAmount(idToDelete) {
-    dispatch(del(idToDelete));
+    
   };
-  
+
 
   return (
     <div style={{ backgroundColor: 'lightgrey' }}>
@@ -43,9 +44,11 @@ function Contributii() {
                 <td>{p.surname}</td>
                 <td>{p.amount}</td>
                 <td>{p.date}</td>
-                <td>{p.type}</td>
+                <td>{p.type}
+                </td>
                 <td>
-                  <EditContributii/>
+                  <EditContributii key={() => (id)}/>
+                  
                   <Button variant="primary" onClick={() => deleteAmount(p.id)}>Sterge</Button>
                 </td>
               </tr>
