@@ -12,10 +12,60 @@
 .biserica_text{
     font-size: xx-large;
     margin-top: 70px;
-    margin-bottom: 100px;
+    margin-bottom: 30px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .logo-eben-ezer{
     width: 300px;
     height: 280px;
+}
+.info-bar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height:400px;
+    width: 250px;
+    background-color: rgba(203, 220, 252, 0.664);
+    border-radius: 10px;
+    border-color: rgba(88, 81, 94, 0.473);
+    border-style: solid;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    font-family: fangsong;
+}
+.footer{
+    background-color: rgba(129, 128, 127, 0.418);
+    text-align:end;
+    font-size: small;
+    color: black;
+    
+    padding-right: 150px;
+
+}
+.total-text{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.charts{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* background-color: rgb(144, 185, 185);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px; */
+}
+.chart-container{
+    width: 20%;
+    /* height: 300px; */
+    border-width: 5px;
+    border-radius: 10px;
+    border-color: rgb(24, 34, 34);
+    border-style:inherit;
+    background-color: rgba(205, 219, 219, 0.336);
+    padding:3mm;
+    margin:1mm;
 }
