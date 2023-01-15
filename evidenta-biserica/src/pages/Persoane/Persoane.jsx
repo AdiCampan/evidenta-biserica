@@ -19,6 +19,7 @@ import {
 } from '../../utils';
 
 import './Persoane.scss';
+import ScrollButton from '../../ScrollButton';
 
 const AGE_FILTER_LABEL = {
   '1': '>=',
@@ -344,7 +345,7 @@ function Persoane() {
           </tbody>
 
         </Table>
-
+              <ScrollButton/>
       </div>
       <Confirmation
         showModal={idToDelete != null}

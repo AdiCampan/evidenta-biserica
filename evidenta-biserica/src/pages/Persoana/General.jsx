@@ -191,9 +191,9 @@ const General = ({ dataUpdated, data }) => {
                   labelKey={option => `${option.firstName} ${option.lastName}`}
                   options={persoane || []}
                   placeholder="Alege tatal..."
-                  // selected={persoane?.filter(p => p.id === person?.id) || []}
+                // selected={persoane?.filter(p => p.id === person?.id) || []}
                 />
-                <AddPerson label="+"/>
+                <AddPerson label="+" />
               </InputGroup>
             </Col>
           </Row>
@@ -202,11 +202,13 @@ const General = ({ dataUpdated, data }) => {
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">Mama</InputGroup.Text>
                 <Typeahead
-                  placeholder="Alege o persoana..."
+                  labelKey={option => `${option.firstName} ${option.lastName}`}
+                  options={persoane || []}
+                  placeholder="Alege mama..."
                   id="mama"
                   onChange={onFatherdChange}
                 />
-                <AddPerson label="+"/>
+                <AddPerson label="+" />
               </InputGroup>
             </Col>
           </Row>

@@ -138,7 +138,7 @@ const Familie = ({ dataUpdated, data }) => {
                   selected={persoane?.filter(person => person.id === pereche) || []}
                 />
               </div>
-              <AddPerson/>
+              <AddPerson label="+"/>
             </InputGroup>
           </Col>
           <Col>
